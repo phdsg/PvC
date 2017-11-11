@@ -4,8 +4,6 @@
 I'm not a coder and this is my first module.
 followed the tutorial and stole some lines from fundamental/mutes.
 
-(currently requires dev version of RACK)
-
 #### MU[L]TY
 
 1-in 10-out Mult with a mute toggle on each output.
