@@ -13,7 +13,7 @@ a 1 x 10 Mult with mutes for each output.
 ![Multy](/images/Multy.PNG?raw=true "Multy")
 
 
-## Contact:
+## Contact
 
 you can find me on IRC freenode #VCVRack
 
