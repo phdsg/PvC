@@ -6,5 +6,3 @@ I'm not a coder and this is my first module.
 MU[L]TY: a 1 x 10 Mult with mutes for each output.
 
 followed the tutorial and stole some lines from fundamental/mutes
-
-![Multy](/images/Multy.png?raw=true "Multy")
