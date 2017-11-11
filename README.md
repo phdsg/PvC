@@ -13,5 +13,4 @@ currently requires dev version of RACK.
 ![Multy](/images/Multy.PNG?raw=true "Multy")
 
 
-
-
+contact: you can find me on IRC freenode #VCVRack
