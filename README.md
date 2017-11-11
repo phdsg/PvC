@@ -6,9 +6,9 @@ followed the tutorial and stole some lines from fundamental/mutes.
 
 currently requires dev version of RACK.
 
-### MU[L]TY
+#### MU[L]TY
 
-a 1 x 10 Mult with mutes for each output.
+1-in 10-out Mult with a mute toggle on each output.
  
 ![Multy](/images/Multy.PNG?raw=true "Multy")
 
