@@ -26,6 +26,6 @@ Then clone this repository inside the `plugins` folder of Rack and use `make`.
 
 ```
 $ cd plugins
-$ git clone https://github.com/modlfo/VultModules.git
+$ git clone https://github.com/phdsg/PvC.git
 $ make
 ```
