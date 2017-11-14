@@ -11,7 +11,7 @@ void init(rack::Plugin *p) {
 #ifdef VERSION
 	p->version = TOSTRING(VERSION);
 #endif
-
+	p->website = "https://phdsg.github.io/PvC/";
 	// For each module, specify the ModuleWidget subclass, manufacturer slug (for saving in patches), manufacturer human-readable name, module slug, and module name
 	p->addModel(createModel<MultyWidget>("PvC", "Multy", "MU[L]TY", MULTIPLE_TAG, UTILITY_TAG));
 

@@ -4,7 +4,6 @@
 // modified tutorial.cpp 
 // with stolen snippets from fundamental/mutes
 
-
 #include "pvc.hpp"
 #include "dsp/digital.hpp"
 
@@ -29,24 +28,28 @@ struct Multy : Module {
 	bool state[10];
 	SchmittTrigger muteTrigger[10];
 
-	// float phase = 0.0;
-	// float blinkPhase = 0.0;
-
-	Multy() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {}
+	Multy() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {
+		reset();
+	}
 	void step() override;
 
-	// For more advanced Module features, read Rack's engine.hpp header file
-	// - toJson, fromJson: serialization of internal data
-	// - onSampleRateChange: event triggered by a change of sample rate
-	// - reset, randomize: implements special behavior when user clicks these from the context menu
+	void reset() override {
+		for (int i = 0; i < 10; i++) {
+			state[i] = true;
+		}
+	}
+	void randomize() override {
+		for (int i = 0; i < 10; i++) {
+			state[i] = (randomf() < 0.5);
+		}
+	}
 
 	// MUTE LED STATES (stolen from fundamental/mutes)
-
 	json_t *toJson() override {
 		json_t *rootJ = json_object();
 		// states
 		json_t *statesJ = json_array();
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < 10; i++) {
 			json_t *stateJ = json_boolean(state[i]);
 			json_array_append_new(statesJ, stateJ);
 		}
@@ -57,7 +60,7 @@ struct Multy : Module {
 		// states
 		json_t *statesJ = json_object_get(rootJ, "states");
 		if (statesJ) {
-			for (int i = 0; i < 8; i++) {
+			for (int i = 0; i < 10; i++) {
 				json_t *stateJ = json_array_get(statesJ, i);
 				if (stateJ)
 					state[i] = json_boolean_value(stateJ);
@@ -118,6 +121,7 @@ MultyWidget::MultyWidget() {
 	addParam(createParam<LEDBezel>(Vec(box.size.x - 55, 337), module, Multy::MUTE_PARAM + 9, 0.0, 1.0, 0.0));
 
 	// add one input
+	//TODO: (visual) create colored ports
 	addInput(createInput<PJ301MPort>(Vec(box.size.x - 56, 36), module, Multy::MULT_INPUT));
 
 	// add 10 outs
@@ -133,6 +137,7 @@ MultyWidget::MultyWidget() {
 	addOutput(createOutput<PJ301MPort>(Vec(box.size.x - 30, 335), module, Multy::MULT_OUTPUT + 9));
 
 	// add the mute lights
+	// TODO: switching from red to green instead of just green on/off
 	addChild(createLight<MuteLight<GreenLight>>(Vec(box.size.x - 52, 70), module, Multy::MUTE_LIGHT + 0));
 	addChild(createLight<MuteLight<GreenLight>>(Vec(box.size.x - 52, 100), module, Multy::MUTE_LIGHT + 1));
 	addChild(createLight<MuteLight<GreenLight>>(Vec(box.size.x - 52, 130), module, Multy::MUTE_LIGHT + 2));
