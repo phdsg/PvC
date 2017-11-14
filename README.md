@@ -24,8 +24,4 @@ First build the latest version of [Rack](https://github.com/VCVRack/Rack), then 
 
 ## Binaries
 
-currently only for (mostly my own) testing of my build environment. (i'm still new to all this)
-
-the windows dll should work fine.
-
-mac/linux i can only compile but not runtest.
+no binaries for the moment
