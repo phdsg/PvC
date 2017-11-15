@@ -109,10 +109,10 @@ MultyWidget::MultyWidget() {
 	}
 	
 	// panel screws
-	addChild(createScrew<ScrewSilver>(Vec(0, 0)));
-	addChild(createScrew<ScrewSilver>(Vec(box.size.x - 15, 0)));
-	addChild(createScrew<ScrewSilver>(Vec(0, 365)));
-	addChild(createScrew<ScrewSilver>(Vec(box.size.x - 15, 365)));
+	addChild(createScrew<ScrewHead1>(Vec(0, 0)));
+	addChild(createScrew<ScrewHead2>(Vec(box.size.x - 15, 0)));
+	addChild(createScrew<ScrewHead3>(Vec(0, 365)));
+	addChild(createScrew<ScrewHead4>(Vec(box.size.x - 15, 365)));
 	// add input
 	addInput(createInput<BluePort>(Vec(box.size.x - 56, 36), module, Multy::MULT_INPUT));
 	// add buttons, outputs and lights
