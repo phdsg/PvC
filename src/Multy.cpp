@@ -25,7 +25,7 @@ struct Multy : Module {
 
 	enum LightIds {
 		MUTE_LIGHT,
-		NUM_LIGHTS = MUTE_LIGHT + MULTCOUNT,
+		NUM_LIGHTS = MUTE_LIGHT + MULTCOUNT
 	};
 
 	bool state[MULTCOUNT];
@@ -116,12 +116,12 @@ MultyWidget::MultyWidget() {
 	addChild(createScrew<ScrewHead3>(Vec(0, 365)));
 	addChild(createScrew<ScrewHead4>(Vec(box.size.x - 15, 365)));
 	// add input
-	addInput(createInput<OutPort>(Vec(box.size.x - 56, 36), module, Multy::MULT_INPUT));
+	addInput(createInput<InPort>(Vec(box.size.x - 56, 36), module, Multy::MULT_INPUT));
 	// add buttons, outputs and lights
 	int y_pad = 30;
 	for (int i = 0; i < MULTCOUNT ; i++) {  
     	addParam(createParam<SquareButton>(Vec(box.size.x - 53, 68 + y_pad * i), module, Multy::MUTE_PARAM + i, 0.0, 1.0, 0.0));
-    	addOutput(createOutput<InPort>(Vec(box.size.x - 30, 65 + y_pad * i), module, Multy::MULT_OUTPUT + i));
+    	addOutput(createOutput<OutPort>(Vec(box.size.x - 30, 65 + y_pad * i), module, Multy::MULT_OUTPUT + i));
     	addChild(createLight<MuteLight<WhiteLight>>(Vec(box.size.x - 50, 71 + y_pad * i), module, Multy::MUTE_LIGHT + i));
   	}
 	
