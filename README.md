@@ -1,16 +1,17 @@
 
 # PvC Modules for VCV Rack
 
-I'm not a coder and this is my first module.
+I'm not a coder and these are my modules.
 
-just followed the tutorial and stole some lines from fundamental/mutes.
+![All Modules](/images/AllModules.png?raw=true "All Modules")
 
 #### MU[L]TY
 
 a 1 x 10 Mult with mutes for each output.
 
-![Multy](/images/multy.png?raw=true "Multy")
+#### VUBAR
 
+a simple VU Meter
 
 ## Contact
 
