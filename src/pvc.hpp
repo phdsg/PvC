@@ -14,6 +14,9 @@ struct MultyWidget : ModuleWidget {
 	MultyWidget();
 };
 
+struct VubarWidget : ModuleWidget {
+	VubarWidget();
+};
 
 //// custom components
 
