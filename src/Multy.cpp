@@ -25,7 +25,7 @@ struct Multy : Module {
 
 	enum LightIds {
 		MUTE_LIGHT,
-		NUM_LIGHTS = MUTE_LIGHT + MULTCOUNT
+		NUM_LIGHTS = MUTE_LIGHT + MULTCOUNT,
 	};
 
 	bool state[MULTCOUNT];
@@ -76,25 +76,27 @@ struct Multy : Module {
 
 
 void Multy::step() {
-	// also taken from fundamental/mutes
 	for (int i = 0; i < MULTCOUNT; i++) {
+		float in = inputs[MULT_INPUT].value;
 		if (muteTrigger[i].process(params[MUTE_PARAM + i].value))
 			state[i] ^= true;
-		float in = inputs[MULT_INPUT].value;
+		
 		outputs[MULT_OUTPUT + i].value = state[i] ? in : 0.0;
 		lights[MUTE_LIGHT + i].setBrightness(state[i] ? 1.0 : 0.0);
 	}
+	
 
 }
 
 template <typename BASE>
-struct MuteLight : BASE {
-	MuteLight() {
-		this->box.size = Vec(16.25, 16.25);
-		this->bgColor = nvgRGBf(0.698, 0.133, 0.133);
-		this->color = nvgRGBf(0.498, 1, 0);
-	}
-};
+ struct MuteLight : BASE {
+ 	MuteLight() {
+// 		this->box.size = Vec(16.25, 16.25);
+ 		this->box.size = mm2px(Vec(1.088, 1.088));
+ 		this->bgColor = nvgRGBf(0.698, 0.133, 0.133);
+// 		this->color = nvgRGBf(1, 1, 1);
+ 	}
+ };
 
 MultyWidget::MultyWidget() {
 	Multy *module = new Multy();
@@ -114,13 +116,13 @@ MultyWidget::MultyWidget() {
 	addChild(createScrew<ScrewHead3>(Vec(0, 365)));
 	addChild(createScrew<ScrewHead4>(Vec(box.size.x - 15, 365)));
 	// add input
-	addInput(createInput<BluePort>(Vec(box.size.x - 56, 36), module, Multy::MULT_INPUT));
+	addInput(createInput<OutPort>(Vec(box.size.x - 56, 36), module, Multy::MULT_INPUT));
 	// add buttons, outputs and lights
 	int y_pad = 30;
 	for (int i = 0; i < MULTCOUNT ; i++) {  
-    	addParam(createParam<MuteBezel>(Vec(box.size.x - 55, 66 + y_pad * i), module, Multy::MUTE_PARAM + i, 0.0, 1.0, 0.0));
-    	addOutput(createOutput<RedPort>(Vec(box.size.x - 30, 65 + y_pad * i), module, Multy::MULT_OUTPUT + i));
-    	addChild(createLight<MuteLight<GreenLight>>(Vec(box.size.x - 52, 69 + y_pad * i), module, Multy::MUTE_LIGHT + i));
+    	addParam(createParam<SquareButton>(Vec(box.size.x - 53, 68 + y_pad * i), module, Multy::MUTE_PARAM + i, 0.0, 1.0, 0.0));
+    	addOutput(createOutput<InPort>(Vec(box.size.x - 30, 65 + y_pad * i), module, Multy::MULT_OUTPUT + i));
+    	addChild(createLight<MuteLight<WhiteLight>>(Vec(box.size.x - 50, 71 + y_pad * i), module, Multy::MUTE_LIGHT + i));
   	}
 	
 }

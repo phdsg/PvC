@@ -18,27 +18,42 @@ struct MultyWidget : ModuleWidget {
 //// custom components
 
 // ports
-struct BluePort : SVGPort {
-	BluePort() {
-		background->svg = SVG::load(assetPlugin(plugin, "res/components/BluePort.svg"));
+struct OutPort : SVGPort {
+	OutPort() {
+		background->svg = SVG::load(assetPlugin(plugin, "res/components/OutPort.svg"));
 		background->wrap();
 		box.size = background->box.size;
 	}
 };
-struct RedPort : SVGPort {
-	RedPort() {
-		background->svg = SVG::load(assetPlugin(plugin, "res/components/RedPort.svg"));
+struct InPort : SVGPort {
+	InPort() {
+		background->svg = SVG::load(assetPlugin(plugin, "res/components/InPort.svg"));
 		background->wrap();
 		box.size = background->box.size;
 	}
 };
-//button
-struct MuteBezel : SVGSwitch, MomentarySwitch {
-	MuteBezel() {
-		addFrame(SVG::load(assetPlugin(plugin, "res/components/MuteBezel.svg")));
+// knobs & buttons
+struct SquareButton : SVGSwitch, MomentarySwitch {
+	SquareButton() {
+		addFrame(SVG::load(assetPlugin(plugin, "res/components/SquareButton.svg")));
+		addFrame(SVG::load(assetPlugin(plugin, "res/components/SquareButtonD.svg")));
 	}
 };
-//screws
+
+// struct MuteBezel : SVGSwitch, MomentarySwitch {
+// 	MuteBezel() {
+// 		addFrame(SVG::load(assetPlugin(plugin, "res/components/MuteBezel.svg")));
+// 	}
+// };
+
+// lights
+struct WhiteLight : ModuleLightWidget {
+ 	WhiteLight() {
+ 		addBaseColor(COLOR_WHITE);
+ 	}
+};
+
+// screws
 struct ScrewHead1 : SVGScrew {
 	ScrewHead1() {
 		sw->svg = SVG::load(assetPlugin(plugin, "res/components/ScrewHead1.svg"));
