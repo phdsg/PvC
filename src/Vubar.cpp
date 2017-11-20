@@ -64,7 +64,7 @@ VubarWidget::VubarWidget(){
 	//addChild(createScrew<ScrewHead3>(Vec(0, 365)));
 	//addChild(createScrew<ScrewHead4>(Vec(box.size.x - 15, 365)));
 
-	addInput(createInput<InPort>(Vec(3, box.size.y - 18 - 26), module, Vubar::METER_LIGHT));
+	addInput(createInput<InPort>(Vec(3, box.size.y - 18 - 26), module, Vubar::METER_INPUT));
 	addChild(createLight<MeterLight<RedLight>>(Vec(7, 36), module, Vubar::METER_LIGHT + 0));
 	addChild(createLight<MeterLight<YellowLight>>(Vec(7, 36 + 20), module, Vubar::METER_LIGHT + 1));
 	addChild(createLight<MeterLight<YellowLight>>(Vec(7, 36 + 20 * 2), module, Vubar::METER_LIGHT + 2));
