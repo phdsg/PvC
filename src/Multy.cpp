@@ -24,11 +24,11 @@ struct Multy : Module {
 	};
 
 	enum LightIds {
-		MUTE_LIGHT,
-		NUM_LIGHTS = MUTE_LIGHT + MULTCOUNT
+		MUTEOFF_LIGHT,
+		NUM_LIGHTS = MUTEOFF_LIGHT + MULTCOUNT
 	};
 
-	bool state[MULTCOUNT];
+	bool state[MULTCOUNT] {};
 	SchmittTrigger muteTrigger[MULTCOUNT];
 
 	Multy() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {
@@ -82,8 +82,8 @@ void Multy::step() {
 			state[i] ^= true;
 		
 		outputs[MULT_OUTPUT + i].value = state[i] ? in : 0.0;
-		lights[MUTE_LIGHT + i].setBrightness(state[i] ? 1.0 : 0.0);
-	}
+		lights[MUTEOFF_LIGHT + i].setBrightness(state[i] ? 1.0 : 0.0);
+		}
 	
 
 }
@@ -91,10 +91,8 @@ void Multy::step() {
 template <typename BASE>
  struct MuteLight : BASE {
  	MuteLight() {
-// 		this->box.size = Vec(16.25, 16.25);
- 		this->box.size = mm2px(Vec(1.088, 1.088));
- 		this->bgColor = nvgRGBf(0.698, 0.133, 0.133);
-// 		this->color = nvgRGBf(1, 1, 1);
+ 		this->box.size = mm2px(Vec(1.8, 1.8));
+		this->bgColor = nvgRGBAf(0.998, 0.0133, 0.0133, 0.75);
  	}
  };
 
@@ -122,7 +120,7 @@ MultyWidget::MultyWidget() {
 	for (int i = 0; i < MULTCOUNT ; i++) {  
     	addParam(createParam<SquareButton>(Vec(box.size.x - 53, 68 + y_pad * i), module, Multy::MUTE_PARAM + i, 0.0, 1.0, 0.0));
     	addOutput(createOutput<OutPort>(Vec(box.size.x - 30, 65 + y_pad * i), module, Multy::MULT_OUTPUT + i));
-    	addChild(createLight<MuteLight<WhiteLight>>(Vec(box.size.x - 50, 71 + y_pad * i), module, Multy::MUTE_LIGHT + i));
+    	addChild(createLight<MuteLight<WhiteLight>>(Vec(box.size.x - 50, 71 + y_pad * i), module, Multy::MUTEOFF_LIGHT + i));
   	}
 	
 }

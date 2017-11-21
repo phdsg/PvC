@@ -43,20 +43,37 @@ struct SquareButton : SVGSwitch, MomentarySwitch {
 	}
 };
 
-// struct MuteBezel : SVGSwitch, MomentarySwitch {
-// 	MuteBezel() {
-// 		addFrame(SVG::load(assetPlugin(plugin, "res/components/MuteBezel.svg")));
-// 	}
-// };
-
 // lights
 struct WhiteLight : ModuleLightWidget {
  	WhiteLight() {
  		addBaseColor(COLOR_WHITE);
  	}
 };
+struct OrangeLight : ModuleLightWidget {
+	OrangeLight() {
+		addBaseColor(COLOR_ORANGE);
+	}
+};
+struct PurpleLight : ModuleLightWidget {
+	PurpleLight() {
+		addBaseColor(COLOR_PURPLE);
+	}
+};
+struct CyanLight : ModuleLightWidget {
+	CyanLight() {
+		addBaseColor(COLOR_CYAN);
+	}
+};
 
-// screws
+struct LEDback : SVGScrew {
+	LEDback() {
+		sw->svg = SVG::load(assetPlugin(plugin, "res/components/LEDback.svg"));
+		sw->wrap();
+		box.size = sw->box.size;
+	}
+};
+
+// custom screwheads
 struct ScrewHead1 : SVGScrew {
 	ScrewHead1() {
 		sw->svg = SVG::load(assetPlugin(plugin, "res/components/ScrewHead1.svg"));
