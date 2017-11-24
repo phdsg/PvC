@@ -14,6 +14,10 @@ struct MultyWidget : ModuleWidget {
 	MultyWidget();
 };
 
+struct ShiftieWidget : ModuleWidget {
+	ShiftieWidget();
+};
+
 struct VubarWidget : ModuleWidget {
 	VubarWidget();
 };
