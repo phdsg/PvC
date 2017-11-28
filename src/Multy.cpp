@@ -1,13 +1,14 @@
-
 // MU[L]TY
-// 1 to 10 Multiple with mutes for each output
+// 1 to 6 Multiple with mutes for each output
 // modified tutorial.cpp 
 // with stolen snippets from fundamental/mutes
+//
+///////////////////////////////////////////////////
 
 #include "pvc.hpp"
 #include "dsp/digital.hpp"
 
-#define MULTCOUNT 10
+#define MULTCOUNT 6
 
 struct Multy : Module {
 	enum ParamIds {
@@ -99,28 +100,28 @@ template <typename BASE>
 MultyWidget::MultyWidget() {
 	Multy *module = new Multy();
 	setModule(module);
-	box.size = Vec(4 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
+	box.size = Vec(2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
 
 	{
 		SVGPanel *panel = new SVGPanel();
 		panel->box.size = box.size;
-		panel->setBackground(SVG::load(assetPlugin(plugin, "res/panels/Multy.svg")));
+		panel->setBackground(SVG::load(assetPlugin(plugin, "res/panels/panel2HE.svg")));
 		addChild(panel);
 	}
 	
-	// panel screws
+	// SCREWS
 	addChild(createScrew<ScrewHead1>(Vec(0, 0)));
 	addChild(createScrew<ScrewHead2>(Vec(box.size.x - 15, 0)));
 	addChild(createScrew<ScrewHead3>(Vec(0, 365)));
 	addChild(createScrew<ScrewHead4>(Vec(box.size.x - 15, 365)));
-	// add input
-	addInput(createInput<InPort>(Vec(box.size.x - 56, 36), module, Multy::MULT_INPUT));
-	// add buttons, outputs and lights
-	int y_pad = 30;
-	for (int i = 0; i < MULTCOUNT ; i++) {  
-    	addParam(createParam<SquareButton>(Vec(box.size.x - 53, 68 + y_pad * i), module, Multy::MUTE_PARAM + i, 0.0, 1.0, 0.0));
-    	addOutput(createOutput<OutPort>(Vec(box.size.x - 30, 65 + y_pad * i), module, Multy::MULT_OUTPUT + i));
-    	addChild(createLight<MuteLight<WhiteLight>>(Vec(box.size.x - 50, 71 + y_pad * i), module, Multy::MUTEOFF_LIGHT + i));
-  	}
 	
+	// OUTPUTS, BUTTONS, LIGHTS
+	int y_pad = 51;
+	for (int i = 0; i < MULTCOUNT ; i++) {  
+    	addOutput(createOutput<OutPort>(Vec(4, 22 + y_pad * i), module, Multy::MULT_OUTPUT + i));
+    	addParam(createParam<SquareButton>(Vec(6, 47 + y_pad * i), module, Multy::MUTE_PARAM + i, 0.0, 1.0, 0.0));
+    	addChild(createLight<MuteLight<WhiteLight>>(Vec(9, 50 + y_pad * i), module, Multy::MUTEOFF_LIGHT + i));
+  	}
+	// INPUT
+	addInput(createInput<InPort>(Vec(4, box.size.y - 44), module, Multy::MULT_INPUT));
 }

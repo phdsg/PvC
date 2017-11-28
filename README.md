@@ -7,7 +7,7 @@ I'm not a coder and these are my modules.
 
 #### MU[L]TY
 
-a 1 x 10 Mult with mutes for each output.
+a 1 x 6 Mult with mutes for each output.
 
 #### VUBAR
 
