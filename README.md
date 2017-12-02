@@ -7,18 +7,19 @@ I'm not a coder and these are my modules.
 
 #### MU[L]TY
 
-a 1 x 6 Mult with mutes for each output.
+1 x 6 Mult with mutes for each output.
 
 
 #### VAMPS
 
-a modified version of the Fundamental VCA.
-has 2 Ins/Outs per VCA.
-upper CVIn is exponential, the other one is linear.
+Modified version of the Fundamental VCA.
+Has 2 Ins/Outs per VCA.
+Upper CVIn is exponential, the other one is linear.
+
 
 #### VUBAR
 
-a simple VU Meter
+Very simple VU Meter
 
 
 ## Contact
