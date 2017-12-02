@@ -14,6 +14,10 @@ struct MultyWidget : ModuleWidget {
 	MultyWidget();
 };
 
+struct VampsWidget : ModuleWidget {
+	VampsWidget();
+};
+
 struct VubarWidget : ModuleWidget {
 	VubarWidget();
 };
@@ -35,7 +39,20 @@ struct InPort : SVGPort {
 		box.size = background->box.size;
 	}
 };
+struct ModInPort : SVGPort {
+	ModInPort() {
+		background->svg = SVG::load(assetPlugin(plugin, "res/components/ModInPort.svg"));
+		background->wrap();
+		box.size = background->box.size;
+	}
+};
 // knobs & buttons
+struct PvCKnob : RoundKnob {
+	PvCKnob() {
+		setSVG(SVG::load(assetPlugin(plugin, "res/components/PvCKnob.svg")));
+		box.size = Vec(22,22);
+	}
+};
 struct SquareButton : SVGSwitch, MomentarySwitch {
 	SquareButton() {
 		addFrame(SVG::load(assetPlugin(plugin, "res/components/SquareButton.svg")));
