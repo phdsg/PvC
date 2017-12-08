@@ -1,7 +1,7 @@
 
 # PvC Modules for VCV Rack
 
-I'm not a coder, but ![VCV Rack](https://www.vcvrack.com) got me interested in c++.
+I'm not a coder, but VCV Rack got me interested in c++.
 So, as a learning experiment i'm making some modules.
 Most of them are really very simple or modifications of existing modules.
 I'm also new to all this github stuff, so ...
