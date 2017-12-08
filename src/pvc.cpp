@@ -17,6 +17,8 @@ void init(rack::Plugin *p) {
 	p->addModel(createModel<VampsWidget>("PvC", "Vamps", "Duo VCA", AMPLIFIER_TAG));
 	p->addModel(createModel<VubarWidget>("PvC", "Vubar", "LED VU Meter", VISUAL_TAG, UTILITY_TAG));
 
+	p->addModel(createModel<ShapeWidget>("PvC", "Shape", "(wip)Wave Shaper", WAVESHAPER_TAG, DISTORTION_TAG));
+
 
 	// Any other plugin initialization may go here.
 	// As an alternative, consider lazy-loading assets and lookup tables when your module is created to reduce startup times of Rack.
