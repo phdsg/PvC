@@ -80,7 +80,7 @@ struct SquareButton : SVGSwitch, MomentarySwitch {
 	}
 };
 
-struct PvCFader : SVGFader {
+struct PvCFader : SVGSlider {
 	PvCFader() {
 		maxHandlePos = Vec(1, 1);
 		minHandlePos = Vec(1, 225);
