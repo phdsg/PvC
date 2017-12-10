@@ -20,9 +20,19 @@ Ports on all modules are color coded.
 * Red: Audio OUT
 * Yellow: Control IN
 
+#### COMPAIR
+
+Dual Window Comparator a la joranalogue compare2.
+
+
 #### MU[L]TY
 
 1 x 6 Multiple with a mute button on each output. (Based on Fundamental Mutes).
+
+
+#### SHAPE
+
+Wave-Shaper.
 
 
 #### VAMPS
