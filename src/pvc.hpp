@@ -10,6 +10,10 @@ extern Plugin *plugin;
 // module widgets
 ////////////////////
 
+struct CompairWidget : ModuleWidget {
+	CompairWidget();
+};
+
 struct MultyWidget : ModuleWidget {
 	MultyWidget();
 };
@@ -70,7 +74,7 @@ struct SquareButton : SVGSwitch, MomentarySwitch {
 	}
 };
 
-struct PvCFader : SVGSlider {
+struct PvCFader : SVGFader {
 	PvCFader() {
 		maxHandlePos = Vec(1, 1);
 		minHandlePos = Vec(1, 225);
