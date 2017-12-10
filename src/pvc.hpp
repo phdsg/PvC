@@ -66,6 +66,12 @@ struct PvCKnob : RoundKnob {
 		box.size = Vec(22,22);
 	}
 };
+struct PvCBigKnob : RoundKnob {
+	PvCBigKnob() {
+		setSVG(SVG::load(assetPlugin(plugin, "res/components/PvCBigKnob.svg")));
+		box.size = Vec(44,44);
+	}
+};
 
 struct SquareButton : SVGSwitch, MomentarySwitch {
 	SquareButton() {

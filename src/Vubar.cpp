@@ -104,5 +104,5 @@ VubarWidget::VubarWidget(){
 	addChild(createLight<MeterLight<GreenLight>>(Vec(8, 25 + 20 * 14), module, Vubar::METER_LIGHT + 14));
 	
 	// INPUT
-	addInput(createInput<InPort>(Vec(4, box.size.y - 44), module, Vubar::METER_INPUT));
+	addInput(createInput<InPort>(Vec(4, 336), module, Vubar::METER_INPUT));
 }

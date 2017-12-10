@@ -12,12 +12,12 @@
 struct Shape : Module 
 {
 	enum ParamIds {
-		AMOUNT,
+		AMOUNT_PARAM,
 		NUM_PARAMS
 	};
 	enum InputIds {
 		AUDIO_IN,
-		BLEND_CV,
+		MOD_IN,
 		NUM_INPUTS
 	};
 	enum OutputIds {
@@ -35,19 +35,17 @@ struct Shape : Module
 };
 
 void Shape::step() {
-	float audioIn = clampf(inputs[AUDIO_IN].value*0.1f,-1.0f,1.0f);
-	float cvIn = clampf(std::abs(inputs[BLEND_CV].normalize(1.0f))*0.1f, 0.0f, 1.0f);
-	float knobVal = params[AMOUNT].value;	
-	
-	float modAmount = knobVal;
-	if (inputs[BLEND_CV].active)
-		modAmount = knobVal * cvIn;
+	float input = clampf(inputs[AUDIO_IN].value*0.1f,-1.0f,1.0f);
 
-	float distort = modAmount * 111.0f;		// distortion factor
-	float shaped = (1.0f + distort)*audioIn / ( 1.0f + distort*std::abs(audioIn)); // SQUASH IT!
+	float mod = 11.0f; // distortion factor
+	if (inputs[MOD_IN].active)
+		mod *= inputs[MOD_IN].value*0.1f;
+
+	float squash = fabs(params[AMOUNT_PARAM].value * mod);
+
+	float output = input * (1.0f + squash) / (1.0f + squash * fabs(input*2.0f)); // SQUASH IT!
 	
-	float mix = (std::abs(modAmount-1)*2.0f*audioIn + modAmount*shaped) * 0.5f; 
-	outputs[AUDIO_OUT].value = clampf(mix, -1.0f, 1.0f) * 10.0f; 
+	outputs[AUDIO_OUT].value = output * 10.0f; 
 }
 
 ShapeWidget::ShapeWidget() {
@@ -67,9 +65,10 @@ ShapeWidget::ShapeWidget() {
 	addChild(createScrew<ScrewHead4>(Vec(box.size.x - 15, 365)));
 	
 	//addParam(createParam<PvCKnob>(Vec(4, 44), module, Shape::AMOUNT, 0.0, 1.0, 0.0));
+
 	// big fat fader until space is needed
-	addParam(createParam<PvCFader>(Vec(7, 22), module, Shape::AMOUNT, 0.0f, 1.0f, 0.0f));
-	addInput(createInput<ModInPort>(Vec(4, 268), module, Shape::BLEND_CV));
-	addInput(createInput<InPort>(Vec(4, 310), module, Shape::AUDIO_IN));
+	addParam(createParam<PvCFader>(Vec(7, 22), module, Shape::AMOUNT_PARAM, 0.0f, 1.0f, 0.0f));
+	addInput(createInput<ModInPort>(Vec(4, 272), module, Shape::MOD_IN));
+	addInput(createInput<InPort>(Vec(4, 312), module, Shape::AUDIO_IN));
 	addOutput(createOutput<OutPort>(Vec(4, 336), module, Shape::AUDIO_OUT));
 }
