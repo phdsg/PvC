@@ -15,38 +15,13 @@ I'm also new to all this github stuff, so ...
 
 ![All Modules](/images/AllModules.png?raw=true "All Modules")
 
-Ports on all modules are color coded.
-* Blue: Audio IN
-* Red: Audio OUT
-* Yellow: Control IN
+## Modules
+* COMPAIR - Dual Window Comparator
 
-#### COMPAIR
-
-Dual Window Comparator a la joranalogue compare2.
-
-
-#### MU[L]TY
-
-1 x 6 Multiple with a mute button on each output. (Based on Fundamental Mutes).
-
-
-#### SHAPE
-
-Wave-Shaper.
-
-
-#### VAMPS
-
-Modified version of the Fundamental VCA.
-Has 2 Ins/Outs per VCA.
-Upper CVIn is exponential, the other one is linear.
-
-
-#### VUBAR
-
-Very simple VU Meter that uses rack's vumeter widget.
-2dB per LED, top one is a clip light.
-
+* SHAPE - primitive waveshaper
+* VAMPS - modded Fundamental VCA
+* VUBAR - very basic VU meter
+* MU[L]TY - Multiple with per-output-mutes.
 
 ## Contact
 
