@@ -79,7 +79,19 @@ struct SquareButton : SVGSwitch, MomentarySwitch {
 		addFrame(SVG::load(assetPlugin(plugin, "res/components/SquareButtonD.svg")));
 	}
 };
-
+/*
+struct PvCFader : SVGFader {
+	PvCFader() {
+		maxHandlePos = Vec(1, 1);
+		minHandlePos = Vec(1, 225);
+		background->svg = SVG::load(assetPlugin(plugin, "res/components/PvCFader.svg"));
+		background->wrap();
+		box.size = background->box.size;
+		handle->svg = SVG::load(assetPlugin(plugin, "res/components/PvCFaderCap.svg"));
+		handle->wrap();
+	}
+};
+*/
 struct PvCFader : SVGSlider {
 	PvCFader() {
 		maxHandlePos = Vec(1, 1);
@@ -127,25 +139,6 @@ struct LEDback : SVGScrew {
 	}
 };
 
-
-// Label widget by Jeremy Wentworth
-/*
-struct CenteredLabel : Widget {
-	std::string text;
-	int fontSize;
-	
-	CenteredLabel(int _fontSize = 10) {
-		fontSize = _fontSize;
-		box.size.y = BND_WIDGET_HEIGHT;
-	}
-	void draw(NVGcontext *vg) override {
-		nvgTextAlign(vg, NVG_ALIGN_CENTER);
-		nvgFillColor(vg, nvgRGB(178, 34, 34));
-		nvgFontSize(vg, fontSize);
-		nvgText(vg, box.pos.x, box.pos.y, text.c_str(), NULL);
-	}
-};
-*/
 
 // custom screwheads
 struct ScrewHead1 : SVGScrew {

@@ -13,9 +13,9 @@ void init(rack::Plugin *p) {
 #endif
 	p->website = "https://phdsg.github.io/PvC/";
 	// For each module, specify the ModuleWidget subclass, manufacturer slug (for saving in patches), manufacturer human-readable name, module slug, and module name
-	p->addModel(createModel<CompairWidget>("PvC", "Compair", "Dual Window Comparator", LOGIC_TAG, SEQUENCER_TAG, RING_MODULATOR_TAG, DIGITAL_TAG, EFFECT_TAG));
+	p->addModel(createModel<CompairWidget>("PvC", "Compair", "Dual Window Comparator", LOGIC_TAG, SEQUENCER_TAG, RING_MODULATOR_TAG, DIGITAL_TAG, EFFECT_TAG, DUAL_TAG));
 	p->addModel(createModel<MultyWidget>("PvC", "Multy", "1x6 Multiple", MULTIPLE_TAG, UTILITY_TAG));
-	p->addModel(createModel<VampsWidget>("PvC", "Vamps", "Duo VCA", AMPLIFIER_TAG));
+	p->addModel(createModel<VampsWidget>("PvC", "Vamps", "Duo VCA", AMPLIFIER_TAG, DUAL_TAG));
 	p->addModel(createModel<VubarWidget>("PvC", "Vubar", "LED VU Meter", VISUAL_TAG, UTILITY_TAG));
 	p->addModel(createModel<ShapeWidget>("PvC", "Shape", "Wave Shaper", WAVESHAPER_TAG, DISTORTION_TAG, EFFECT_TAG, DYNAMICS_TAG));
 

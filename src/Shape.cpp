@@ -9,28 +9,31 @@
 
 #include "pvc.hpp"
 
-struct Shape : Module 
-{
+struct Shape : Module {
 	enum ParamIds {
 		AMOUNT_PARAM,
 		NUM_PARAMS
 	};
+
 	enum InputIds {
 		AUDIO_IN,
 		MOD_IN,
 		NUM_INPUTS
 	};
+
 	enum OutputIds {
 		AUDIO_OUT,		
 		NUM_OUTPUTS
 	};
+
 	enum LightIds {
 		NUM_LIGHTS
 	};
 
 	Shape() : Module( NUM_PARAMS , NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {
-		// reset();
+	// reset();
 	}
+	
 	void step() override;
 };
 

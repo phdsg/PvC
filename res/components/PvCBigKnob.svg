@@ -65,7 +65,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -125,36 +125,5 @@
        y="103.44009"
        rx="0.223359"
        ry="0.22849068" />
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:1.25;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#696969;fill-opacity:1;stroke:none;stroke-width:0.52916664"
-       x="38.549759"
-       y="111.32051"
-       id="text823"><tspan
-         sodipodi:role="line"
-         id="tspan821"
-         x="38.549759"
-         y="111.32051"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#696969;stroke-width:0.52916664">PvC</tspan></text>
-    <g
-       aria-label="PvC"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;line-height:1.25;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#696969;fill-opacity:1;stroke:none;stroke-width:0.52916664"
-       id="text829">
-      <path
-         d="m 39.374515,108.57753 v 1.15962 h 0.483691 q 0.289388,0 0.450619,-0.15297 0.163297,-0.15296 0.163297,-0.42788 0,-0.27492 -0.16123,-0.42581 -0.161231,-0.15296 -0.452686,-0.15296 z m -0.417546,-0.34314 h 0.901237 q 0.516764,0 0.783415,0.23565 0.26665,0.23358 0.26665,0.68626 0,0.45682 -0.26665,0.6904 -0.264584,0.23358 -0.783415,0.23358 h -0.483691 v 1.24023 h -0.417546 z"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#696969;stroke-width:0.52916664"
-         id="path831"
-         inkscape:connector-curvature="0" />
-      <path
-         d="m 41.303079,109.00541 h 0.394808 l 0.671794,1.94303 0.67386,-1.94303 h 0.394808 l -0.822689,2.3151 h -0.489892 z"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#696969;stroke-width:0.52916664"
-         id="path833"
-         inkscape:connector-curvature="0" />
-      <path
-         d="m 45.86094,111.21096 q -0.159163,0.0847 -0.326595,0.12609 -0.167432,0.0434 -0.355534,0.0434 -0.593245,0 -0.921907,-0.41962 -0.326595,-0.41961 -0.326595,-1.18029 0,-0.75654 0.328662,-1.17822 0.330729,-0.42375 0.91984,-0.42375 0.188102,0 0.355534,0.0434 0.167432,0.0413 0.326595,0.12609 v 0.42788 q -0.152962,-0.12609 -0.328662,-0.19223 -0.1757,-0.0662 -0.353467,-0.0662 -0.40721,0 -0.609782,0.31419 -0.202571,0.3142 -0.202571,0.94878 0,0.63252 0.202571,0.94672 0.202572,0.31419 0.609782,0.31419 0.181901,0 0.355534,-0.0662 0.1757,-0.0661 0.326595,-0.19223 z"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:4.23333311px;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#696969;stroke-width:0.52916664"
-         id="path835"
-         inkscape:connector-curvature="0" />
-    </g>
   </g>
 </svg>

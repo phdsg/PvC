@@ -15,15 +15,17 @@ struct Multy : Module {
 		MUTE_PARAM,
 		NUM_PARAMS = MUTE_PARAM + MULTCOUNT
 	};
+	
 	enum InputIds {
 		MULT_INPUT,
 		NUM_INPUTS
 	};
+	
 	enum OutputIds {
 		MULT_OUTPUT,
 		NUM_OUTPUTS = MULT_OUTPUT + MULTCOUNT
 	};
-
+	
 	enum LightIds {
 		MUTEOFF_LIGHT,
 		NUM_LIGHTS = MUTEOFF_LIGHT + MULTCOUNT
