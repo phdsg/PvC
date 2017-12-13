@@ -16,12 +16,12 @@ I'm also new to all this github stuff, so ...
 ![All Modules](/images/AllModules.png?raw=true "All Modules")
 
 ## Modules
-* COMPAIR - Dual Window Comparator
+* ![COMPAIR](https://github.com/phdsg/PvC/wiki/Module:-Compair) - Dual Window Comparator
 
 * SHAPE - primitive waveshaper
 * VAMPS - modded Fundamental VCA
 * VUBAR - very basic VU meter
-* MU[L]TY - Multiple with per-output-mutes.
+* MULTY - Multiple with per-output-mutes.
 
 ## Contact
 
