@@ -32,6 +32,6 @@ you can find me (and other Rack Module devs) on IRC: freenode #VCVRack
 
 First, build the latest version of [Rack](https://github.com/VCVRack/Rack), then clone this repository inside the `plugins` folder of Rack and use `make`.
 
-## Support
+## Support PvC
 
 "Buy" a copy of the modules from my [gumroad](https://gumroad.com/l/kXPIO) account for 0+ bucks ;)
