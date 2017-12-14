@@ -30,6 +30,10 @@ struct VubarWidget : ModuleWidget {
 	VubarWidget();
 };
 
+struct VoobarWidget : ModuleWidget {
+	VoobarWidget();
+};
+
 // custom components
 
 // ports
@@ -77,6 +81,13 @@ struct SquareButton : SVGSwitch, MomentarySwitch {
 	SquareButton() {
 		addFrame(SVG::load(assetPlugin(plugin, "res/components/SquareButton.svg")));
 		addFrame(SVG::load(assetPlugin(plugin, "res/components/SquareButtonD.svg")));
+	}
+};
+
+struct PvCToggle : SVGSwitch, ToggleSwitch {
+	PvCToggle() {
+		addFrame(SVG::load(assetPlugin(plugin, "res/components/PvCToggleA.svg")));
+		addFrame(SVG::load(assetPlugin(plugin, "res/components/PvCToggleB.svg")));
 	}
 };
 /*

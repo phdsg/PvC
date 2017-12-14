@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4142136"
-     inkscape:cx="-72.087743"
-     inkscape:cy="144.37296"
+     inkscape:zoom="4.0000001"
+     inkscape:cx="82.001551"
+     inkscape:cy="122.80605"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -207,23 +207,23 @@
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.27159977px;line-height:1.25;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none"
-       x="84.845032"
-       y="458.42743"
+       x="84.595032"
+       y="460.67743"
        id="text1709"><tspan
          sodipodi:role="line"
          id="tspan1723"
-         x="84.845032"
-         y="458.42743">B</tspan></text>
+         x="84.595032"
+         y="460.67743">B</tspan></text>
     <text
        id="text1715"
-       y="458.42743"
-       x="29.576694"
+       y="460.67743"
+       x="29.326694"
        style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.27159977px;line-height:1.25;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"
        xml:space="preserve"><tspan
          sodipodi:role="line"
          id="tspan1721"
-         x="29.576694"
-         y="458.42743">A</tspan></text>
+         x="29.326694"
+         y="460.67743">A</tspan></text>
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12px;line-height:1.25;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#b22222;fill-opacity:1;stroke:none"
@@ -460,7 +460,7 @@
        aria-label="B"
        style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.27159977px;line-height:1.25;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;fill-opacity:1;stroke:none"
        id="text1581"
-       transform="translate(13.590989)">
+       transform="translate(13.340989,2.25)">
       <path
          d="m 73.31037,455.02697 v 2.21682 h 0.983024 q 0.707175,0 0.98804,-0.24074 0.285879,-0.24074 0.285879,-0.83758 0,-0.60687 -0.29591,-0.87268 -0.295911,-0.26582 -0.978009,-0.26582 z m 0,-2.91898 v 1.74035 h 0.983024 q 0.561728,0 0.797453,-0.20062 0.240741,-0.20061 0.240741,-0.66203 0,-0.46142 -0.245756,-0.66705 -0.240741,-0.21065 -0.792438,-0.21065 z m -1.429398,-1.17863 h 2.412422 q 1.248842,0 1.875771,0.47647 0.631944,0.47145 0.631944,1.41435 0,0.72222 -0.371142,1.12847 -0.371142,0.40625 -1.088348,0.47145 0.857638,0.0853 1.288965,0.57678 0.436342,0.49151 0.436342,1.37422 0,1.08334 -0.652005,1.56983 -0.652006,0.4865 -2.121527,0.4865 h -2.412422 z"
          id="path1587"
@@ -470,7 +470,7 @@
        aria-label="A"
        style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.27159977px;line-height:1.25;font-family:'DejaVu Sans Mono';-inkscape-font-specification:'DejaVu Sans Mono, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none"
        id="text1585"
-       transform="translate(-13.823224)">
+       transform="translate(-14.073224,2.25)">
       <path
          d="m 46.489422,452.29356 -0.697144,3.06443 h 1.399304 z m -0.902777,-1.35417 h 1.81057 l 2.021218,7.48804 h -1.479552 l -0.461419,-1.85069 h -1.981095 l -0.451388,1.85069 h -1.479552 z"
          id="path1590"

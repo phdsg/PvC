@@ -19,6 +19,7 @@ OR output goes high if A or B is high
 XOR output goes high if either A or B ar high and the other one is low.
 FLIP output changes whenever the XOR out goes high.
 channel B inputs are normalized to channel A inputs.
+channel output to the logic section can be inverted.
 all outputs are 0V-5V.
 
 TODO:
@@ -40,8 +41,8 @@ struct Compair : Module {
 		WIDTH_A_PARAM,
 		POS_B_PARAM,
 		WIDTH_B_PARAM,
-	//	INVERT_A_PARAM,
-	//	INVERT_B_PARAM,
+		INVERT_A_PARAM,
+		INVERT_B_PARAM,
 	 	NUM_PARAMS
 	};
 
@@ -107,14 +108,14 @@ void Compair::step(){
 	float posB = params[POS_B_PARAM].value;
 	float widthB = params[WIDTH_B_PARAM].value;;
 
-	// compute Controls	
+	// A Controls	
 	if (inputs[POS_A_IN].active)
 		posA = (params[POS_A_PARAM].value + inputs[POS_A_IN].value);
 		
 	if (inputs[WIDTH_A_IN].active)
 		widthA = (params[WIDTH_A_PARAM].value + inputs[WIDTH_A_IN].value);
 	
-	// compute Compare Window
+	// A Window
 	float upperThreshA = posA + widthA*0.5f;
 	float lowerThreshA = posA - widthA*0.5f;
 	
@@ -124,14 +125,14 @@ void Compair::step(){
 		outA = false;
 	}
 		
-	// compute Controls	
+	// B Controls	
 	if (inputs[POS_B_IN].active || inputs[POS_A_IN].active)
 		posB = (params[POS_B_PARAM].value + inputs[POS_B_IN].normalize(inputs[POS_A_IN].value));
 	
 	if (inputs[WIDTH_B_IN].active || inputs[WIDTH_B_IN].active)
 		widthB = (params[WIDTH_B_PARAM].value + inputs[WIDTH_B_IN].normalize(inputs[WIDTH_A_IN].value));
 
-	// compute Compare Window
+	// B Window
 	float upperThreshB = posB + widthB*0.5f;
 	float lowerThreshB = posB - widthB*0.5f;
 	
@@ -140,7 +141,8 @@ void Compair::step(){
 	} else {
 		outB = false;
 	}
-	// lights and outputs
+	
+	// Lights and Outputs
 	lights[OVER_A_LED].value = (inputA > upperThreshA) ? (inputA - upperThreshA) : 0.0f;
 	lights[BELOW_A_LED].value = (inputA < lowerThreshA) ? (lowerThreshA - inputA) : 0.0f;
 
@@ -152,6 +154,11 @@ void Compair::step(){
 
 	outputs[GATE_B_OUT].value = lights[GATE_B_LED].value = outB ? 5.0f : 0.0f;
 	outputs[NOT_B_OUT].value = lights[NOT_B_LED].value = !outB ? 5.0f : 0.0f;
+
+	if (params[INVERT_A_PARAM].value)
+		outA = !outA;
+	if (params[INVERT_B_PARAM].value)
+		outB = !outB;
 		
 	outputs[AND_OUT].value = lights[AND_LED].value = (outA && outB) ? 5.0f : 0.0f;
 	outputs[OR_OUT].value = lights[OR_LED].value = (outA || outB) ? 5.0f : 0.0f;
@@ -203,6 +210,8 @@ CompairWidget::CompairWidget(){
 	addChild(createLight<TinyLight<RedLight>>(Vec(72,269),module,Compair::NOT_B_LED));
 
 	// LOGIC
+	addParam(createParam<PvCToggle>(Vec(26,254),module,Compair::INVERT_A_PARAM, 0, 1, 0));
+	addParam(createParam<PvCToggle>(Vec(81,254),module,Compair::INVERT_B_PARAM, 0, 1, 0));
 	addOutput(createOutput<OutPort>(Vec(7,324),module,Compair::AND_OUT));
 	addChild(createLight<TinyLight<WhiteLight>>(Vec(16,319),module,Compair::AND_LED));
 	addOutput(createOutput<OutPort>(Vec(35,324),module,Compair::OR_OUT));
