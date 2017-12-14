@@ -23,9 +23,10 @@ I'm also new to all this github stuff, so ...
 * VUBAR - very basic VU meter
 * MULTY - Multiple with per-output-mutes.
 
-## Contact
+## Contact & Help
 
-you can find me (and other Rack Module devs) on IRC: freenode #VCVRack
+You can find me (and other Rack Module devs) on IRC: freenode #VCVRack.
+You can also ask every question on the issue tracker.
 
 
 ## Build
