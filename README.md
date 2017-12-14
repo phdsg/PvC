@@ -34,4 +34,4 @@ First, build the latest version of [Rack](https://github.com/VCVRack/Rack), then
 
 ## Support
 
-"Buy" a copy of the modules from my ![gumroad](https://gumroad.com/l/kXPIO) account for 0+ bucks ;)
+"Buy" a copy of the modules from my [gumroad](https://gumroad.com/l/kXPIO) account for 0+ bucks ;)
