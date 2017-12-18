@@ -1,15 +1,13 @@
-// shape.cpp
-//
-// work-in-progress waveshaping distortion
-// 
-//
-// trying some waveshaping functions from musicdsp.org 
-//
-//////////////////////////////////////////////////////
+/*
+
+Oomph
+ trying some waveshaping functions from musicdsp.org 
+
+*/////////////////////////////////////////////////////////////////////////////
 
 #include "pvc.hpp"
 
-struct Shape : Module {
+struct Oomph : Module {
 	enum ParamIds {
 		AMOUNT_PARAM,
 		NUM_PARAMS
@@ -30,17 +28,17 @@ struct Shape : Module {
 		NUM_LIGHTS
 	};
 
-	Shape() : Module( NUM_PARAMS , NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {
+	Oomph() : Module( NUM_PARAMS , NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {
 	// reset();
 	}
 	
 	void step() override;
 };
 
-void Shape::step() {
+void Oomph::step() {
 	float input = clampf(inputs[AUDIO_IN].value*0.1f,-1.0f,1.0f);
 
-	float mod = 11.0f; // distortion factor
+	float mod = 11.0f; // goes to ELEVEN!
 	if (inputs[MOD_IN].active)
 		mod *= inputs[MOD_IN].value*0.1f;
 
@@ -51,8 +49,22 @@ void Shape::step() {
 	outputs[AUDIO_OUT].value = output * 10.0f; 
 }
 
-ShapeWidget::ShapeWidget() {
-	Shape *module = new Shape();
+
+struct PvCFader : SVGSlider {
+	PvCFader() {
+		maxHandlePos = Vec(1, 1);
+		minHandlePos = Vec(1, 225);
+		background->svg = SVG::load(assetPlugin(plugin, "res/components/PvCFader.svg"));
+		background->wrap();
+		box.size = background->box.size;
+		handle->svg = SVG::load(assetPlugin(plugin, "res/components/PvCFaderCap.svg"));
+		handle->wrap();
+	}
+};
+
+
+OomphWidget::OomphWidget() {
+	Oomph *module = new Oomph();
 	setModule(module);
 	box.size = Vec(2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
 	{
@@ -67,11 +79,11 @@ ShapeWidget::ShapeWidget() {
 	addChild(createScrew<ScrewHead3>(Vec(0, 365)));
 	addChild(createScrew<ScrewHead4>(Vec(box.size.x - 15, 365)));
 	
-	//addParam(createParam<PvCKnob>(Vec(4, 44), module, Shape::AMOUNT, 0.0, 1.0, 0.0));
+	//addParam(createParam<PvCKnob>(Vec(4, 44), module, Oomph::AMOUNT, 0.0, 1.0, 0.0));
 
 	// big fat fader until space is needed
-	addParam(createParam<PvCFader>(Vec(7, 22), module, Shape::AMOUNT_PARAM, 0.0f, 1.0f, 0.0f));
-	addInput(createInput<ModInPort>(Vec(4, 272), module, Shape::MOD_IN));
-	addInput(createInput<InPort>(Vec(4, 312), module, Shape::AUDIO_IN));
-	addOutput(createOutput<OutPort>(Vec(4, 336), module, Shape::AUDIO_OUT));
+	addParam(createParam<PvCFader>(Vec(7, 22), module, Oomph::AMOUNT_PARAM, 0.0f, 1.0f, 0.0f));
+	addInput(createInput<ModInPort>(Vec(4, 272), module, Oomph::MOD_IN));
+	addInput(createInput<InPort>(Vec(4, 312), module, Oomph::AUDIO_IN));
+	addOutput(createOutput<OutPort>(Vec(4, 336), module, Oomph::AUDIO_OUT));
 }

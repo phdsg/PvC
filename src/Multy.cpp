@@ -1,9 +1,12 @@
-// MU[L]TY
-// 1 to 6 Multiple with mutes for each output
-// modified tutorial.cpp 
-// with stolen snippets from fundamental/mutes
-//
-///////////////////////////////////////////////////
+/*
+
+Multy
+
+ 1 to 6 Multiple with mutes for each output
+
+ modified tutorial.cpp  with stolen snippets from fundamental/mutes
+
+*/////////////////////////////////////////////////////////////////////////////
 
 #include "pvc.hpp"
 #include "dsp/digital.hpp"
@@ -98,6 +101,14 @@ template <typename BASE>
 		this->bgColor = nvgRGBAf(0.998, 0.0133, 0.0133, 0.75);
  	}
  };
+
+struct SquareButton : SVGSwitch, MomentarySwitch {
+	SquareButton() {
+		addFrame(SVG::load(assetPlugin(plugin, "res/components/SquareButton.svg")));
+		addFrame(SVG::load(assetPlugin(plugin, "res/components/SquareButtonD.svg")));
+	}
+};
+
 
 MultyWidget::MultyWidget() {
 	Multy *module = new Multy();

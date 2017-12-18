@@ -9,9 +9,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="13"
-   height="13"
-   viewBox="0 0 3.4395833 3.4395831"
+   width="14"
+   height="14"
+   viewBox="0 0 3.7041666 3.7041664"
    version="1.1"
    id="svg7595"
    inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
@@ -65,21 +65,21 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-46.755712,-69.155953)">
+     transform="translate(-46.755712,-68.89137)">
     <g
        transform="matrix(0.26458333,0,0,0.26458333,-271.16296,-21.64884)"
        clip-path="url(#clip444)"
        id="g31387"
        style="clip-rule:nonzero">
       <rect
-         style="fill:#dcdcdc;fill-opacity:0;stroke:#b22222;stroke-width:0.52733684;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+         style="fill:#dcdcdc;fill-opacity:0;stroke:#b22222;stroke-width:0.56790125;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
          id="rect819"
-         width="12.472663"
-         height="12.472663"
-         x="1201.8461"
-         y="343.46289"
-         rx="3.1640213"
-         ry="3.164021" />
+         width="13.432098"
+         height="13.432099"
+         x="1201.8663"
+         y="342.48318"
+         rx="7"
+         ry="7" />
     </g>
   </g>
 </svg>
