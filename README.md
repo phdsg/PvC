@@ -18,9 +18,9 @@ I'm also new to all this github stuff, so ...
 ## Modules
 * ![COMPAIR](https://github.com/phdsg/PvC/wiki/Compair) - Dual Window Comparator
 
-* SHAPE - primitive waveshaper
+* OOMPH - primitive waveshaper
 * VAMPS - modded Fundamental VCA
-* VUBAR - very basic VU meter
+* ![VUBAR](https://github.com/phdsg/PvC/wiki/VuBar) - basic VU meter
 * MULTY - Multiple with per-output-mutes.
 
 ## Contact & Help
