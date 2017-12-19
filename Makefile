@@ -1,8 +1,14 @@
+SLUG = PvC
+# VERSION = 0.5.dev
 
 # FLAGS will be passed to both the C and C++ compiler
+# FLAGS +=
+# CFLAGS +=
+# CXXFLAGS +=
+
 FLAGS +=
-CFLAGS +=
-CXXFLAGS +=
+CFLAGS += -O3 -std=c99
+CXXFLAGS += -O3
 
 # Careful about linking to libraries, since you can't assume much about the user's environment and library search path.
 # Static libraries are fine.
@@ -17,15 +23,14 @@ include ../../plugin.mk
 
 
 # Convenience target for including files in the distributable release
-DIST_NAME = PvC
 .PHONY: dist
 dist: all
 ifndef VERSION
 	$(error VERSION must be defined when making distributables)
 endif
-	mkdir -p dist/$(DIST_NAME)
-	cp LICENSE* dist/$(DIST_NAME)/
-	cp $(TARGET) dist/$(DIST_NAME)/
-	cp -R res dist/$(DIST_NAME)/
-	cp -R example-patches dist/$(DIST_NAME)/
-	cd dist && zip -5 -r $(DIST_NAME)-$(VERSION)-$(ARCH).zip $(DIST_NAME)
+	mkdir -p dist/$(SLUG)
+	cp LICENSE* dist/$(SLUG)/
+	cp $(TARGET) dist/$(SLUG)/
+	cp -R res dist/$(SLUG)/
+	cp -R example-patches dist/$(SLUG)/
+	cd dist && zip -5 -r $(SLUG)-$(VERSION)-$(ARCH).zip $(SLUG)

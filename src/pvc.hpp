@@ -5,7 +5,9 @@ using namespace rack;
 extern Plugin *plugin;
 
 // module widgets
-
+struct AtzeWidget : ModuleWidget {
+	AtzeWidget();
+};
 struct CompairWidget : ModuleWidget {
 	CompairWidget();
 	Menu *createContextMenu() override;
@@ -16,15 +18,22 @@ struct MultyWidget : ModuleWidget {
 struct OomphWidget : ModuleWidget {
 	OomphWidget();
 };
+struct ShutItWidget : ModuleWidget {
+	ShutItWidget();
+};
+struct SumItWidget : ModuleWidget {
+	SumItWidget();
+};
+struct TrickleWidget : ModuleWidget {
+	TrickleWidget();
+};
 struct VampsWidget : ModuleWidget {
 	VampsWidget();
 };
 struct VubarWidget : ModuleWidget {
 	VubarWidget();
 };
-struct VoobarWidget : ModuleWidget {
-	VoobarWidget();
-};
+
 
 // shared custom components
 
@@ -61,7 +70,7 @@ struct PvCKnob : RoundKnob {
 	}
 };
 
-/// lights
+/// colorful lights
 
 struct WhiteLight : ModuleLightWidget {
  	WhiteLight() { addBaseColor(COLOR_WHITE); }

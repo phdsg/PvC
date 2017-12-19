@@ -1,12 +1,13 @@
-// Vamps
-//
-// a 2 RackUnit mod of Andrew Belt's Fundamental VCA
-// 	
-// 
-// dsp is all as in original, only widgets and layout changed.
-// plus my hacky c/p job to give each unit a 2nd audio channel.
-//
-////////////////////////////////////////////////////////////////
+/*
+ Vamps
+
+ a 2 RackUnit mod of Andrew Belt's Fundamental VCA
+ 	
+ 
+ dsp is all as in original, only widgets and layout changed.
+ plus my hacky c/p job to give each unit a 2nd audio channel.
+
+*/////////////////////////////////////////////////////////////////////////////
 
 
 

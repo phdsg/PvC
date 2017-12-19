@@ -4,7 +4,7 @@ Multy
 
  1 to 6 Multiple with mutes for each output
 
- modified tutorial.cpp  with stolen snippets from fundamental/mutes
+ modified tutorial.cpp with stolen snippets from fundamental/mutes
 
 */////////////////////////////////////////////////////////////////////////////
 
@@ -53,8 +53,7 @@ struct Multy : Module {
 			state[i] = (randomf() < 0.5);
 		}
 	}
-
-	// MUTE LED STATES (stolen from fundamental/mutes)
+	// MUTE states
 	json_t *toJson() override {
 		json_t *rootJ = json_object();
 		// states

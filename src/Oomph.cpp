@@ -1,7 +1,7 @@
 /*
 
 Oomph
- trying some waveshaping functions from musicdsp.org 
+ trying some waveshaping functions from musicdsp.org
 
 */////////////////////////////////////////////////////////////////////////////
 
@@ -44,7 +44,7 @@ void Oomph::step() {
 
 	float squash = fabs(params[AMOUNT_PARAM].value * mod);
 
-	float output = input * (1.0f + squash) / (1.0f + squash * fabs(input*2.0f)); // SQUASH IT!
+	float output = input * (1.0f + squash) / (1.0f + squash * fabs(input*2.0f)); // OOMPH!
 	
 	outputs[AUDIO_OUT].value = output * 10.0f; 
 }
@@ -84,6 +84,6 @@ OomphWidget::OomphWidget() {
 	// big fat fader until space is needed
 	addParam(createParam<PvCFader>(Vec(7, 22), module, Oomph::AMOUNT_PARAM, 0.0f, 1.0f, 0.0f));
 	addInput(createInput<ModInPort>(Vec(4, 272), module, Oomph::MOD_IN));
-	addInput(createInput<InPort>(Vec(4, 312), module, Oomph::AUDIO_IN));
-	addOutput(createOutput<OutPort>(Vec(4, 336), module, Oomph::AUDIO_OUT));
+	addOutput(createOutput<OutPort>(Vec(4, 312), module, Oomph::AUDIO_OUT));
+	addInput(createInput<InPort>(Vec(4, 336), module, Oomph::AUDIO_IN));
 }
