@@ -1,7 +1,7 @@
 
-# PvC Modules for [VCVRack](vcvrack.com)
+# PvC Modules for VCVRack
 
-... is set of VCVRack modules that i created (mainly for my own use).
+... is set of [VCVRack](vcvrack.com) modules that i created (mainly for my own use).
 
 I'm new to the modular synthesis world, new to programming, new to github.
 
