@@ -15,7 +15,7 @@ void init(rack::Plugin *p) {
     p->version = "0.5.dev";
 #endif
 	p->website = "https://phdsg.github.io/PvC/";
-	p->manual = "https://github.com/phdsg/PvC/wiki"
+	p->manual = "https://github.com/phdsg/PvC/wiki";
 	// For each module, specify the ModuleWidget subclass, manufacturer slug (for saving in patches), manufacturer human-readable name, module slug, and module name
 	p->addModel(createModel<AtzeWidget>("PvC", "Atze", "Atze", AMPLIFIER_TAG, ATTENUATOR_TAG, DUAL_TAG));
 	p->addModel(createModel<CompairWidget>("PvC", "Compair", "Compair", LOGIC_TAG, SEQUENCER_TAG, RING_MODULATOR_TAG, DIGITAL_TAG, EFFECT_TAG, DUAL_TAG));
