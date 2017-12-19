@@ -2,7 +2,7 @@
 ##  Changelog
 
 
-### 0.5.x
+### 0.5.dev
 #### Compair
     • multi color compare LED and slightly changed panel layout
     • testing bi-polar outputs option
