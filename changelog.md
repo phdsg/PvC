@@ -2,7 +2,7 @@
 ##  Changelog
 
 
-#### 0.5.dev
+#### [0.5.dev](https://github.com/phdsg/PvC/tree/master)
 ##### Compair
     • multi color compare LED and slightly changed panel layout
     • testing bi-polar outputs option
@@ -31,13 +31,13 @@
 
 ***
 
-#### 0.5.5 ("Compair beta3")
+#### [0.5.5](https://github.com/phdsg/PvC/tree/0.5.5) ("Compair beta3")
 ##### Compair
     • each channel now has a toggle to invert it's output to the logic section.
 
 ***
 
-#### 0.5.4 ("Compair beta2")
+#### [0.5.4](https://github.com/phdsg/PvC/tree/0.5.4) ("Compair beta2")
 ##### Compair
     • [FIX] typo in cv input normalization code
     • above/below-the-window lights
@@ -48,7 +48,7 @@
 
 ***
 
-#### 0.5.3 ("Compair beta")
+#### [0.5.3](https://github.com/phdsg/PvC/tree/0.5.3) ("Compair beta")
 ##### [NEW] Compair
     • dual window comparator inspired by the joranalogue compare2
     • basic functionality done
@@ -58,13 +58,13 @@
 
 ***
 
-#### 0.5.2 ("can't have too many vcas")
+#### [0.5.2](https://github.com/phdsg/PvC/tree/0.5.2) ("can't have too many vcas")
 ##### [NEW] Vamps
     • slim mod of the fundamental vca
 
 ***
 
-#### 0.5.1 ("cutting the fat")
+#### [0.5.1](https://github.com/phdsg/PvC/tree/0.5.1) ("cutting the fat")
 ##### Multy
     • [NEW] slim layout
     • [NEW] less outputs (breaks patches with old version)
@@ -74,7 +74,7 @@
 
 ***
 
-#### 0.5.0 ("hello world")
+#### [0.5.0](https://github.com/phdsg/PvC/tree/0.5.0) ("hello world")
 ##### [NEW] Multy
     • 1 X 10 Multiple with mute toggles
 
