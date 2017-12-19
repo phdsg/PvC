@@ -18,18 +18,18 @@ i wanted to have and programmed to learn something.
 ![All Modules](/images/AllModules.png?raw=true "All Modules")
 
 ## List of Modules
-* ATZE - Voltage Controlled Attenuverter
-* [COMPAIR](https://github.com/phdsg/PvC/wiki/Compair) - Dual Window Comparator
-* OOMPH - primitive waveshaper
-* SHUTIT - 4 x triggerable mutes
-* SUMIT - 12 to 1 mixer
-* TRICKLE - shift register sample/hold
-* VAMPS - modded Fundamental VCA
-* [VUBAR](https://github.com/phdsg/PvC/wiki/VuBar) - basic VU meter
-* MULTY - Multiple with per-output-mutes.
+ATZE - Voltage Controlled Attenuverter  
+[COMPAIR](https://github.com/phdsg/PvC/wiki/Compair) - Dual Window Comparator  
+OOMPH - primitive waveshaper  
+SHUTIT - 4 x triggerable mutes  
+SUMIT - 12 to 1 mixer  
+TRICKLE - shift register sample/hold  
+VAMPS - modded Fundamental VCA  
+[VUBAR](https://github.com/phdsg/PvC/wiki/VuBar) - basic VU meter  
+MULTY - Multiple with per-output-mutes.
 
 ## Contact & Help
-I'm almost always online @ #VCVRack (irc.freenode.net). Other module devs are too!
+I'm almost always online @ #VCVRack (irc.freenode.net). Other module devs are too!  
 Also, the [issue tracker](https://github.com/phdsg/PvC/issues) can be used for all questions.
 
 ## Binaries
