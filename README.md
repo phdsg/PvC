@@ -1,37 +1,45 @@
 
-# PvC Modules for VCV Rack
+# PvC Modules for [VCVRack](vcvrack.com)
 
-I'm not a coder, but VCV Rack got me interested in c++.
-So, as a learning experiment i'm making some modules.
-Most of them are really very simple or modifications of existing modules.
-I'm also new to all this github stuff, so ...
+... is set of vcvrack modules that i created (mainly for my own use).
+
+i'm new to the modular synthesis world, new to programming, new to github.
+
+most of the modules here are modified versions of others or just simple tools/toys
+i wanted to have and programmed to learn something.
 
 
 **... expect bugs, beginner mistakes, etc.**
 
-![Any and all feedback is welcome.](https://github.com/phdsg/PvC/issues)
 
+[Any and all feedback is welcome.](https://github.com/phdsg/PvC/issues)
 
 
 ![All Modules](/images/AllModules.png?raw=true "All Modules")
 
-## Modules
-* ![COMPAIR](https://github.com/phdsg/PvC/wiki/Compair) - Dual Window Comparator
-
-* OOMPH - primitive waveshaper
-* VAMPS - modded Fundamental VCA
-* ![VUBAR](https://github.com/phdsg/PvC/wiki/VuBar) - basic VU meter
-* MULTY - Multiple with per-output-mutes.
+## List of Modules
+	• ATZE - Voltage Controlled Attenuverter
+	• [COMPAIR](./wiki/Compair) - Dual Window Comparator
+	• OOMPH - primitive waveshaper
+	• SHUTIT - 4 x triggerable mutes
+	• SUMIT - 12 to 1 mixer
+	• TRICKLE - shift register sample/hold
+	• VAMPS - modded Fundamental VCA
+	• [VUBAR](./wiki/VuBar) - basic VU meter
+	• MULTY - Multiple with per-output-mutes.
 
 ## Contact & Help
+I'm almost always online @ #VCVRack (irc.freenode.net). Other module devs are too!
+Also, the [issue tracker](./issues) can be used for all questions.
 
-You can find me (and other Rack Module devs) on IRC: freenode #VCVRack.
-You can also ask every question on the issue tracker.
+## Binaries
+Trying this gumroad thing now, so i won't publish compiled releases here anymore but over there for pay-what-you-think-is-fair...
 
 
 ## Build
+To compile the modules from the source code you first need to build the latest version of [VCVRack](https://github.com/VCVRack/Rack).
+Then, clone this repository into the `plugins` folder of Rack and use `make`.
 
-First, build the latest version of [Rack](https://github.com/VCVRack/Rack), then clone this repository inside the `plugins` folder of Rack and use `make`.
 
 ## Support PvC
 
