@@ -1,11 +1,11 @@
 
 # PvC Modules for [VCVRack](vcvrack.com)
 
-... is set of vcvrack modules that i created (mainly for my own use).
+... is set of VCVRack modules that i created (mainly for my own use).
 
-i'm new to the modular synthesis world, new to programming, new to github.
+I'm new to the modular synthesis world, new to programming, new to github.
 
-most of the modules here are modified versions of others or just simple tools/toys
+Most of the modules here are modified versions of others or just simple tools/toys
 i wanted to have and programmed to learn something.
 
 
@@ -18,19 +18,19 @@ i wanted to have and programmed to learn something.
 ![All Modules](/images/AllModules.png?raw=true "All Modules")
 
 ## List of Modules
-	• ATZE - Voltage Controlled Attenuverter
-	• [COMPAIR](./wiki/Compair) - Dual Window Comparator
-	• OOMPH - primitive waveshaper
-	• SHUTIT - 4 x triggerable mutes
-	• SUMIT - 12 to 1 mixer
-	• TRICKLE - shift register sample/hold
-	• VAMPS - modded Fundamental VCA
-	• [VUBAR](./wiki/VuBar) - basic VU meter
-	• MULTY - Multiple with per-output-mutes.
+• ATZE - Voltage Controlled Attenuverter
+• [COMPAIR](https://github.com/phdsg/PvC/wiki/Compair) - Dual Window Comparator
+• OOMPH - primitive waveshaper
+• SHUTIT - 4 x triggerable mutes
+• SUMIT - 12 to 1 mixer
+• TRICKLE - shift register sample/hold
+• VAMPS - modded Fundamental VCA
+• [VUBAR](https://github.com/phdsg/PvC/wiki/VuBar) - basic VU meter
+• MULTY - Multiple with per-output-mutes.
 
 ## Contact & Help
 I'm almost always online @ #VCVRack (irc.freenode.net). Other module devs are too!
-Also, the [issue tracker](./issues) can be used for all questions.
+Also, the [issue tracker](https://github.com/phdsg/PvC/issues) can be used for all questions.
 
 ## Binaries
 Trying this gumroad thing now, so i won't publish compiled releases here anymore but over there for pay-what-you-think-is-fair...
