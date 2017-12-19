@@ -29,11 +29,13 @@
 #### [NEW] Trickle (working title)
     • 10 step shift register / s'n'h
 
+***
 
 ### 0.5.5 ("Compair beta3")
 #### Compair
     • each channel now has a toggle to invert it's output to the logic section.
 
+***
 
 ### 0.5.4 ("Compair beta2")
 ##### Compair
@@ -44,6 +46,7 @@
 #### Vubar
     • through output
 
+***
 
 ### 0.5.3 ("Compair beta")
 #### [NEW] Compair
@@ -53,11 +56,13 @@
 #### [NEW] Shape (working title)
     • primitive waveshaping
 
+***
 
 ### 0.5.2 ("can't have too many vcas")
 #### [NEW] Vamps
     • slim mod of the fundamental vca
 
+***
 
 ### 0.5.1 ("cutting the fat")
 ##### Multy
@@ -67,6 +72,7 @@
 ##### VuBar
     • [NEW] more lights
 
+***
 
 ### 0.5.0 ("hello world")
 ##### [NEW] Multy
