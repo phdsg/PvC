@@ -1,0 +1,20 @@
+{
+  "slug": "PvC",
+  "name": "PvC",
+  "author": "phdsg",
+  "version": "0.5.5",
+  "homepage" : "https://phdsg.github.io/PvC/",
+  "donation": "https://gumroad.com/l/kXPIO",
+  "source": "https://github.com/phdsg/PvC/tree/0.5.5",
+  "manual": "https://github.com/phdsg/PvC/wiki",
+  "downloads": {
+    "win": {
+      "download": "",
+      "sha256": ""
+    },
+    "lin": {
+      "download": "",
+      "sha256": ""
+    }
+  }
+}
