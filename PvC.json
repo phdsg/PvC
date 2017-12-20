@@ -7,14 +7,4 @@
   "donation": "https://gumroad.com/l/kXPIO",
   "source": "https://github.com/phdsg/PvC/tree/0.5.5",
   "manual": "https://github.com/phdsg/PvC/wiki",
-  "downloads": {
-    "win": {
-      "download": "",
-      "sha256": ""
-    },
-    "lin": {
-      "download": "",
-      "sha256": ""
-    }
-  }
 }
