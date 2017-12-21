@@ -28,6 +28,9 @@
 
 ##### [NEW] Trickle (working title)
     • 10 step shift register / s'n'h
+    
+##### [NEW] DigitiXOR
+    • bit-wise XOR comparison
 
 ***
 
