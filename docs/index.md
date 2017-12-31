@@ -1,5 +1,4 @@
-## PvC Modules for VCVRack
-### Index
+## Index
 * About
 * Manuals
 * ...
