@@ -1,19 +1,6 @@
 # PvC Modules
+
 ##  Changelog
-
-
-#### 0.5.dev
-
-##### [NEW] Atze (working title)
- - voltage controlled attenuverter
-
-##### [NEW] Trickle (working title)
- - 10 step shift register / s'n'h
-    
-##### [NEW] DigitiXOR
- - bit-wise XOR comparison
-
-***
 
 #### [0.5.6](https://github.com/phdsg/PvC/tree/0.5.6) ("Happy New Year")
 ##### All Modules
