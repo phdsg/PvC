@@ -8,6 +8,7 @@
 Most are modified and/or slimmified versions of others or just simple tools/toys
 i wanted to have and enjoyed learning to program.
 
+<img align="right" src="images/AllModules.png">
 
 ## Disclaimer
 
@@ -23,7 +24,6 @@ First of all: Andrew Belt for making VCVRack and making it open source.
 Strum: his modules and encouragement made me start this whole programming trip.  
 All the other module developers for their inspiring modules.
 
-<img align="right" src="images/AllModules.png">
 
 ## List of Modules
   [Compair](compair.md)  
