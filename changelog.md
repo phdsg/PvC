@@ -20,8 +20,8 @@
  - nicer green - red transition
  - 3 Lights less, remaining 12 are bigger tho.
 
-##### Oomph
- - changed working title (shape) to Oomph
+##### Shape (now Oomph)
+ - changed working title to Oomph
 
 ##### [NEW] ShutIt
  - 8 x triggerable mutes
