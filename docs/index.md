@@ -1,5 +1,5 @@
 <!-- Version and License Badges -->
-![Version](https://img.shields.io/badge/version-0.5.5-green.svg?style=flat-square)
+![Version](https://img.shields.io/badge/version-0.5.6-green.svg?style=flat-square)
 ![License](https://img.shields.io/badge/license-BSD3-blue.svg?style=flat-square)
 ![Language](https://img.shields.io/badge/language-C++-yellow.svg?style=flat-square)
 
@@ -29,6 +29,8 @@ All the other module developers for their inspiring modules.
   [ComPair](compair.md) - dual window comparator (6U)  
   [Mu\[L\]ty](multy.md) - multiple with per-channel mutes (2U)  
   [Oomph](oomph.md) - primitive waveshaping distortion (2U)  
+  [ShutIt](shutit.md) - eight channel triggerable mutes (4U)  
+  [SumIt](sumit.md) - twelve into one mixer (2U)  
   [vAMPs](vamps.md) - dual stereo voltage controlled amplifier (2U)  
   [VUBar](vubar.md) - twelve light vu-meter (2U)  
   [...](plans.md)
