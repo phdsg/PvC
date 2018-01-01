@@ -23,9 +23,11 @@ First of all: Andrew Belt for making VCVRack and making it open source.
 Strum: his modules and encouragement made me start this whole programming trip.  
 All the other module developers for their inspiring modules.
 
-<img align="left" src="images/AllModules.png">
 
 ## List of Modules
+
+<img align="left" src="images/AllModules.png">
+
   [ComPair](compair.md) - dual window comparator (6U)  
   [Mu\[L\]ty](multy.md) - multiple with per-channel mutes (2U)  
   [Oomph](oomph.md) - primitive waveshaping distortion (2U)  
