@@ -24,20 +24,31 @@ Strum: his modules and encouragement made me start this whole programming trip.
 All the other module developers for their inspiring modules.
 
 
+
 ## List of Modules
 
-<img align="left" src="images/AllModules.png">
+<img align="right" src="images/AllModules.png">  
+  
+    
+    
 
-  [ComPair](compair.md) - dual window comparator (6U)  
-  [Mu\[L\]ty](multy.md) - multiple with per-channel mutes (2U)  
-  [Oomph](oomph.md) - primitive waveshaping distortion (2U)  
-  [ShutIt](shutit.md) - eight channel triggerable mutes (4U)  
-  [SumIt](sumit.md) - twelve into one mixer (2U)  
-  [vAMPs](vamps.md) - dual stereo voltage controlled amplifier (2U)  
-  [VUBar](vubar.md) - twelve light vu-meter (2U)  
+  [ComPair](compair.md)  
+  [Mu\[L\]ty](multy.md)  
+  [Oomph](oomph.md)  
+  [ShutIt](shutit.md)  
+  [SumIt](sumit.md)  
+  [vAMPs](vamps.md)  
+  [VUBar](vubar.md)  
   [...](plans.md)
-
-
+    
+    
+    
+    
+    
+    
+    
+    
+    
 ## Build Instructions
 
   To build the modules from source you first have to build rack from sources as described here:  
