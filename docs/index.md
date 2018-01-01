@@ -64,6 +64,3 @@ All the other module developers for their inspiring modules.
 I'm almost always online @ #VCVRack (irc.freenode.net). Other module devs are too!  
 Also, the [issue tracker](https://github.com/phdsg/PvC/issues) can be used for all questions.
 
-
-## Support PvC
-"Buy" a copy of the modules from my [gumroad](https://gumroad.com/l/kXPIO) account for 0+ bucks ;)
