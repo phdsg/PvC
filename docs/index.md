@@ -29,12 +29,12 @@ I'm new to the modular synthesis world, new to programming, new to github.
 
 
 ## List of Modules
-* [Compair](compair.md)
-* [Multy](multy.md)
-* [Oomph](oomph.md)
-* [Vamps](vamps.md)
-* [Vubar](vubar.md)
-* [...](plans.md)
+  [Compair](compair.md)  
+  [Multy](multy.md)  
+  [Oomph](oomph.md)  
+  [Vamps](vamps.md)  
+  [Vubar](vubar.md)  
+  [...](plans.md)
 
 
 ## Build Instructions
