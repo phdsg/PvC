@@ -26,11 +26,11 @@ All the other module developers for their inspiring modules.
 
 
 ## List of Modules
-  [Compair](compair.md)  
-  [Multy](multy.md)  
-  [Oomph](oomph.md)  
-  [Vamps](vamps.md)  
-  [Vubar](vubar.md)  
+  [ComPair](compair.md) - dual window comparator (6U)  
+  [Mu\[L\]ty](multy.md) - multiple with per-channel mutes (2U)  
+  [Oomph](oomph.md) - primitive waveshaping distortion (2U)  
+  [vAMPs](vamps.md) - dual stereo voltage controlled amplifier (2U)  
+  [VUBar](vubar.md) - twelve light vu-meter (2U)  
   [...](plans.md)
 
 
