@@ -14,19 +14,8 @@ Most of the modules here are modified versions of others or just simple tools/to
 
 [Any and all feedback is welcome.](https://github.com/phdsg/PvC/issues)
 
-
-![All Modules](/images/AllModules.png?raw=true "All Modules")
-
 ## List of Modules
-[ATZE](https://github.com/phdsg/PvC/wiki/Atze) - Voltage Controlled Attenuverter  
-[COMPAIR](https://github.com/phdsg/PvC/wiki/Compair) - Dual Window Comparator  
-[OOMPH](https://github.com/phdsg/PvC/wiki/Oomph) - primitive waveshaper  
-[SHUTIT](https://github.com/phdsg/PvC/wiki/ShutIt) - 4 x triggerable mutes  
-[SUMIT](https://github.com/phdsg/PvC/wiki/SumIt) - 12 to 1 mixer  
-[TRICKLE](https://github.com/phdsg/PvC/wiki/Trickle) - shift register sample/hold  
-[VAMPS](https://github.com/phdsg/PvC/wiki/Vamps) - modded Fundamental VCA  
-[VUBAR](https://github.com/phdsg/PvC/wiki/VuBar) - basic VU meter  
-[MULTY](https://github.com/phdsg/PvC/wiki/Multy) - Multiple with per-output-mutes.
+<img align="right" src="../images/AllModules.png">
 
 ## Contact & Help
 I'm almost always online @ #VCVRack (irc.freenode.net). Other module devs are too!  
