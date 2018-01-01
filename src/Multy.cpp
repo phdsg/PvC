@@ -4,7 +4,10 @@ Multy
 
  1 to 6 Multiple with mutes for each output
 
- modified tutorial.cpp with stolen snippets from fundamental/mutes
+ modified tutorial.cpp with snippets from fundamental/mutes by andrew belt 
+
+
+now deprecated and replaced with ShutIt
 
 */////////////////////////////////////////////////////////////////////////////
 
@@ -88,8 +91,7 @@ void Multy::step() {
 		
 		outputs[MULT_OUTPUT + i].value = state[i] ? in : 0.0;
 		lights[MUTEOFF_LIGHT + i].setBrightness(state[i] ? 1.0 : 0.0);
-		}
-	
+	}
 
 }
 

@@ -5,9 +5,6 @@ using namespace rack;
 extern Plugin *plugin;
 
 // module widgets
-struct AtzeWidget : ModuleWidget {
-	AtzeWidget();
-};
 struct CompairWidget : ModuleWidget {
 	CompairWidget();
 	Menu *createContextMenu() override;
@@ -23,9 +20,6 @@ struct ShutItWidget : ModuleWidget {
 };
 struct SumItWidget : ModuleWidget {
 	SumItWidget();
-};
-struct TrickleWidget : ModuleWidget {
-	TrickleWidget();
 };
 struct VampsWidget : ModuleWidget {
 	VampsWidget();
@@ -67,6 +61,11 @@ struct PvCKnob : RoundKnob {
 	PvCKnob() {
 		setSVG(SVG::load(assetPlugin(plugin, "res/components/PvCKnob.svg")));
 		box.size = Vec(22,22);
+	}
+};
+struct PvCSnapKnob : PvCKnob {
+	PvCSnapKnob() {
+		snap = true;
 	}
 };
 

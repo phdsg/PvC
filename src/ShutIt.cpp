@@ -1,17 +1,17 @@
 /*
 ShutIt
 
-quad channel trigger mutes
+8 channel mute gate
 
-- LEDs are manual nute triggers
-- inputs normalized to last in, so also works as a mult
+- invisible manual mute triggers around each port group
+- inputs normalized to last in, i.e. also works as a mult
 
 */////////////////////////////////////////////////////////////////////////////
 #include "pvc.hpp"
 
 #include "dsp/digital.hpp"
 
-#define CHANCOUNT 4
+#define CHANCOUNT 8
 
 struct ShutIt : Module {
 	enum ParamIds {
@@ -35,14 +35,14 @@ struct ShutIt : Module {
 	bool muteState[CHANCOUNT] {};
 	SchmittTrigger cvTrigger[CHANCOUNT];
 	SchmittTrigger buttonTrigger[CHANCOUNT];
-
-	ShutIt() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {}
+	
+	ShutIt() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {	}
 
 	void step() override;
 
-		void reset() override {
+	void reset() override {
 		for (int i = 0; i < CHANCOUNT; i++) {
-			muteState[i] = true;
+			muteState[i] = false;
 		}
 	}
 	
@@ -78,31 +78,31 @@ struct ShutIt : Module {
 
 void ShutIt::step() {
 //  do stuff
-	float out = 0.0;
+	float out = 0;
 	for (int i = 0; i < CHANCOUNT; i++) {
 		if (cvTrigger[i].process(inputs[A_TRIG + i].value))
-			muteState[i] ^= true;
+			muteState[i] = !muteState[i];
 		if (buttonTrigger[i].process(params[A_MUTE + i].value))
-			muteState[i] ^= true;
+			muteState[i] = !muteState[i];
 		if (inputs[A_IN + i].active)
 			out = inputs[A_IN + i].value;
-		outputs[A_OUT + i].value = muteState[i] ? out : 0.0;
-		lights[A_STATE + i].value = muteState[i] ? 0:0.75;
+		outputs[A_OUT + i].value = muteState[i] ? 0.0 : out;
+		lights[A_STATE + i].value = muteState[i] ? 0.75 : 0;
 	}
 }
 
 template <typename BASE>
  struct MuteLight : BASE {
  	MuteLight() {
- 		this->box.size = Vec(8, 8);
+ 		this->box.size = Vec(6, 6);
  	}
  };
-
+// ugh
  struct EmptyButton : SVGSwitch, MomentarySwitch {
 	EmptyButton() {
 		addFrame(SVG::load(assetPlugin(plugin, "res/components/empty.svg")));
 		addFrame(SVG::load(assetPlugin(plugin, "res/components/empty.svg")));
-		box.size = Vec(8,8);
+		box.size = Vec(56,40);
 	}
 };
 
@@ -110,12 +110,12 @@ template <typename BASE>
 ShutItWidget::ShutItWidget() {
 	ShutIt *module = new ShutIt();
 	setModule(module);
-	box.size = Vec(15*2, 380);
+	box.size = Vec(15*4, 380);
 
 	{
 		SVGPanel *panel = new SVGPanel();
 		panel->box.size = box.size;
-		panel->setBackground(SVG::load(assetPlugin(plugin, "res/panels/panel2HE.svg")));
+		panel->setBackground(SVG::load(assetPlugin(plugin, "res/panels/panel4HE.svg")));
 		addChild(panel);
 	}
 	// screws
@@ -124,12 +124,15 @@ ShutItWidget::ShutItWidget() {
 	addChild(createScrew<ScrewHead3>(Vec(0, 365)));
 	addChild(createScrew<ScrewHead4>(Vec(box.size.x - 15, 365)));
 	// channels
-	float top = 85.25;
 	for (int i = 0; i < CHANCOUNT; i++) {
-		addInput(createInput<ModInPort>(Vec(4,22 + top*i),module, ShutIt::A_TRIG + i));
-		addChild(createLight<MuteLight<RedLight>>(Vec(11,46 + top*i), module, ShutIt::A_STATE + i));
-		addParam(createParam<EmptyButton>(Vec(11,46 + top*i),module, ShutIt::A_MUTE + i, 0, 1 , 0));
-		addOutput(createOutput<OutPort>(Vec(4,56 + top*i),module, ShutIt::A_OUT + i));
-		addInput(createInput<InPort>(Vec(4,80 + top*i),module, ShutIt::A_IN + i));
+		float top = 42.25;
+	
+		addChild(createLight<MuteLight<RedLight>>(Vec(27,47 + top*i), module, ShutIt::A_STATE + i));
+		addParam(createParam<EmptyButton>(Vec(2,22 + top*i),module, ShutIt::A_MUTE + i, 0, 1 , 0));
+		
+		addInput(createInput<ModInPort>(Vec(19,22 + top*i),module, ShutIt::A_TRIG + i));
+		
+		addInput(createInput<InPort>(Vec(4,40 + top*i),module, ShutIt::A_IN + i));
+		addOutput(createOutput<OutPort>(Vec(34,40 + top*i),module, ShutIt::A_OUT + i));
 	}
 }

@@ -2,6 +2,11 @@
 
 SumIt
 
+adds 12 inputs together and divides sum by number of active inputs
+
+- volume knob controls output gain [0..2]V
+- output clamped [-10..10]
+
 */////////////////////////////////////////////////////////////////////////////
 
 #include "pvc.hpp"
@@ -10,6 +15,7 @@ SumIt
 struct SumIt : Module {
 
 	enum ParamIds {
+		VOLUME,
 		NUM_PARAMS
 	};
 
@@ -39,18 +45,19 @@ void SumIt::step() {
 	float mix = 0;
 	int count = 0;
 	
-	// Inputs
+	// sum and count inputs
 	for (int i = 0; i < 12; i++) {
 		mix += inputs[INPUT + i].value;
 		if (inputs[INPUT + i].active)
 			count++;
 	}
-	// mix	
+	// divide sum by number of active inputs	
 	if (count > 0)
 		mix /= count;
 
-	// Outputs
-	outputs[OUTPUT].value = mix;
+	// out gain and clamp
+	mix *= params[VOLUME].value;
+	outputs[OUTPUT].value = clampf(mix, -10.0f, 10.0f);
 }
 
 
@@ -70,9 +77,11 @@ SumItWidget::SumItWidget() {
 	addChild(createScrew<ScrewHead2>(Vec(box.size.x - 15, 0)));
 	addChild(createScrew<ScrewHead3>(Vec(0, 365)));
 	addChild(createScrew<ScrewHead4>(Vec(box.size.x - 15, 365)));
-
+	// inputs
 	for (int i = 0; i < 12; i++) {
-		addInput(createInput<InPort>(Vec(4,22 + 26*i), module, SumIt::INPUT + i));
+		addInput(createInput<InPort>(Vec(4,22 + 24*i), module, SumIt::INPUT + i));
 	}
-	addOutput(createOutput<OutPort>(Vec(4,24 + 26*12), module, SumIt::OUTPUT));
+	// gain and out
+	addParam(createParam<PvCKnob>(Vec(4,24 + 24*12), module, SumIt::VOLUME, 0.0f,2.0f,1.0f));
+	addOutput(createOutput<OutPort>(Vec(4,24 + 24*13), module, SumIt::OUTPUT));
 }

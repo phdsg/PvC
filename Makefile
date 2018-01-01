@@ -1,5 +1,5 @@
 SLUG = PvC
-# VERSION = 0.5.dev
+VERSION = 0.5.6
 
 # FLAGS will be passed to both the C and C++ compiler
 # FLAGS +=
@@ -17,20 +17,23 @@ LDFLAGS +=
 # Add .cpp and .c files to the build
 SOURCES = $(wildcard src/*.cpp)
 
+# Add files to the ZIP package when running `make dist`
+DISTRIBUTABLES += $(wildcard LICENSE*) res
 
 # Must include the VCV plugin Makefile framework
 include ../../plugin.mk
 
 
 # Convenience target for including files in the distributable release
-.PHONY: dist
-dist: all
-ifndef VERSION
-	$(error VERSION must be defined when making distributables)
-endif
-	mkdir -p dist/$(SLUG)
-	cp LICENSE* dist/$(SLUG)/
-	cp $(TARGET) dist/$(SLUG)/
-	cp -R res dist/$(SLUG)/
-	cp -R example-patches dist/$(SLUG)/
-	cd dist && zip -5 -r $(SLUG)-$(VERSION)-$(ARCH).zip $(SLUG)
+#.PHONY: dist
+#dist: all
+#ifndef VERSION
+#	$(error VERSION must be defined when making distributables)
+#endif
+#	mkdir -p dist/$(SLUG)
+#	cp LICENSE* dist/$(SLUG)/
+#	cp $(TARGET) dist/$(SLUG)/
+#	cp -R res dist/$(SLUG)/
+#	cp -R example-patches dist/$(SLUG)/
+#	cd dist && zip -5 -r $(SLUG)-$(VERSION)-$(ARCH).zip $(SLUG)
+

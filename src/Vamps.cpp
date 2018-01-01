@@ -1,11 +1,10 @@
 /*
  Vamps
 
- a 2 RackUnit mod of Andrew Belt's Fundamental VCA
- 	
- 
- dsp is all as in original, only widgets and layout changed.
- plus my hacky c/p job to give each unit a 2nd audio channel.
+ a 2 RackUnit stereo mod of Andrew Belt's Fundamental VCA
+
+ MAYBE TODO:
+ - reduce to one cv in + lin/exp option 
 
 */////////////////////////////////////////////////////////////////////////////
 
@@ -21,21 +20,21 @@ struct Vamps : Module {
 		NUM_PARAMS
 	};
 	enum InputIds {
-		CH1EXP_INPUT,
-		CH1LIN_INPUT,
-		CH1IN1_INPUT,
-		CH1IN2_INPUT,
-		CH2EXP_INPUT,
-		CH2LIN_INPUT,
-		CH2IN1_INPUT,
-		CH2IN2_INPUT,
+		A_EXP_CV,
+		A_LIN_CV,
+		A_IN_L,
+		A_IN_R,
+		B_EXP_CV,
+		B_LIN_CV,
+		B_IN_L,
+		B_IN_R,
 		NUM_INPUTS
 	};
 	enum OutputIds {
-		CH1OUT1_OUTPUT,
-		CH1OUT2_OUTPUT,
-		CH2OUT1_OUTPUT,
-		CH2OUT2_OUTPUT,
+		A_OUT_L,
+		A_OUT_R,
+		B_OUT_L,
+		B_OUT_R,
 		NUM_OUTPUTS
 	};
 
@@ -62,8 +61,8 @@ static void stepChannel(Input &in1, Input &in2, Param &level, Input &lin, Input 
 }
 
 void Vamps::step() {
-	stepChannel(inputs[CH1IN1_INPUT], inputs[CH1IN2_INPUT], params[LEVEL1_PARAM], inputs[CH1LIN_INPUT], inputs[CH1EXP_INPUT], outputs[CH1OUT1_OUTPUT], outputs[CH1OUT2_OUTPUT]);
-	stepChannel(inputs[CH2IN1_INPUT], inputs[CH2IN2_INPUT], params[LEVEL2_PARAM], inputs[CH2LIN_INPUT], inputs[CH2EXP_INPUT], outputs[CH2OUT1_OUTPUT], outputs[CH2OUT2_OUTPUT]);
+	stepChannel(inputs[A_IN_L], inputs[A_IN_R], params[LEVEL1_PARAM], inputs[A_LIN_CV], inputs[A_EXP_CV], outputs[A_OUT_L], outputs[A_OUT_R]);
+	stepChannel(inputs[B_IN_L], inputs[B_IN_R], params[LEVEL2_PARAM], inputs[B_LIN_CV], inputs[B_EXP_CV], outputs[B_OUT_L], outputs[B_OUT_R]);
 }
 
 
@@ -75,7 +74,7 @@ VampsWidget::VampsWidget() {
 	{
 		SVGPanel *panel = new SVGPanel();
 		panel->box.size = box.size;
-		panel->setBackground(SVG::load(assetPlugin(plugin, "res/panels/panel2HE.svg")));
+		panel->setBackground(SVG::load(assetPlugin(plugin, "res/panels/panel2HEdual.svg")));
 		addChild(panel);
 	}
 	// screws
@@ -85,24 +84,24 @@ VampsWidget::VampsWidget() {
 	addChild(createScrew<ScrewHead4>(Vec(box.size.x - 15, 365)));
 	
 	// channel one
-	addInput(createInput<InPort>(Vec(4, 22), module, Vamps::CH1IN1_INPUT));
-	addInput(createInput<InPort>(Vec(4, 44), module, Vamps::CH1IN2_INPUT));
+	addParam(createParam<PvCKnob>(Vec(4, 22), module, Vamps::LEVEL1_PARAM, 0.0, 1.0, 0.5));
+	addInput(createInput<ModInPort>(Vec(4, 44), module, Vamps::A_EXP_CV));
+	addInput(createInput<ModInPort>(Vec(4, 66), module, Vamps::A_LIN_CV));
 
-	addParam(createParam<PvCKnob>(Vec(4, 70), module, Vamps::LEVEL1_PARAM, 0.0, 1.0, 0.5));
-	addInput(createInput<ModInPort>(Vec(4, 94), module, Vamps::CH1EXP_INPUT));
-	addInput(createInput<ModInPort>(Vec(4, 116), module, Vamps::CH1LIN_INPUT));
+	addInput(createInput<InPort>(Vec(4, 92), module, Vamps::A_IN_L));
+	addOutput(createOutput<OutPort>(Vec(4, 115), module, Vamps::A_OUT_L));
 
-	addOutput(createOutput<OutPort>(Vec(4, 142), module, Vamps::CH1OUT1_OUTPUT));
-	addOutput(createOutput<OutPort>(Vec(4, 164), module, Vamps::CH1OUT2_OUTPUT));
+	addInput(createInput<InPort>(Vec(4, 139), module, Vamps::A_IN_R));
+	addOutput(createOutput<OutPort>(Vec(4, 162), module, Vamps::A_OUT_R));
 
 	//channel two
-	addInput(createInput<InPort>(Vec(4, 22 + 172), module, Vamps::CH2IN1_INPUT));
-	addInput(createInput<InPort>(Vec(4, 44 + 172), module, Vamps::CH2IN2_INPUT));
+	addParam(createParam<PvCKnob>(Vec(4, 22 + 174), module, Vamps::LEVEL2_PARAM, 0.0, 1.0, 0.5));
+	addInput(createInput<ModInPort>(Vec(4, 44 + 174), module, Vamps::B_EXP_CV));
+	addInput(createInput<ModInPort>(Vec(4, 66 + 174), module, Vamps::B_LIN_CV));
 
-	addParam(createParam<PvCKnob>(Vec(4, 70 + 172), module, Vamps::LEVEL2_PARAM, 0.0, 1.0, 0.5));
-	addInput(createInput<ModInPort>(Vec(4, 94 + 172), module, Vamps::CH2EXP_INPUT));
-	addInput(createInput<ModInPort>(Vec(4, 116 + 172), module, Vamps::CH2LIN_INPUT));
+	addInput(createInput<InPort>(Vec(4, 92 + 174), module, Vamps::B_IN_L));
+	addOutput(createOutput<OutPort>(Vec(4, 115 + 174), module, Vamps::B_OUT_L));
 
-	addOutput(createOutput<OutPort>(Vec(4, 142 + 172), module, Vamps::CH2OUT1_OUTPUT));
-	addOutput(createOutput<OutPort>(Vec(4, 164 + 172), module, Vamps::CH2OUT2_OUTPUT));
+	addInput(createInput<InPort>(Vec(4, 139 + 174), module, Vamps::B_IN_R));
+	addOutput(createOutput<OutPort>(Vec(4, 162 + 174), module, Vamps::B_OUT_R));
 }
