@@ -23,7 +23,7 @@ First of all: Andrew Belt for making VCVRack and making it open source.
 Strum: his modules and encouragement made me start this whole programming trip.  
 All the other module developers for their inspiring modules.
 
-<img align="right" src="images/AllModules.png">
+<img align="left" src="images/AllModules.png">
 
 ## List of Modules
   [ComPair](compair.md) - dual window comparator (6U)  
