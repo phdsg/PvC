@@ -2,8 +2,21 @@
 ##  Changelog
 
 
-#### [0.5.dev](https://github.com/phdsg/PvC/tree/master)
-##### Compair
+#### 0.5.dev
+
+##### [NEW] Atze (working title)
+    • voltage controlled attenuverter
+
+##### [NEW] Trickle (working title)
+    • 10 step shift register / s'n'h
+    
+##### [NEW] DigitiXOR
+    • bit-wise XOR comparison
+
+***
+
+#### [0.5.6](https://github.com/phdsg/PvC/tree/0.5.6) ("Happy New Year")
+##### ComPair
     • multi color compare LED and slightly changed panel layout
     • testing bi-polar outputs option
     • inverter buttons are now on the compare LEDs
@@ -18,30 +31,26 @@
     • changed working title (shape) to Oomph
 
 ##### [NEW] ShutIt
-    • 4 x triggerable mutes
-
-##### [NEW] Atze (working title)
-    • voltage controlled attenuverter
+    • 8 x triggerable mutes
+    • inputs are normalized to the last connected above
+    • panel fields around the ports are invisible manual mute triggers
 
 ##### [NEW] SumIt (working title)
     • 12 into 1 mixer
+    • sums up to 12 inputs and divides the signal by the number of connected inputs
+    • final output has a gain knob and its also clamped to [-10..10]V
 
-##### [NEW] Trickle (working title)
-    • 10 step shift register / s'n'h
-    
-##### [NEW] DigitiXOR
-    • bit-wise XOR comparison
 
 ***
 
-#### [0.5.5](https://github.com/phdsg/PvC/tree/0.5.5) ("Compair beta3")
-##### Compair
+#### [0.5.5](https://github.com/phdsg/PvC/tree/0.5.5) ("ComPair beta3")
+##### ComPair
     • each channel now has a toggle to invert it's output to the logic section.
 
 ***
 
-#### [0.5.4](https://github.com/phdsg/PvC/tree/0.5.4) ("Compair beta2")
-##### Compair
+#### [0.5.4](https://github.com/phdsg/PvC/tree/0.5.4) ("ComPair beta2")
+##### ComPair
     • [FIX] typo in cv input normalization code
     • above/below-the-window lights
     • layout and labeled panel
@@ -51,8 +60,8 @@
 
 ***
 
-#### [0.5.3](https://github.com/phdsg/PvC/tree/0.5.3) ("Compair beta")
-##### [NEW] Compair
+#### [0.5.3](https://github.com/phdsg/PvC/tree/0.5.3) ("ComPair beta")
+##### [NEW] ComPair
     • dual window comparator inspired by the joranalogue compare2
     • basic functionality done
 
