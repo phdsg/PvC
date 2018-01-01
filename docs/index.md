@@ -5,7 +5,7 @@
 
 # PvC Modules for VCVRack
 
-<img align="right" src="../images/AllModules.png">
+<img align="right" src="images/AllModules.png">
 
 ... is set of [VCVRack](https://www.vcvrack.com) modules created mainly for my own use.  
 Most of them are modified and/or slimmified versions of others or  
