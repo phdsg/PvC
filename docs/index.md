@@ -32,13 +32,13 @@ All the other module developers for their inspiring modules.
     
     
 
-  [ComPair](compair.md)  
-  [Mu\[L\]ty](multy.md)  
-  [Oomph](oomph.md)  
-  [ShutIt](shutit.md)  
-  [SumIt](sumit.md)  
-  [vAMPs](vamps.md)  
-  [VUBar](vubar.md)  
+  __ComPair__ - Comparator ([details](compair.md))  
+  __Mu\[L\]ty__ - Multiple ([details](multy.md))  
+  __Oomph__ - Distortion ([details](oomph.md))  
+  __ShutIt__ - Switch ([details](shutit.md))  
+  __SumIt__ - Mixer ([details](sumit.md))  
+  __vAMPs__ - VCA ([details](vamps.md))  
+  __VUBar__ - Meter ([details](vubar.md))  
   [...](plans.md)
     
     
