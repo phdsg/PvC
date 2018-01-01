@@ -9,12 +9,6 @@
 Most of them are modified and/or slimmified versions of others or just simple tools/toys
 i wanted to have and enjoyed learning to program.
 
-## Thanks
-
-First of all: Andrew Belt for making VCVRack and making it open source.  
-Strum: his modules and encouragement made me start this whole programming trip.  
-All the other module developers for their inspiring modules.
-
 
 ## Disclaimer
 
@@ -22,6 +16,13 @@ I'm new to the modular synthesis world, new to programming, new to github.
 **... expect bugs, beginner mistakes, etc.**
 
 [Any and all feedback is welcome.](https://github.com/phdsg/PvC/issues)
+
+
+## Thanks
+
+First of all: Andrew Belt for making VCVRack and making it open source.  
+Strum: his modules and encouragement made me start this whole programming trip.  
+All the other module developers for their inspiring modules.
 
 
 ## List of Modules
