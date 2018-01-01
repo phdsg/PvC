@@ -3,8 +3,6 @@
 ![License](https://img.shields.io/badge/license-BSD3-blue.svg?style=flat-square)
 ![Language](https://img.shields.io/badge/language-C++-yellow.svg?style=flat-square)
 
-# PvC Modules for VCVRack
-
 <img align="right" src="images/AllModules.png">
 
 ... is set of [VCVRack](https://www.vcvrack.com) modules created mainly for my own use.
