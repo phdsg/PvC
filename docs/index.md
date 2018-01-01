@@ -3,7 +3,6 @@
 ![License](https://img.shields.io/badge/license-BSD3-blue.svg?style=flat-square)
 ![Language](https://img.shields.io/badge/language-C++-yellow.svg?style=flat-square)
 
-<img align="right" src="images/AllModules.png">
 
 ... is a set of [VCVRack](https://www.vcvrack.com) modules created mainly for my own use.
 Most are modified and/or slimmified versions of others or just simple tools/toys
@@ -24,6 +23,7 @@ First of all: Andrew Belt for making VCVRack and making it open source.
 Strum: his modules and encouragement made me start this whole programming trip.  
 All the other module developers for their inspiring modules.
 
+<img align="right" src="images/AllModules.png">
 
 ## List of Modules
   [Compair](compair.md)  
