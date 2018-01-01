@@ -4,14 +4,17 @@
 
 #### [0.5.6](https://github.com/phdsg/PvC/tree/0.5.6) ("Happy New Year")
 ##### All Modules
- - slight visual changes
+ - slight visual changes (panels,knobs,ports)
     
 ##### ComPair
  - multi color compare LED and slightly changed panel layout
  - testing bi-polar outputs option
  - inverter buttons are now on the compare LEDs
+ 
+##### vAMPs
+ - port layout
 
-##### VuBar
+##### VUBar
  - Brightness Knob
  - Clip LED is now a toggle to select the dB interval of the lights
  - nicer green - red transition
@@ -47,7 +50,7 @@
  - above/below-the-window lights
  - layout and labeled panel
 
-##### Vubar
+##### VUBar
  - through output
 
 ***
@@ -62,24 +65,24 @@
 ***
 
 #### [0.5.2](https://github.com/phdsg/PvC/tree/0.5.2) ("can't have too many vcas")
-##### [NEW] Vamps
+##### [NEW] vAMPs
  - slim stereo mod of the fundamental vca
 
 ***
 
 #### [0.5.1](https://github.com/phdsg/PvC/tree/0.5.1) ("cutting the fat")
-##### Multy
+##### Mu\[L\]ty
  - [NEW] slim layout
  - [NEW] less outputs (breaks patches with old version)
 
-##### VuBar
+##### VUBar
  - [NEW] more lights
 
 ***
 
 #### [0.5.0](https://github.com/phdsg/PvC/tree/0.5.0) ("hello world")
-##### [NEW] Multy
+##### [NEW] Mu\[L\]ty
  - 1 X 10 Multiple with mute toggles
 
-##### [NEW] VuBar 
+##### [NEW] VUBar 
  - simple vumeter
