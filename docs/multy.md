@@ -1,9 +1,8 @@
-# Mu\[L\]ty\*
+# Mu\[L\]ty
 
-<image of multy>
 
 ... is a 2 rack units wide 1 to 6 signal multiplier with mute toggles on each output.  
-\*(soon deprecated and now replaced by ShutIt)
+*(soon deprecated and now replaced by ShutIt)*
 
 
 ## Changes
