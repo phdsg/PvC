@@ -1,8 +1,6 @@
 # VUBar
 ... is a 2 rack unit wide 12 led signal meter.
 
-<image of vubar>
-
 ## Details
 
 ### Display
