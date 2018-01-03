@@ -1,8 +1,6 @@
 # vAMPs
 ... is a 2 rack unit wide dual stereo voltage controlled amplifier
 
-<image of vamps>
-
 ## Details
 this is basically a slimmer and modified version of the fundamental vca.
 just changed it to have input/output pairs.
