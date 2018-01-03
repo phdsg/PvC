@@ -7,15 +7,19 @@
 ## Details
 
 ### I/O
+1 input
+6 ouputs (= input signal)
 
 ### Controls
+__Mute__ - button on each channel toggles mute state  
+
 
 ## Changes
 
-coming 0.6 - deprecated  
-0.5.6 - functionality replaced by ShutIt  
-0.5.1 - slimmed version 1x6 / 2 Units  
-0.5.0 - initial version 1x10 / 4 Units  
+_coming 0.6 - deprecated_  
+__0.5.6__ - functionality replaced by ShutIt  
+__0.5.1__ - slimmed version 1x6 / 2 Units  
+__0.5.0__ - initial version 1x10 / 4 Units  
 
 
 ### little backstory
