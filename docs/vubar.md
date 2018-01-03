@@ -15,11 +15,11 @@ __dB interval:__ set with a toggle on the clip led. default mode is 2dB. other o
 __Brightness:__ can be adjusted with the red knob.
 
 ## Changes
-0.5.dev - volts mode, 5v/10v sens toggle
-0.5.6 - dB interval modes, dim lights, lights: 12
-0.5.4 - through output added
-0.5.1 - number of lights: 15
-0.5.0 - initial version
+__0.5.dev__ - volts mode, 5v/10v sens toggle  
+__0.5.6__ - dB interval modes, dim lights, lights: 12  
+__0.5.4__ - through output added  
+__0.5.1__ - number of lights: 15  
+__0.5.0__ - initial version  
 
 ### little backstory
 My second module. written when vumeter.hpp was added to rack.
