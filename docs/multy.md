@@ -1,17 +1,17 @@
 # Mu\[L\]ty\*
 
 
-... is a 2 rack units wide 1 to 6 signal multiplier with mute toggles on each output.  
+... is a __2 rack units__ wide 1 to 6 signal multiplier with mute toggles on each output.  
 \* *(soon deprecated and now replaced by ShutIt)*
 
 ## Details
 
 ### I/O
-1 input
-6 ouputs (= input signal)
+__1 input__  
+__6 ouputs__ - each carrying the input signal
 
 ### Controls
-__Mute__ - button on each channel toggles mute state  
+__Mute Output__ - button on each channel toggles mute state  
 
 
 ## Changes
