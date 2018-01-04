@@ -78,6 +78,6 @@ Still exploring some ideas where to go with the gumroad store in 2018...
 
 
 ## Contact & Help
-I'm almost always online @ #VCVRack (irc.freenode.net). Other module devs are too!  
+I'm almost always online @ #VCVRack on Freenode (irc.freenode.net #VCVRack). Other module devs are too!  
 Also, the [issue tracker](https://github.com/phdsg/PvC/issues) can be used for all questions.
 
