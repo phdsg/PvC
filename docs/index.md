@@ -20,8 +20,8 @@ I'm new to the modular synthesis world, new to programming, new to github.
 ## Thanks
 
 First of all: Andrew Belt for making VCVRack and making it open source.  
-Strum: his modules and encouragement made me start this whole programming trip.  
-All the other module developers for their inspiring modules.
+All the other module developers for their inspiring modules, especially
+[Strum: his modules](https://github.com/Strum/Strums_Mental_VCV_Modules) and encouragement made me start this whole programming trip.  
 
 
 
@@ -33,11 +33,11 @@ All the other module developers for their inspiring modules.
     
   __Mu\[L\]ty__ - Multiple ([details](multy.md))  
   __VUBar__ - Meter ([details](vubar.md))  
-  __vAMPs__ - VCA ([details](vamps.md))  
+  __vAMPs__ - Stereo VCA ([details](vamps.md))  
   __Oomph__ - Distortion ([details](oomph.md))  
   __SumIt__ - Mixer ([details](sumit.md))  
-  __ShutIt__ - Switch ([details](shutit.md))  
-  __ComPair__ - Comparator ([details](compair.md))  
+  __ShutIt__ - Mute Switch ([details](shutit.md))  
+  __ComPair__ - Window Comparator ([details](compair.md))  
   [...](plans.md)
     
     
@@ -59,6 +59,8 @@ All the other module developers for their inspiring modules.
   Change directory to PvC and use make to build the plugin.  
     `$ cd PvC && make`  
   
+
+
 ## Contact & Help
 I'm almost always online @ #VCVRack (irc.freenode.net). Other module devs are too!  
 Also, the [issue tracker](https://github.com/phdsg/PvC/issues) can be used for all questions.
