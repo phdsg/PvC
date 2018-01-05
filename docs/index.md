@@ -1,8 +1,3 @@
-<!-- Version and License Badges -->
-![Version](https://img.shields.io/badge/version-0.5.6-green.svg?style=flat-square)
-![License](https://img.shields.io/badge/license-BSD3-blue.svg?style=flat-square)
-![Language](https://img.shields.io/badge/language-C++-yellow.svg?style=flat-square)
-
 
 ... is a set of [VCVRack](https://www.vcvrack.com) modules created mainly for my own use.
 Most are modified and/or slimmified versions of others or just simple tools/toys
