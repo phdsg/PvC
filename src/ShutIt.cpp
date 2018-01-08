@@ -1,11 +1,14 @@
 /*
 ShutIt
 
-8 channel mute gate
+8 channel mute gate switch multiple
 
 - invisible manual mute triggers around each port group
-- inputs normalized to last in, i.e. also works as a mult
+- inputs normalized to last connected above, so also works as a flexible mult
+- trigger inputs are normalized in the same way allowing for a variety of
+  combinations, as the manual triggers only affect their own channel.
 
+                          based on code from fundamental mutes by andrew belt
 */////////////////////////////////////////////////////////////////////////////
 #include "pvc.hpp"
 
@@ -79,13 +82,21 @@ struct ShutIt : Module {
 void ShutIt::step() {
 //  do stuff
 	float out = 0;
+	float triggerIn = 0;
 	for (int i = 0; i < CHANCOUNT; i++) {
-		if (cvTrigger[i].process(inputs[A_TRIG + i].value))
+
+		if (inputs[A_TRIG + i].active)
+			triggerIn = inputs[A_TRIG + i].value;
+		
+		if (cvTrigger[i].process(triggerIn))
 			muteState[i] = !muteState[i];
+		
 		if (buttonTrigger[i].process(params[A_MUTE + i].value))
 			muteState[i] = !muteState[i];
+		
 		if (inputs[A_IN + i].active)
 			out = inputs[A_IN + i].value;
+
 		outputs[A_OUT + i].value = muteState[i] ? 0.0 : out;
 		lights[A_STATE + i].value = muteState[i] ? 0.75 : 0;
 	}
@@ -101,17 +112,14 @@ template <typename BASE>
  struct EmptyButton : SVGSwitch, MomentarySwitch {
 	EmptyButton() {
 		addFrame(SVG::load(assetPlugin(plugin, "res/components/empty.svg")));
-		addFrame(SVG::load(assetPlugin(plugin, "res/components/empty.svg")));
 		box.size = Vec(56,40);
 	}
 };
-
 
 ShutItWidget::ShutItWidget() {
 	ShutIt *module = new ShutIt();
 	setModule(module);
 	box.size = Vec(15*4, 380);
-
 	{
 		SVGPanel *panel = new SVGPanel();
 		panel->box.size = box.size;
@@ -126,12 +134,10 @@ ShutItWidget::ShutItWidget() {
 	// channels
 	for (int i = 0; i < CHANCOUNT; i++) {
 		float top = 42.25;
-	
+
 		addChild(createLight<MuteLight<RedLight>>(Vec(27,47 + top*i), module, ShutIt::A_STATE + i));
 		addParam(createParam<EmptyButton>(Vec(2,22 + top*i),module, ShutIt::A_MUTE + i, 0, 1 , 0));
-		
 		addInput(createInput<ModInPort>(Vec(19,22 + top*i),module, ShutIt::A_TRIG + i));
-		
 		addInput(createInput<InPort>(Vec(4,40 + top*i),module, ShutIt::A_IN + i));
 		addOutput(createOutput<OutPort>(Vec(34,40 + top*i),module, ShutIt::A_OUT + i));
 	}

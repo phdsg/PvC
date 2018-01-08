@@ -78,9 +78,9 @@ struct Compair : Module {
 		NUM_LIGHTS
 	};
 
-	bool outA;
-	bool outB;
-	bool flip;
+	bool outA = false;
+	bool outB = false;
+	bool flip = false;
 	SchmittTrigger flipTrigger;
 
 	enum OutputMode {

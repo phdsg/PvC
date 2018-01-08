@@ -55,6 +55,11 @@ void Vubar::step(){
 			lights[METER_LIGHT + i].setBrightnessSmooth(vuBar.getBrightness(i) * (params[DIM_PARAM].value) + clampf(fabs(signal_in*0.01f),0.00f,0.1f));
 		}
 	}
+	else {
+		for (int i = 0; i < 12; i++) {
+			lights[METER_LIGHT + i].value = 0;
+		}
+	}
 }
 
 template <typename BASE>
