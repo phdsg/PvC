@@ -1,4 +1,4 @@
-# ShutIt <img align="right" src="images/shutit_200.png">
+# ShutIt <img align="right" src="images/shutit_100.png">
 ... is a 4 rack unit wide 8 channel mute switch / multiple (replaces Mu\[L\]ty)  
 
 ## Details
