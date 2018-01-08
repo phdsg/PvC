@@ -1,5 +1,5 @@
 # ComPair <img align="right" src="images/compair_200.png">
-... is a 6 rack unit wide Dual Window Comparator.
+... is a 8 rack unit wide Dual Window Comparator.
 
 ## Details
 **ComPair** checks if an input is within a specified voltage range. 
