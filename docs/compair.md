@@ -1,4 +1,4 @@
-# ComPair <img align="right" src="images/compair_200.png">
+# ComPair <img align="right" src="images/compair_100.png">
 ... is a 8 rack unit wide Dual Window Comparator.
 
 ## Details
