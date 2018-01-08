@@ -1,4 +1,4 @@
-# ComPair <img align="right" src="images/compair.gif">
+# ComPair <img align="right" src="images/compair_200.png">
 ... is a 6 rack unit wide Dual Window Comparator.
 
 ## Details
@@ -19,7 +19,7 @@ _per channel (2)_
 _logic Section_  
 4 Outputs (red) - results of boolean comparison of A vs B outputs. (A)nd, (O)r, (X)or and (F)lipFlop triggered by the Xor rises  
 
-### Controls <img align="right" src="images/compair_100.png">
+### Controls
 The compare window is controlled by two parameters.  
   
 **POSITION** knob sets the center of the window to a value between -5V and +5V (0V default).  
