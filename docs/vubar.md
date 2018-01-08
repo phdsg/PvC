@@ -15,7 +15,7 @@ __dB interval:__ set with a toggle on the clip led. default mode is 2dB. other o
 __Brightness:__ can be adjusted with the red knob.
 
 ## Changes
-__0.5.dev__ - volts mode, 5v/10v sens toggle  
+__0.5.7__ - fixed lights not turning of when unplugging input  
 __0.5.6__ - dB interval modes, dim lights, lights: 12  
 __0.5.4__ - through output added  
 __0.5.1__ - number of lights: 15  
