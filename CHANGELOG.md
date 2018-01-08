@@ -2,6 +2,18 @@
 
 ##  Changelog
 
+#### [0.5.7]
+##### ComPair
+  - initialization  
+  
+##### ShutIt
+  - cv inputs now normalized to last connected above  
+  
+##### VUBar
+  - fixed lights not shutting off when input is unplugged  
+  
+***
+
 #### [0.5.6](https://github.com/phdsg/PvC/tree/0.5.6) ("Happy New Year")
 ##### All Modules
  - slight visual changes (panels,knobs,ports)
