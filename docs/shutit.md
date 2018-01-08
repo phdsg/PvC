@@ -1,6 +1,8 @@
 # ShutIt
 ... is a 4 rack unit wide 8 channel mute switch / multiple (replaces Mu\[L\]ty)  
 
+<img align="right" src="images/shutit_200.png">
+
 ## Details
 ShutIt has 8 channels that can be individually muted using a remote trigger signal or by clicking the panel.
 Each input carries the signal of the last connected input above, so this works as a flexible multiple too.
