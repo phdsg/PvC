@@ -1,4 +1,4 @@
-# VUBar
+# VUBar <img align="right" src="images/voobar.gif">
 ... is a 2 rack unit wide 12 led signal meter.
 
 ## Details
