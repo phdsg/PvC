@@ -1,4 +1,4 @@
-# SumIt
+# SumIt <img align="right" src="images/sumit_100.png">
 ... is a 2 rack unit wide 12 into 1 channel mixer
 
 ## Details
