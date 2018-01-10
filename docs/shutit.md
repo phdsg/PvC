@@ -16,6 +16,6 @@ _per channel (8)_
 __Mute Channel__ - empty panel area is a transparent button
 
 ## Changes
-__0.5.8__ - slim (2U, 4 channels) and xl (6U, 12 channels) versions added
+__0.5.8__ - slim (2U, 4 channels) and xl (6U, 12 channels) versions added  
 __0.5.7__ - trigger input normalization, visual changes  
 __0.5.6__ - initial version
