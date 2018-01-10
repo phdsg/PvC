@@ -2,7 +2,7 @@
 
 ##  Changelog
 
-#### [0.5.7]
+#### [0.5.7](https://github.com/phdsg/PvC/tree/0.5.7)
 ##### ComPair
   - initialization  
   

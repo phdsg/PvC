@@ -21,7 +21,7 @@ __0.5.1__ - slimmed version 1x6 / 2 Units
 __0.5.0__ - initial version 1x10 / 4 Units  
 
 
-### little backstory
+### little backstory <img align="right" src="images/olde_multy_100.png">
 this was the very first module i made.
 it's basically a fork of [Fundamental/Mutes](https://github.com/VCVRack/Fundamental) (by Andrew Belt), which when it came out didn't have the multiple functionality.
 i wanted a multiple with mutes, so that's how Mu\[L\]ty came to be.
