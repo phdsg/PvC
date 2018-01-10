@@ -56,10 +56,10 @@ All the other module developers for their inspiring modules, especially
     `$ cd PvC && make`  
   
 
-## Binary Releases & Plugin Manager
+## Contact & Help
+I'm almost always online @ #VCVRack on Freenode (irc.freenode.net #VCVRack). Other module devs are too!  
+Also, the [issue tracker](https://github.com/phdsg/PvC/issues) can be used for all questions.
 
-Binary releases will return, once i've found the time to check out how the plugin manager works.
-Soon(...ish).
 
 ## Gumroad & Donations
 
@@ -73,7 +73,4 @@ Still exploring some ideas where to go with the gumroad store in 2018...
 (until then it's still [up](https://gumroad.com/pvc) there with the 0.5.x binaries. not the latest right now, but soon.)
 
 
-## Contact & Help
-I'm almost always online @ #VCVRack on Freenode (irc.freenode.net #VCVRack). Other module devs are too!  
-Also, the [issue tracker](https://github.com/phdsg/PvC/issues) can be used for all questions.
 
