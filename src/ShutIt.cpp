@@ -32,7 +32,7 @@ struct ShutIt : Module {
 	};
 	enum LightIds {
 		A_STATE,
-		NUM_LIGHTS = A_STATE + CHANCOUNT
+		NUM_LIGHTS = A_STATE + CHANCOUNT*2
 	};
 
 	bool muteState[CHANCOUNT] {};
@@ -98,7 +98,8 @@ void ShutIt::step() {
 			out = inputs[A_IN + i].value;
 
 		outputs[A_OUT + i].value = muteState[i] ? 0.0 : out;
-		lights[A_STATE + i].value = muteState[i] ? 0.75 : 0;
+		lights[A_STATE + 2*i].value = muteState[i] ? 0 : 0.125;
+		lights[A_STATE+1 + 2*i].value = muteState[i] ? 1 : 0.125;
 	}
 }
 
@@ -108,6 +109,12 @@ template <typename BASE>
  		this->box.size = Vec(6, 6);
  	}
  };
+ struct BlueRedLight : ModuleLightWidget {
+	BlueRedLight() {
+		addBaseColor(COLOR_BLUE);
+		addBaseColor(COLOR_RED);
+	}
+};
 // ugh
  struct EmptyButton : SVGSwitch, MomentarySwitch {
 	EmptyButton() {
@@ -123,7 +130,7 @@ ShutItWidget::ShutItWidget() {
 	{
 		SVGPanel *panel = new SVGPanel();
 		panel->box.size = box.size;
-		panel->setBackground(SVG::load(assetPlugin(plugin, "res/panels/panel4HE.svg")));
+		panel->setBackground(SVG::load(assetPlugin(plugin, "res/panels/panel4HEocta.svg")));
 		addChild(panel);
 	}
 	// screws
@@ -135,10 +142,10 @@ ShutItWidget::ShutItWidget() {
 	for (int i = 0; i < CHANCOUNT; i++) {
 		float top = 42.25;
 
-		addChild(createLight<MuteLight<RedLight>>(Vec(27,47 + top*i), module, ShutIt::A_STATE + i));
+		addChild(createLight<MuteLight<BlueRedLight>>(Vec(27,27 + top*i), module, ShutIt::A_STATE + 2*i));
 		addParam(createParam<EmptyButton>(Vec(2,22 + top*i),module, ShutIt::A_MUTE + i, 0, 1 , 0));
-		addInput(createInput<ModInPort>(Vec(19,22 + top*i),module, ShutIt::A_TRIG + i));
-		addInput(createInput<InPort>(Vec(4,40 + top*i),module, ShutIt::A_IN + i));
-		addOutput(createOutput<OutPort>(Vec(34,40 + top*i),module, ShutIt::A_OUT + i));
+		addInput(createInput<ModInPort>(Vec(19,39 + top*i),module, ShutIt::A_TRIG + i));
+		addInput(createInput<InPort>(Vec(4,22 + top*i),module, ShutIt::A_IN + i));
+		addOutput(createOutput<OutPort>(Vec(34,22 + top*i),module, ShutIt::A_OUT + i));
 	}
 }

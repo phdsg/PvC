@@ -8,6 +8,8 @@
   
 ##### ShutIt
   - cv inputs now normalized to last connected above  
+  - panel layout  
+  - two-color lights
   
 ##### VUBar
   - fixed lights not shutting off when input is unplugged  
