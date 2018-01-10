@@ -3,7 +3,7 @@
 
 ## Details
 ShutIt has 8 channels that can be individually muted using a remote trigger signal or by clicking the panel.
-Each input carries the signal of the last connected input above, so this works as a flexible multiple too.
+Each input carries the signal of the last connected input above, so it also works as a flexible multiple or clock divider.
 
 ### I/O
 _per channel (8)_  
