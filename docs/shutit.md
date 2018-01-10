@@ -1,5 +1,5 @@
 # ShutIt <img align="right" src="images/shutit_100.png">
-... is a 4 rack unit wide 8 channel mute switch / multiple (replaces [Mu\[L\]ty](multy.md))  
+... is a 4 rack unit wide 8 channel mute switch / multiple (replaces [MuLty](multy.md))  
 
 ## Details
 ShutIt has 8 channels that can be individually muted using a remote trigger signal or by clicking the panel.
