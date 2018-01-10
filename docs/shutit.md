@@ -15,5 +15,5 @@ __1 trigger input__ - center, yellow, changes mute state (also normalized to las
 __Mute Channel__ - clicking the empty field around the ports of each channel toggles mute state
 
 ## Changes
-__0.5.7__ - trigger input normalization, visual changes
+__0.5.7__ - trigger input normalization, visual changes  
 __0.5.6__ - initial version
