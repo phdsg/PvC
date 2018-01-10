@@ -18,6 +18,12 @@ struct OomphWidget : ModuleWidget {
 struct ShutItWidget : ModuleWidget {
 	ShutItWidget();
 };
+struct ShutItSlimWidget : ModuleWidget {
+	ShutItSlimWidget();
+};
+struct ShutItXLWidget : ModuleWidget {
+	ShutItXLWidget();
+};
 struct SumItWidget : ModuleWidget {
 	SumItWidget();
 };
@@ -27,7 +33,6 @@ struct VampsWidget : ModuleWidget {
 struct VubarWidget : ModuleWidget {
 	VubarWidget();
 };
-
 
 // shared custom components
 

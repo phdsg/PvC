@@ -11,7 +11,7 @@ void init(rack::Plugin *p) {
 #ifdef VERSION
 	p->version = TOSTRING(VERSION);
 #else
-    p->version = "0.5.7";
+    p->version = "0.5.8";
 #endif
 	p->website = "https://phdsg.github.io/PvC/";
 	p->manual = "https://github.com/phdsg/PvC/wiki";
@@ -20,6 +20,8 @@ void init(rack::Plugin *p) {
 	p->addModel(createModel<MultyWidget>("PvC", "Multy", "Multy", MULTIPLE_TAG, SWITCH_TAG, UTILITY_TAG));
 	p->addModel(createModel<OomphWidget>("PvC", "Oomph", "Oomph", WAVESHAPER_TAG, DISTORTION_TAG, EFFECT_TAG, DYNAMICS_TAG));
 	p->addModel(createModel<ShutItWidget>("PvC", "ShutIt", "ShutIt", SWITCH_TAG, MULTIPLE_TAG, UTILITY_TAG));
+	p->addModel(createModel<ShutItSlimWidget>("PvC", "ShutItSlim", "ShutItSlim", SWITCH_TAG, MULTIPLE_TAG, UTILITY_TAG));
+	p->addModel(createModel<ShutItXLWidget>("PvC", "ShutItXL", "ShutItXL", SWITCH_TAG, MULTIPLE_TAG, UTILITY_TAG));
 	p->addModel(createModel<SumItWidget>("PvC", "SumIt", "SumIt", MIXER_TAG, UTILITY_TAG));
 	p->addModel(createModel<VampsWidget>("PvC", "Vamps", "Vamps", AMPLIFIER_TAG, DUAL_TAG));
 	p->addModel(createModel<VubarWidget>("PvC", "Vubar", "VuBar", VISUAL_TAG, UTILITY_TAG));

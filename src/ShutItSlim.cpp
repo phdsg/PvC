@@ -1,7 +1,7 @@
 /*
-ShutIt
+ShutItSlim
 
-8 channel mute gate switch multiple
+4 channel mute gate switch multiple
 
 - invisible manual mute triggers around each port group
 - inputs normalized to last connected above, so also works as a flexible mult
@@ -14,9 +14,9 @@ ShutIt
 
 #include "dsp/digital.hpp"
 
-#define CHANCOUNT 8
+#define CHANCOUNT 4
 
-struct ShutIt : Module {
+struct ShutItSlim : Module {
 	enum ParamIds {
 		A_MUTE,
 		NUM_PARAMS = A_MUTE + CHANCOUNT
@@ -39,7 +39,7 @@ struct ShutIt : Module {
 	SchmittTrigger cvTrigger[CHANCOUNT];
 	SchmittTrigger buttonTrigger[CHANCOUNT];
 	
-	ShutIt() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {	}
+	ShutItSlim() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {	}
 
 	void step() override;
 
@@ -79,7 +79,7 @@ struct ShutIt : Module {
 	}
 };
 
-void ShutIt::step() {
+void ShutItSlim::step() {
 //  do stuff
 	float out = 0;
 	float triggerIn = 0;
@@ -104,27 +104,33 @@ void ShutIt::step() {
 }
 
 template <typename BASE>
- struct SixPixLight : BASE {
- 	SixPixLight() {
- 		this->box.size = Vec(6, 6);
+ struct EightPixLight : BASE {
+ 	EightPixLight() {
+ 		this->box.size = Vec(8, 8);
  	}
  };
+ struct BlueRedLight : ModuleLightWidget {
+	BlueRedLight() {
+		addBaseColor(COLOR_BLUE);
+		addBaseColor(COLOR_RED);
+	}
+};
 // ugh
  struct EmptyButton : SVGSwitch, MomentarySwitch {
 	EmptyButton() {
 		addFrame(SVG::load(assetPlugin(plugin, "res/components/empty.svg")));
-		box.size = Vec(56,40);
+		box.size = Vec(26,82);
 	}
 };
 
-ShutItWidget::ShutItWidget() {
-	ShutIt *module = new ShutIt();
+ShutItSlimWidget::ShutItSlimWidget() {
+	ShutItSlim *module = new ShutItSlim();
 	setModule(module);
-	box.size = Vec(15*4, 380);
+	box.size = Vec(15*2, 380);
 	{
 		SVGPanel *panel = new SVGPanel();
 		panel->box.size = box.size;
-		panel->setBackground(SVG::load(assetPlugin(plugin, "res/panels/panel4HEocta.svg")));
+		panel->setBackground(SVG::load(assetPlugin(plugin, "res/panels/panel2HEquad.svg")));
 		addChild(panel);
 	}
 	// screws
@@ -134,12 +140,12 @@ ShutItWidget::ShutItWidget() {
 	addChild(createScrew<ScrewHead4>(Vec(box.size.x - 15, 365)));
 	// channels
 	for (int i = 0; i < CHANCOUNT; i++) {
-		float top = 42.25;
-
-		addChild(createLight<SixPixLight<GreenRedLight>>(Vec(27,27 + top*i), module, ShutIt::A_STATE + 2*i));
-		addParam(createParam<EmptyButton>(Vec(2,22 + top*i),module, ShutIt::A_MUTE + i, 0, 1 , 0));
-		addInput(createInput<ModInPort>(Vec(19,39 + top*i),module, ShutIt::A_TRIG + i));
-		addInput(createInput<InPort>(Vec(4,22 + top*i),module, ShutIt::A_IN + i));
-		addOutput(createOutput<OutPort>(Vec(34,22 + top*i),module, ShutIt::A_OUT + i));
+		float top = 86;
+		
+		addParam(createParam<EmptyButton>(Vec(2,20 + top*i),module, ShutItSlim::A_MUTE + i, 0, 1 , 0));
+		addInput(createInput<ModInPort>(Vec(4,22 + top*i),module, ShutItSlim::A_TRIG + i));
+		addChild(createLight<EightPixLight<GreenRedLight>>(Vec(11,46 + top*i), module, ShutItSlim::A_STATE + 2*i));
+		addInput(createInput<InPort>(Vec(4,55 + top*i),module, ShutItSlim::A_IN + i));
+		addOutput(createOutput<OutPort>(Vec(4,78 + top*i),module, ShutItSlim::A_OUT + i));
 	}
 }
