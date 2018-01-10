@@ -12,7 +12,8 @@ __1 output__ - right, red
 __1 trigger input__ - center, yellow, changes mute state (also normalized to last above)  
 
 ### Controls
-__Mute Channel__ - clicking the empty field around the ports of each channel toggles mute state
+_per channel (8)_  
+__Mute Channel__ - empty panel area is a transparent button
 
 ## Changes
 __0.5.7__ - trigger input normalization, visual changes  
