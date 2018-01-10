@@ -2,7 +2,7 @@
 
 
 ... is a __2 rack units__ wide 1 to 6 signal multiplier with mute toggles on each output.  
-\* *(soon deprecated and now replaced by ShutIt)*
+\* *(soon deprecated and now replaced by [ShutIt](shutit.md)*
 
 ## Details
 
