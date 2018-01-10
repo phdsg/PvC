@@ -27,7 +27,7 @@ All the other module developers for their inspiring modules, especially
   
   _(left to right)_
     
-  __Mu\[L\]ty__ - Multiple ([details](multy.md))  
+  __Mu\[L\]ty__ - Multiple ([details](shutit.md))  
   __VUBar__ - Meter ([details](vubar.md))  
   __vAMPs__ - Stereo VCA ([details](vamps.md))  
   __Oomph__ - Distortion ([details](oomph.md))  
