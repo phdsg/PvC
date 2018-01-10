@@ -70,7 +70,7 @@ __Thank you all for your support!__
 
 Still exploring some ideas where to go with the gumroad store in 2018...
 
-(until then it's still [up](https://gumroad.com/pvc) there with the 0.5.x binaries. not the latest right now, but soon.)
+(until then it's still [up](https://gumroad.com/pvc) there.)
 
 
 
