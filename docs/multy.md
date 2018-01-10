@@ -1,4 +1,4 @@
-# Mu\[L\]ty
+# MuLty
 
 
 ... is a __2 rack units__ wide 1 to 6 signal multiplier with mute toggles on each output.  
