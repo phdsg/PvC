@@ -11,7 +11,7 @@ void init(rack::Plugin *p) {
 #ifdef VERSION
 	p->version = TOSTRING(VERSION);
 #else
-    p->version = "0.5.6";
+    p->version = "0.5.7";
 #endif
 	p->website = "https://phdsg.github.io/PvC/";
 	p->manual = "https://github.com/phdsg/PvC/wiki";
