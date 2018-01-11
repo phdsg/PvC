@@ -1,6 +1,7 @@
-# Shutters (ShutIt, ShutItSlim, ShutItXL) <img align="right" src="images/shutters_100.png">
+# Shutters <img align="right" src="images/shutters_100.png">
 ... is a set of mute switches (replaces [MuLty](multy.md))  
-
+ (3 varieties: ShutIt, ShutItSlim, ShutItXL)  
+ 
 ## Details
 ShutIt has 8 channels (Slim: 4, XL: 12) that can be individually muted using a remote trigger signal or by clicking the panel.
 Each input carries the signal of the last connected input above, so it also works as a flexible multiple or clock divider.
