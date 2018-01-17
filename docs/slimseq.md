@@ -8,15 +8,15 @@ concept loosely based on this: [Transient Modules 8s](http://transientmodules.co
 code based on martin lueders' sequential switch.  
 
 ### I/O
-CLK clock trigger
-REV reverse direction switch
-RND random mode switch
-HLD hold mode switch
-RST reset to zero trigger
+CLK clock trigger  
+REV reverse direction switch  
+RND random mode switch  
+HLD hold mode switch  
+RST reset to zero trigger  
 
-16 step inputs
+16 step inputs  
 
-1 main out
+1 main out  
 
 ### Display/Controls
 
@@ -26,7 +26,7 @@ LED - shows selected step (full brightness) and reset position (dimmed)
 Label - click to set reset position (sets current position too, if in hold state or not connected to clock)  
 
 #### center section
-LED - shows output level
+LED - shows output level  
   Knob - attenuvert output signal
 
 
