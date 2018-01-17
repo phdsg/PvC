@@ -81,8 +81,8 @@ struct ShutIt : Module {
 
 void ShutIt::step() {
 //  do stuff
-	float out = 0;
-	float triggerIn = 0;
+	float out = 0.0f;
+	float triggerIn = 0.0f;
 	for (int i = 0; i < CHANCOUNT; i++) {
 
 		if (inputs[A_TRIG + i].active)
@@ -97,8 +97,8 @@ void ShutIt::step() {
 		if (inputs[A_IN + i].active)
 			out = inputs[A_IN + i].value;
 
-		outputs[A_OUT + i].value = muteState[i] ? 0.0 : out;
-		lights[A_STATE + 2*i].value = muteState[i] ? 0 : 0.5;
+		outputs[A_OUT + i].value = muteState[i] ? 0.0f : out;
+		lights[A_STATE + 2*i].value = muteState[i] ? 0 : 1;
 		lights[A_STATE+1 + 2*i].value = muteState[i] ? 1 : 0;
 	}
 }
@@ -138,8 +138,8 @@ ShutItWidget::ShutItWidget() {
 
 		addChild(createLight<SixPixLight<GreenRedLight>>(Vec(27,27 + top*i), module, ShutIt::A_STATE + 2*i));
 		addParam(createParam<EmptyButton>(Vec(2,22 + top*i),module, ShutIt::A_MUTE + i, 0, 1 , 0));
-		addInput(createInput<ModInPort>(Vec(19,39 + top*i),module, ShutIt::A_TRIG + i));
-		addInput(createInput<InPort>(Vec(4,22 + top*i),module, ShutIt::A_IN + i));
-		addOutput(createOutput<OutPort>(Vec(34,22 + top*i),module, ShutIt::A_OUT + i));
+		addInput(createInput<InPortBin>(Vec(19,39 + top*i),module, ShutIt::A_TRIG + i));
+		addInput(createInput<InPortAud>(Vec(4,22 + top*i),module, ShutIt::A_IN + i));
+		addOutput(createOutput<OutPortVal>(Vec(34,22 + top*i),module, ShutIt::A_OUT + i));
 	}
 }

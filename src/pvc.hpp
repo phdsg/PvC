@@ -5,6 +5,9 @@ using namespace rack;
 extern Plugin *plugin;
 
 // module widgets
+struct BangDaButtonWidget : ModuleWidget {
+	BangDaButtonWidget();
+};
 struct CompairWidget : ModuleWidget {
 	CompairWidget();
 	Menu *createContextMenu() override;
@@ -24,6 +27,9 @@ struct ShutItSlimWidget : ModuleWidget {
 struct ShutItXLWidget : ModuleWidget {
 	ShutItXLWidget();
 };
+struct SlimSeqWidget : ModuleWidget {
+	SlimSeqWidget();
+};
 struct SumItWidget : ModuleWidget {
 	SumItWidget();
 };
@@ -34,27 +40,42 @@ struct VubarWidget : ModuleWidget {
 	VubarWidget();
 };
 
+
 // shared custom components
 
 /// ports
 
-struct OutPort : SVGPort {
-	OutPort() {
-		background->svg = SVG::load(assetPlugin(plugin, "res/components/OutPort.svg"));
+struct OutPortBin : SVGPort {
+	OutPortBin() {
+		background->svg = SVG::load(assetPlugin(plugin, "res/components/OutPortBin.svg"));
 		background->wrap();
 		box.size = background->box.size;
 	}
 };
-struct InPort : SVGPort {
-	InPort() {
-		background->svg = SVG::load(assetPlugin(plugin, "res/components/InPort.svg"));
+struct OutPortVal : SVGPort {
+	OutPortVal() {
+		background->svg = SVG::load(assetPlugin(plugin, "res/components/OutPortVal.svg"));
 		background->wrap();
 		box.size = background->box.size;
 	}
 };
-struct ModInPort : SVGPort {
-	ModInPort() {
-		background->svg = SVG::load(assetPlugin(plugin, "res/components/ModInPort.svg"));
+struct InPortBin : SVGPort {
+	InPortBin() {
+		background->svg = SVG::load(assetPlugin(plugin, "res/components/InPortBin.svg"));
+		background->wrap();
+		box.size = background->box.size;
+	}
+};
+struct InPortAud : SVGPort {
+	InPortAud() {
+		background->svg = SVG::load(assetPlugin(plugin, "res/components/InPortAud.svg"));
+		background->wrap();
+		box.size = background->box.size;
+	}
+};
+struct InPortCtrl : SVGPort {
+	InPortCtrl() {
+		background->svg = SVG::load(assetPlugin(plugin, "res/components/InPortCtrl.svg"));
 		background->wrap();
 		box.size = background->box.size;
 	}

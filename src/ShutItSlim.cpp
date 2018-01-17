@@ -81,8 +81,8 @@ struct ShutItSlim : Module {
 
 void ShutItSlim::step() {
 //  do stuff
-	float out = 0;
-	float triggerIn = 0;
+	float out = 0.0f;
+	float triggerIn = 0.0f;
 	for (int i = 0; i < CHANCOUNT; i++) {
 
 		if (inputs[A_TRIG + i].active)
@@ -97,8 +97,8 @@ void ShutItSlim::step() {
 		if (inputs[A_IN + i].active)
 			out = inputs[A_IN + i].value;
 
-		outputs[A_OUT + i].value = muteState[i] ? 0.0 : out;
-		lights[A_STATE + 2*i].value = muteState[i] ? 0 : 0.5;
+		outputs[A_OUT + i].value = muteState[i] ? 0.0f : out;
+		lights[A_STATE + 2*i].value = muteState[i] ? 0 : 1;
 		lights[A_STATE+1 + 2*i].value = muteState[i] ? 1 : 0;
 	}
 }
@@ -143,9 +143,9 @@ ShutItSlimWidget::ShutItSlimWidget() {
 		float top = 86;
 		
 		addParam(createParam<EmptyButton>(Vec(2,20 + top*i),module, ShutItSlim::A_MUTE + i, 0, 1 , 0));
-		addInput(createInput<ModInPort>(Vec(4,22 + top*i),module, ShutItSlim::A_TRIG + i));
+		addInput(createInput<InPortBin>(Vec(4,22 + top*i),module, ShutItSlim::A_TRIG + i));
 		addChild(createLight<EightPixLight<GreenRedLight>>(Vec(11,46 + top*i), module, ShutItSlim::A_STATE + 2*i));
-		addInput(createInput<InPort>(Vec(4,55 + top*i),module, ShutItSlim::A_IN + i));
-		addOutput(createOutput<OutPort>(Vec(4,78 + top*i),module, ShutItSlim::A_OUT + i));
+		addInput(createInput<InPortAud>(Vec(4,55 + top*i),module, ShutItSlim::A_IN + i));
+		addOutput(createOutput<OutPortVal>(Vec(4,78 + top*i),module, ShutItSlim::A_OUT + i));
 	}
 }

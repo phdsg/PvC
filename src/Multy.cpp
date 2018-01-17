@@ -132,10 +132,10 @@ MultyWidget::MultyWidget() {
 	// OUTPUTS, BUTTONS, LIGHTS
 	int y_pad = 51;
 	for (int i = 0; i < MULTCOUNT ; i++) {  
-    	addOutput(createOutput<OutPort>(Vec(4, 22 + y_pad * i), module, Multy::MULT_OUTPUT + i));
+    	addOutput(createOutput<OutPortVal>(Vec(4, 22 + y_pad * i), module, Multy::MULT_OUTPUT + i));
     	addParam(createParam<SquareButton>(Vec(6, 47 + y_pad * i), module, Multy::MUTE_PARAM + i, 0.0, 1.0, 0.0));
     	addChild(createLight<MuteLight<WhiteLight>>(Vec(9, 50 + y_pad * i), module, Multy::MUTEOFF_LIGHT + i));
   	}
 	// INPUT
-	addInput(createInput<InPort>(Vec(4, box.size.y - 44), module, Multy::MULT_INPUT));
+	addInput(createInput<InPortAud>(Vec(4, box.size.y - 44), module, Multy::MULT_INPUT));
 }

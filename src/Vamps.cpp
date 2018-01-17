@@ -85,23 +85,23 @@ VampsWidget::VampsWidget() {
 	
 	// channel one
 	addParam(createParam<PvCKnob>(Vec(4, 22), module, Vamps::LEVEL1_PARAM, 0.0, 1.0, 0.5));
-	addInput(createInput<ModInPort>(Vec(4, 44), module, Vamps::A_EXP_CV));
-	addInput(createInput<ModInPort>(Vec(4, 66), module, Vamps::A_LIN_CV));
+	addInput(createInput<InPortCtrl>(Vec(4, 44), module, Vamps::A_EXP_CV));
+	addInput(createInput<InPortCtrl>(Vec(4, 66), module, Vamps::A_LIN_CV));
 
-	addInput(createInput<InPort>(Vec(4, 92), module, Vamps::A_IN_L));
-	addOutput(createOutput<OutPort>(Vec(4, 115), module, Vamps::A_OUT_L));
+	addInput(createInput<InPortAud>(Vec(4, 92), module, Vamps::A_IN_L));
+	addOutput(createOutput<OutPortVal>(Vec(4, 115), module, Vamps::A_OUT_L));
 
-	addInput(createInput<InPort>(Vec(4, 139), module, Vamps::A_IN_R));
-	addOutput(createOutput<OutPort>(Vec(4, 162), module, Vamps::A_OUT_R));
+	addInput(createInput<InPortAud>(Vec(4, 139), module, Vamps::A_IN_R));
+	addOutput(createOutput<OutPortVal>(Vec(4, 162), module, Vamps::A_OUT_R));
 
 	//channel two
 	addParam(createParam<PvCKnob>(Vec(4, 22 + 174), module, Vamps::LEVEL2_PARAM, 0.0, 1.0, 0.5));
-	addInput(createInput<ModInPort>(Vec(4, 44 + 174), module, Vamps::B_EXP_CV));
-	addInput(createInput<ModInPort>(Vec(4, 66 + 174), module, Vamps::B_LIN_CV));
+	addInput(createInput<InPortCtrl>(Vec(4, 44 + 174), module, Vamps::B_EXP_CV));
+	addInput(createInput<InPortCtrl>(Vec(4, 66 + 174), module, Vamps::B_LIN_CV));
 
-	addInput(createInput<InPort>(Vec(4, 92 + 174), module, Vamps::B_IN_L));
-	addOutput(createOutput<OutPort>(Vec(4, 115 + 174), module, Vamps::B_OUT_L));
+	addInput(createInput<InPortAud>(Vec(4, 92 + 174), module, Vamps::B_IN_L));
+	addOutput(createOutput<OutPortVal>(Vec(4, 115 + 174), module, Vamps::B_OUT_L));
 
-	addInput(createInput<InPort>(Vec(4, 139 + 174), module, Vamps::B_IN_R));
-	addOutput(createOutput<OutPort>(Vec(4, 162 + 174), module, Vamps::B_OUT_R));
+	addInput(createInput<InPortAud>(Vec(4, 139 + 174), module, Vamps::B_IN_R));
+	addOutput(createOutput<OutPortVal>(Vec(4, 162 + 174), module, Vamps::B_OUT_R));
 }

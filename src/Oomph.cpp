@@ -83,7 +83,7 @@ OomphWidget::OomphWidget() {
 
 	// big fat fader until space is needed
 	addParam(createParam<PvCFader>(Vec(7, 22), module, Oomph::AMOUNT_PARAM, 0.0f, 1.0f, 0.0f));
-	addInput(createInput<ModInPort>(Vec(4, 272), module, Oomph::MOD_IN));
-	addOutput(createOutput<OutPort>(Vec(4, 312), module, Oomph::AUDIO_OUT));
-	addInput(createInput<InPort>(Vec(4, 336), module, Oomph::AUDIO_IN));
+	addInput(createInput<InPortCtrl>(Vec(4, 272), module, Oomph::MOD_IN));
+	addOutput(createOutput<OutPortVal>(Vec(4, 312), module, Oomph::AUDIO_OUT));
+	addInput(createInput<InPortAud>(Vec(4, 336), module, Oomph::AUDIO_IN));
 }

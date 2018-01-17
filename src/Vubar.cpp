@@ -150,7 +150,7 @@ VubarWidget::VubarWidget(){
 	// dB interval toggle 
 	addParam(createParam<RangeToggle>(Vec(7, 24),module,Vubar::RANGE_PARAM, 1, 4, 2));
 	// INPUT
-	addInput(createInput<InPort>(Vec(4, 336), module, Vubar::METER_INPUT));
+	addInput(createInput<InPortAud>(Vec(4, 336), module, Vubar::METER_INPUT));
 	//thru out
-	addOutput(createOutput<OutPort>(Vec(4,312), module, Vubar::METER_THRU_OUT));
+	addOutput(createOutput<OutPortVal>(Vec(4,312), module, Vubar::METER_THRU_OUT));
 }

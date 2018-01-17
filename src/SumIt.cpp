@@ -79,9 +79,9 @@ SumItWidget::SumItWidget() {
 	addChild(createScrew<ScrewHead4>(Vec(box.size.x - 15, 365)));
 	// inputs
 	for (int i = 0; i < 12; i++) {
-		addInput(createInput<InPort>(Vec(4,22 + 24*i), module, SumIt::INPUT + i));
+		addInput(createInput<InPortAud>(Vec(4,22 + 24*i), module, SumIt::INPUT + i));
 	}
 	// gain and out
 	addParam(createParam<PvCKnob>(Vec(4,24 + 24*12), module, SumIt::VOLUME, 0.0f,2.0f,1.0f));
-	addOutput(createOutput<OutPort>(Vec(4,24 + 24*13), module, SumIt::OUTPUT));
+	addOutput(createOutput<OutPortVal>(Vec(4,24 + 24*13), module, SumIt::OUTPUT));
 }
