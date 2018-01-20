@@ -1,4 +1,4 @@
-[![](https://img.shields.io/badge/version-0.5.8-brightgreen.svg)](https://github.com/phdsg/PvC/releases/tag/0.5.8)
+[![](https://img.shields.io/badge/version-0.5.7-brightgreen.svg)](https://github.com/phdsg/PvC/releases/tag/0.5.7)
 
 ... is a set of [VCVRack](https://www.vcvrack.com) modules created mainly for my own use.
 Most are modified and/or slimmified versions of others or just simple tools/toys
