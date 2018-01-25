@@ -11,22 +11,25 @@ void init(rack::Plugin *p) {
 #ifdef VERSION
 	p->version = TOSTRING(VERSION);
 #else
-    p->version = "0.5.8";
+    p->version = "dev";
 #endif
 	p->website = "https://phdsg.github.io/PvC/";
 	p->manual = "https://phdsg.github.io/PvC/";
 	// For each module, specify the ModuleWidget
-	p->addModel(createModel<BangDaButtonWidget>("PvC", "BangDaButton", "BangDaButton", CONTROLLER_TAG, SWITCH_TAG, UTILITY_TAG));
-	p->addModel(createModel<CompairWidget>("PvC", "Compair", "Compair", LOGIC_TAG, SEQUENCER_TAG, RING_MODULATOR_TAG, DIGITAL_TAG, EFFECT_TAG, DUAL_TAG));
-	p->addModel(createModel<MultyWidget>("PvC", "Multy", "Multy", MULTIPLE_TAG, SWITCH_TAG, UTILITY_TAG));
+	p->addModel(createModel<BangDaButtonWidget>("PvC", "BangDaButton", "BangDaButton", CONTROLLER_TAG, SWITCH_TAG));
+	p->addModel(createModel<CompairWidget>("PvC", "Compair", "Compair", LOGIC_TAG, SEQUENCER_TAG, DIGITAL_TAG, EFFECT_TAG, DUAL_TAG));
+	p->addModel(createModel<GeighthsWidget>("PvC", "Geighths", "Geighths", SEQUENCER_TAG, SWITCH_TAG));
+	p->addModel(createModel<MultyWidget>("PvC", "Multy", "Multy", MULTIPLE_TAG, SWITCH_TAG));
 	p->addModel(createModel<OomphWidget>("PvC", "Oomph", "Oomph", WAVESHAPER_TAG, DISTORTION_TAG, EFFECT_TAG, DYNAMICS_TAG));
-	p->addModel(createModel<ShutItWidget>("PvC", "ShutIt", "ShutIt", SWITCH_TAG, MULTIPLE_TAG, UTILITY_TAG));
-	p->addModel(createModel<ShutItSlimWidget>("PvC", "ShutItSlim", "ShutItSlim", SWITCH_TAG, MULTIPLE_TAG, UTILITY_TAG));
-	p->addModel(createModel<ShutItXLWidget>("PvC", "ShutItXL", "ShutItXL", SWITCH_TAG, MULTIPLE_TAG, UTILITY_TAG));
+	p->addModel(createModel<ShutItWidget>("PvC", "ShutIt", "ShutIt", SWITCH_TAG, MULTIPLE_TAG));
+	p->addModel(createModel<ShutItSlimWidget>("PvC", "ShutItSlim", "ShutItSlim", SWITCH_TAG, MULTIPLE_TAG, QUAD_TAG));
+	p->addModel(createModel<ShutItXLWidget>("PvC", "ShutItXL", "ShutItXL", SWITCH_TAG, MULTIPLE_TAG));
 	p->addModel(createModel<SlimSeqWidget>("PvC", "SlimSeq", "SlimSeq", SWITCH_TAG, SEQUENCER_TAG));
-	p->addModel(createModel<SumItWidget>("PvC", "SumIt", "SumIt", MIXER_TAG, UTILITY_TAG));
+	p->addModel(createModel<SumItWidget>("PvC", "SumIt", "SumIt", MIXER_TAG));
+	p->addModel(createModel<TaHaSaHWidget>("PvC", "TaHaSaH", "TaHaSaH", SAMPLE_AND_HOLD_TAG, DUAL_TAG));
 	p->addModel(createModel<VampsWidget>("PvC", "Vamps", "Vamps", AMPLIFIER_TAG, DUAL_TAG));
-	p->addModel(createModel<VubarWidget>("PvC", "Vubar", "VuBar", VISUAL_TAG, UTILITY_TAG));
+	p->addModel(createModel<VubarWidget>("PvC", "Vubar", "VuBar", VISUAL_TAG));
+	
 
 
 	

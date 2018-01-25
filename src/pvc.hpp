@@ -12,6 +12,9 @@ struct CompairWidget : ModuleWidget {
 	CompairWidget();
 	Menu *createContextMenu() override;
 };
+struct GeighthsWidget : ModuleWidget {
+	GeighthsWidget();
+};
 struct MultyWidget : ModuleWidget {
 	MultyWidget();
 };
@@ -33,12 +36,16 @@ struct SlimSeqWidget : ModuleWidget {
 struct SumItWidget : ModuleWidget {
 	SumItWidget();
 };
+struct TaHaSaHWidget : ModuleWidget {
+	TaHaSaHWidget();
+};
 struct VampsWidget : ModuleWidget {
 	VampsWidget();
 };
 struct VubarWidget : ModuleWidget {
 	VubarWidget();
 };
+
 
 
 // shared custom components

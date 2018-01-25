@@ -7,8 +7,8 @@ VERSION = 0.5.8
 # CXXFLAGS +=
 
 FLAGS +=
-CFLAGS += -O3 -std=c99
-CXXFLAGS += -O3
+CFLAGS +=
+CXXFLAGS +=
 
 # Careful about linking to libraries, since you can't assume much about the user's environment and library search path.
 # Static libraries are fine.

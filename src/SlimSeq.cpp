@@ -105,8 +105,8 @@ struct SlimSeq : Module {
 
 
 void SlimSeq::step() {
-	float out = 0.0f;
-
+	float input = inputs[STEP1_IN+currentPos].normalize(5.0f) * params[STEP1_KNOB+currentPos].value;
+	
 	isRunning = (isHold) ? false : inputs[CLOCK_IN].active;
 	// clocked
 	if(isRunning) {
@@ -163,19 +163,18 @@ void SlimSeq::step() {
 	// loop the counter
 	while ( counterPos < 0 )
 		counterPos += STEPCOUNT;
-	while ( counterPos >= STEPCOUNT )
+	while ( counterPos > (STEPCOUNT-1) )
 		counterPos -= STEPCOUNT;
 
 	// loop the current
 	while ( currentPos < 0 )
 		currentPos += STEPCOUNT;
-	while ( currentPos >= STEPCOUNT )
+	while ( currentPos > (STEPCOUNT-1) )
 		currentPos -= STEPCOUNT;
 
 	
 	// calc out
-	out = inputs[STEP1_IN+currentPos].normalize(5.0f) * params[STEP1_KNOB+currentPos].value;
-	outputs[OUT].value = clampf(out * params[OUT_KNOB].value, -10.0f, 10.0f);
+	outputs[OUT].value = clampf(input * params[OUT_KNOB].value, -10.0f, 10.0f);
 
 	// lights
 		// direction
@@ -189,6 +188,7 @@ void SlimSeq::step() {
 		// out
 	lights[OUT_POS_LED].value = (outputs[OUT].value < 0) ? -outputs[OUT].value*0.2f : 0.0f;
 	lights[OUT_NEG_LED].value = (outputs[OUT].value > 0) ?  outputs[OUT].value*0.2f : 0.0f;
+
 };
 
 template <typename BASE>
