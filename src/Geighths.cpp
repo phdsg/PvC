@@ -11,6 +11,7 @@ PLANS:
 	- option to use 8bit conversion to break up signal
 	- internal clock (maybe)
 	- random/stepped mode(s) with no cvIN but clockIN
+	- trigger sum bus
 
 */////////////////////////////////////////////////////////////////////////////
 
@@ -89,19 +90,6 @@ void Geighths::step() {
 	}
 }
 
-
-template <typename BASE>
-struct KnobLight : BASE {
-	KnobLight() {
-		this->box.size = Vec(22, 22);
-	}
-};
-struct PvCKnobT : PvCKnob {
-	PvCKnobT() {
-		setSVG(SVG::load(assetPlugin(plugin, "res/components/PvCKnobT.svg")));
-	}
-};
-
 GeighthsWidget::GeighthsWidget() {
 	Geighths *module = new Geighths();
 	setModule(module);
@@ -110,7 +98,7 @@ GeighthsWidget::GeighthsWidget() {
 	{
 		SVGPanel *panel = new SVGPanel();
 		panel->box.size = box.size;
-		panel->setBackground(SVG::load(assetPlugin(plugin, "res/panels/panel4HE.svg")));
+		panel->setBackground(SVG::load(assetPlugin(plugin, "res/panels/Geighths.svg")));
 		addChild(panel);
 	}
 	// screws
@@ -119,16 +107,16 @@ GeighthsWidget::GeighthsWidget() {
 	addChild(createScrew<ScrewHead3>(Vec(0, 365)));
 	addChild(createScrew<ScrewHead4>(Vec(box.size.x - 15, 365)));
 
-	addInput(createInput<InPortAud>(Vec(6,22),module,Geighths::CV_IN));
-	addParam(createParam<PvCKnob>(Vec(32, 22),module,Geighths::INPUT_GAIN , -2.0f, 2.0f, 1.0f));
-	addParam(createParam<PvCKnob>(Vec(32, 46),module,Geighths::INPUT_OFFSET, -5.0f, 5.0f, 0.0f));
+	addInput(createInput<InPortAud>(Vec(4,22),module,Geighths::CV_IN));
+	addParam(createParam<PvCKnob>(Vec(34, 22),module,Geighths::INPUT_GAIN , -2.0f, 2.0f, 1.0f));
+	addParam(createParam<PvCKnob>(Vec(34, 58),module,Geighths::INPUT_OFFSET, -10.0f, 10.0f, 0.0f));
 
-	addInput(createInput<InPortBin>(Vec(6,58),module,Geighths::CLOCK_IN));
+	addInput(createInput<InPortBin>(Vec(4,84),module,Geighths::CLOCK_IN));
 
 	for (int i = 0; i < 8; i++)
 	{
-		addChild(createLight<KnobLight<OrangeLight>>(Vec(8,336 - 34*i),module,Geighths::GATE1_LIGHT + i));
-		addParam(createParam<PvCKnobT>(Vec(8, 336 - 34*i),module,Geighths::GATE1_LENGTH + i, 0.002, 2.0, 0.05));
-		addOutput(createOutput<OutPortBin>(Vec(30, 326 - 34*i),module,Geighths::GATE1_OUT + i));
+		addChild(createLight<PvCBigLED<WhiteLight>>(Vec(4,336 - 28*i),module,Geighths::GATE1_LIGHT + i));
+		addParam(createParam<PvCLEDKnob>(Vec(4, 336 - 28*i),module,Geighths::GATE1_LENGTH + i, 0.002f, 2.0f, 0.025f));
+		addOutput(createOutput<OutPortBin>(Vec(34, 336 - 28*i),module,Geighths::GATE1_OUT + i));
 	}
 }

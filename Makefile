@@ -23,7 +23,7 @@ DISTRIBUTABLES += $(wildcard LICENSE*) res
 # Must include the VCV plugin Makefile framework
 include ../../plugin.mk
 
-
+# sha256sum dist/$(SLUG)-$(VERSION)-$(ARCH).zip
 # Convenience target for including files in the distributable release
 #.PHONY: dist
 #dist: all
@@ -36,4 +36,3 @@ include ../../plugin.mk
 #	cp -R res dist/$(SLUG)/
 #	cp -R example-patches dist/$(SLUG)/
 #	cd dist && zip -5 -r $(SLUG)-$(VERSION)-$(ARCH).zip $(SLUG)
-

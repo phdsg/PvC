@@ -8,24 +8,21 @@ extern Plugin *plugin;
 struct BangDaButtonWidget : ModuleWidget {
 	BangDaButtonWidget();
 };
+// struct BitSHWidget : ModuleWidget {
+// 	BitSHWidget();
+// };
 struct CompairWidget : ModuleWidget {
 	CompairWidget();
 	Menu *createContextMenu() override;
 };
+struct CoSuOfWidget : ModuleWidget {
+	CoSuOfWidget();
+};
 struct GeighthsWidget : ModuleWidget {
 	GeighthsWidget();
 };
-struct MultyWidget : ModuleWidget {
-	MultyWidget();
-};
-struct OomphWidget : ModuleWidget {
-	OomphWidget();
-};
 struct ShutItWidget : ModuleWidget {
 	ShutItWidget();
-};
-struct ShutItSlimWidget : ModuleWidget {
-	ShutItSlimWidget();
 };
 struct ShutItXLWidget : ModuleWidget {
 	ShutItXLWidget();
@@ -36,8 +33,8 @@ struct SlimSeqWidget : ModuleWidget {
 struct SumItWidget : ModuleWidget {
 	SumItWidget();
 };
-struct TaHaSaHWidget : ModuleWidget {
-	TaHaSaHWidget();
+struct TaHaSaHaNWidget : ModuleWidget {
+	TaHaSaHaNWidget();
 };
 struct VampsWidget : ModuleWidget {
 	VampsWidget();
@@ -45,7 +42,9 @@ struct VampsWidget : ModuleWidget {
 struct VubarWidget : ModuleWidget {
 	VubarWidget();
 };
-
+struct PvCBlankWidget : ModuleWidget {
+	PvCBlankWidget();
+};
 
 
 // shared custom components
@@ -96,6 +95,11 @@ struct PvCKnob : RoundKnob {
 		box.size = Vec(22,22);
 	}
 };
+struct PvCLEDKnob : PvCKnob {
+	PvCLEDKnob() {
+		setSVG(SVG::load(assetPlugin(plugin, "res/components/PvCKnobT.svg")));
+	}
+};
 struct PvCSnapKnob : PvCKnob {
 	PvCSnapKnob() {
 		snap = true;
@@ -116,6 +120,14 @@ struct PurpleLight : ModuleLightWidget {
 struct CyanLight : ModuleLightWidget {
 	CyanLight() { addBaseColor(COLOR_CYAN);	}
 };
+
+template <typename BASE>
+struct PvCBigLED : BASE {
+	PvCBigLED() {
+		this->box.size = Vec(22, 22);
+	}
+};
+
 
 /// custom screwheads
 

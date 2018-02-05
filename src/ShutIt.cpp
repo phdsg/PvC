@@ -1,7 +1,7 @@
 /*
 ShutIt
 
-8 channel mute gate switch multiple
+4 channel mute gate switch multiple
 
 - invisible manual mute triggers around each port group
 - inputs normalized to last connected above, so also works as a flexible mult
@@ -14,7 +14,7 @@ ShutIt
 
 #include "dsp/digital.hpp"
 
-#define CHANCOUNT 8
+#define CHANCOUNT 4
 
 struct ShutIt : Module {
 	enum ParamIds {
@@ -102,44 +102,49 @@ void ShutIt::step() {
 		lights[A_STATE+1 + 2*i].value = muteState[i] ? 1 : 0;
 	}
 }
-
-template <typename BASE>
- struct SixPixLight : BASE {
- 	SixPixLight() {
- 		this->box.size = Vec(6, 6);
- 	}
- };
-// ugh
- struct EmptyButton : SVGSwitch, MomentarySwitch {
+struct EmptyButton : SVGSwitch, MomentarySwitch {
 	EmptyButton() {
 		addFrame(SVG::load(assetPlugin(plugin, "res/components/empty.svg")));
-		box.size = Vec(56,40);
+		box.size = Vec(26,82);
 	}
+};
+struct WhiteRedLight : ModuleLightWidget {
+	WhiteRedLight() {
+		addBaseColor(COLOR_WHITE);
+		addBaseColor(COLOR_RED);
+	}
+};
+
+template <typename BASE>
+struct FivePixLight : BASE {
+ 	FivePixLight() {
+ 		this->box.size = Vec(5,5);
+ 	}
 };
 
 ShutItWidget::ShutItWidget() {
 	ShutIt *module = new ShutIt();
 	setModule(module);
-	box.size = Vec(15*4, 380);
+	box.size = Vec(15*2, 380);
 	{
 		SVGPanel *panel = new SVGPanel();
 		panel->box.size = box.size;
-		panel->setBackground(SVG::load(assetPlugin(plugin, "res/panels/panel4HEocta.svg")));
+		panel->setBackground(SVG::load(assetPlugin(plugin, "res/panels/panel2HEquad.svg")));
 		addChild(panel);
 	}
 	// screws
-	addChild(createScrew<ScrewHead1>(Vec(0, 0)));
+	//addChild(createScrew<ScrewHead1>(Vec(0, 0)));
 	addChild(createScrew<ScrewHead2>(Vec(box.size.x - 15, 0)));
 	addChild(createScrew<ScrewHead3>(Vec(0, 365)));
-	addChild(createScrew<ScrewHead4>(Vec(box.size.x - 15, 365)));
+	//addChild(createScrew<ScrewHead4>(Vec(box.size.x - 15, 365)));
 	// channels
 	for (int i = 0; i < CHANCOUNT; i++) {
-		float top = 42.25;
-
-		addChild(createLight<SixPixLight<GreenRedLight>>(Vec(27,27 + top*i), module, ShutIt::A_STATE + 2*i));
-		addParam(createParam<EmptyButton>(Vec(2,22 + top*i),module, ShutIt::A_MUTE + i, 0, 1 , 0));
-		addInput(createInput<InPortBin>(Vec(19,39 + top*i),module, ShutIt::A_TRIG + i));
-		addInput(createInput<InPortAud>(Vec(4,22 + top*i),module, ShutIt::A_IN + i));
-		addOutput(createOutput<OutPortVal>(Vec(34,22 + top*i),module, ShutIt::A_OUT + i));
+		float top = 86;
+		
+		addParam(createParam<EmptyButton>(Vec(2,20 + top*i),module, ShutIt::A_MUTE + i, 0, 1 , 0));
+		addInput(createInput<InPortBin>(Vec(4,22 + top*i),module, ShutIt::A_TRIG + i));
+		addChild(createLight<FivePixLight<WhiteRedLight>>(Vec(12.5,47 + top*i), module, ShutIt::A_STATE + 2*i));
+		addInput(createInput<InPortAud>(Vec(4,55 + top*i),module, ShutIt::A_IN + i));
+		addOutput(createOutput<OutPortVal>(Vec(4,78 + top*i),module, ShutIt::A_OUT + i));
 	}
 }

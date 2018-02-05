@@ -103,18 +103,7 @@ void ShutItXL::step() {
 	}
 }
 
-template <typename BASE>
- struct TenPixLight : BASE {
- 	TenPixLight() {
- 		this->box.size = Vec(10.5, 10.5);
- 	}
- };
-struct BlueRedLight : ModuleLightWidget {
-	BlueRedLight() {
-		addBaseColor(COLOR_BLUE);
-		addBaseColor(COLOR_RED);
-	}
-};
+
 // ugh
 struct EmptyButton : SVGSwitch, MomentarySwitch {
 	EmptyButton() {
@@ -122,6 +111,19 @@ struct EmptyButton : SVGSwitch, MomentarySwitch {
 		box.size = Vec(86,26);
 	}
 };
+struct WhiteRedLight : ModuleLightWidget {
+	WhiteRedLight() {
+		addBaseColor(COLOR_WHITE);
+		addBaseColor(COLOR_RED);
+	}
+};
+
+template <typename BASE>
+ struct FivePixLight : BASE {
+ 	FivePixLight() {
+ 		this->box.size = Vec(5, 5);
+ 	}
+ };
 
 ShutItXLWidget::ShutItXLWidget() {
 	ShutItXL *module = new ShutItXL();
@@ -135,8 +137,8 @@ ShutItXLWidget::ShutItXLWidget() {
 	}
 	// screws
 	addChild(createScrew<ScrewHead1>(Vec(15, 0)));
-	addChild(createScrew<ScrewHead4>(Vec(box.size.x - 30, 0)));
-	addChild(createScrew<ScrewHead2>(Vec(15, 365)));
+	//addChild(createScrew<ScrewHead4>(Vec(box.size.x - 30, 0)));
+	//addChild(createScrew<ScrewHead2>(Vec(15, 365)));
 	addChild(createScrew<ScrewHead3>(Vec(box.size.x - 30, 365)));
 	// channels
 	for (int i = 0; i < CHANCOUNT; i++) {
@@ -145,7 +147,7 @@ ShutItXLWidget::ShutItXLWidget() {
 		addParam(createParam<EmptyButton>(Vec(2,20 + top*i),module, ShutItXL::A_MUTE + i, 0, 1 , 0));
 		addInput(createInput<InPortAud>(Vec(4,24 + top*i),module, ShutItXL::A_IN + i));
 		addInput(createInput<InPortBin>(Vec(28,24 + top*i),module, ShutItXL::A_TRIG + i));
-		addChild(createLight<TenPixLight<GreenRedLight>>(Vec(52,30 + top*i), module, ShutItXL::A_STATE + 2*i));
+		addChild(createLight<FivePixLight<WhiteRedLight>>(Vec(54.5,32.5 + top*i), module, ShutItXL::A_STATE + 2*i));
 		addOutput(createOutput<OutPortVal>(Vec(64,24 + top*i),module, ShutItXL::A_OUT + i));
 	}
 }

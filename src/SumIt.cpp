@@ -42,7 +42,7 @@ struct SumIt : Module {
 
 void SumIt::step() {
 	
-	float mix = 0;
+	float mix = 0.0f;
 	int count = 0;
 	
 	// sum and count inputs
@@ -73,9 +73,9 @@ SumItWidget::SumItWidget() {
 		addChild(panel);
 	}
 	// screws
-	addChild(createScrew<ScrewHead1>(Vec(0, 0)));
+	// addChild(createScrew<ScrewHead1>(Vec(0, 0)));
 	addChild(createScrew<ScrewHead2>(Vec(box.size.x - 15, 0)));
-	addChild(createScrew<ScrewHead3>(Vec(0, 365)));
+	// addChild(createScrew<ScrewHead3>(Vec(0, 365)));
 	addChild(createScrew<ScrewHead4>(Vec(box.size.x - 15, 365)));
 	// inputs
 	for (int i = 0; i < 12; i++) {

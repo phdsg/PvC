@@ -127,9 +127,9 @@ VubarWidget::VubarWidget(){
 	}
 	// SCREWS
 	addChild(createScrew<ScrewHead1>(Vec(0, 0)));
-	addChild(createScrew<ScrewHead2>(Vec(box.size.x - 15, 0)));
+	//addChild(createScrew<ScrewHead2>(Vec(box.size.x - 15, 0)));
 	addChild(createScrew<ScrewHead3>(Vec(0, 365)));
-	addChild(createScrew<ScrewHead4>(Vec(box.size.x - 15, 365)));
+	//addChild(createScrew<ScrewHead4>(Vec(box.size.x - 15, 365)));
 
 	// LEDs
 	addChild(createLight<MeterLight<VuLED1>>	(Vec(5, 22 + 22 * 0), module, Vubar::METER_LIGHT + 0));

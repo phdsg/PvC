@@ -9,9 +9,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="14"
-   height="14"
-   viewBox="0 0 3.7041666 3.7041664"
+   width="22"
+   height="22"
+   viewBox="0 0 5.8208332 5.8208329"
    version="1.1"
    id="svg7595"
    inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
@@ -33,9 +33,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="34.885608"
-     inkscape:cx="7.3053699"
-     inkscape:cy="2.6765902"
+     inkscape:zoom="17.442804"
+     inkscape:cx="23.375974"
+     inkscape:cy="12.800733"
      inkscape:document-units="mm"
      inkscape:current-layer="g31387"
      showgrid="false"
@@ -65,7 +65,7 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-46.755712,-68.89137)">
+     transform="translate(-46.755712,-66.774703)">
     <g
        transform="matrix(0.26458333,0,0,0.26458333,-271.16296,-21.64884)"
        clip-path="url(#clip444)"
@@ -76,8 +76,8 @@
          id="rect819"
          width="13.432098"
          height="13.432099"
-         x="1201.8663"
-         y="342.48318"
+         x="1205.8663"
+         y="338.48318"
          rx="7"
          ry="7" />
     </g>

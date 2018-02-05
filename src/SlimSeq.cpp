@@ -5,15 +5,17 @@
 16 step seq (based on m.lueders' sequential switch)
 
 TODO:
+
+	-if-bool cleanup
+	-direction/mode lights
+	-mode serialization
+	-adjustable step count
+	-playmodes: ping-pong, one-shot
+	-output slew (portamento)
+	-useful unclocked/held operation
 	-(maybe) momentary control inputs (instead of flips) / optional
 	-(maybe) unipolar/bipolar options
 	-(maybe) gates
-	-loopmodes: ping-pong, one-shot
-	-sequence length control
-	-output slew (portamento)
-	-useful unclocked/held operation
-	-direction/mode lights
-	-mode serialization
 
 */////////////////////////////////////////////////////////////////////////////
 
@@ -128,7 +130,7 @@ void SlimSeq::step() {
 	}
 
 	// playmode triggers & controls
-	if (isRandom) {	
+	if (isRandom) {	// in rnd mode use rev trigger to switch hopper/walker
 		if (reverseTrigger.process(inputs[REVERSE_IN].value)) isHopper  = !isHopper;
 		if (reverseButton.process(params[REVERSE_UI].value)) isHopper = !isHopper;
 	}
@@ -160,7 +162,7 @@ void SlimSeq::step() {
 		}
 	}
 
-	// loop the counter
+	// loop bg counter (to have a good return point when leaving rnd)
 	while ( counterPos < 0 )
 		counterPos += STEPCOUNT;
 	while ( counterPos > (STEPCOUNT-1) )
@@ -178,9 +180,14 @@ void SlimSeq::step() {
 
 	// lights
 		// direction
-	lights[REVERSE_LIGHT].value = isHold ? 1.0f : isRandom ? 0.0f : isReverse ? 1.0f : 0.0f;
-	lights[RNDMODE_LIGHT].value = isHold ? 1.0f : isRandom ? 1.0f : 0.0f;
-	lights[FORWARD_LIGHT].value = isHold ? 1.0f : isRandom ? 0.0f : isReverse ? 0.0f : 1.0f;
+/*					HOLD 	HOP 	WLK 	REV 	FWD
+	REVERSE_LIGHT	1		0		1		1		0
+	RNDMODE_LIGHT	1		1		0		0		0
+	FORWARD_LIGHT	1		0		1		0		1
+*/
+	lights[REVERSE_LIGHT].value = isHold ? 1.0f : isRandom&&isHopper ? 0.0f : isRandom&&!isHopper ? 1.0f : isReverse ? 1.0f : 0.0f;
+	lights[RNDMODE_LIGHT].value = isHold ? 1.0f : isRandom&&isHopper ? 1.0f : isRandom&&!isHopper ? 0.0f : 0.0f;
+	lights[FORWARD_LIGHT].value = isHold ? 1.0f : isRandom&&isHopper ? 0.0f : isRandom&&!isHopper ? 1.0f : isReverse ? 0.0f : 1.0f;
 		// steplights
 	for(int i=0; i<STEPCOUNT; i++) {
 		lights[STEP1_LIGHT+i].value = (i == currentPos) ? 1.0f : (i == resetPos) ? 0.5f:0.0f;
@@ -191,17 +198,6 @@ void SlimSeq::step() {
 
 };
 
-template <typename BASE>
-struct PvCBigLight : BASE {
-	PvCBigLight() {
-		this->box.size = Vec(22, 22);
-	}
-};
-struct PvCKnobT : PvCKnob {
-	PvCKnobT() {
-		setSVG(SVG::load(assetPlugin(plugin, "res/components/PvCKnobT.svg")));
-	}
-};
 struct StepButton : SVGSwitch, MomentarySwitch {
 	StepButton() {
 		addFrame(SVG::load(assetPlugin(plugin, "res/components/empty.svg")));
@@ -235,15 +231,15 @@ SlimSeqWidget::SlimSeqWidget() {
 	for (int i = 0; i < 8; i++)	{
 		int top = 42;
 		// left 16-9
-		addChild(createLight<PvCBigLight<BlueLight>>(Vec(18,42 + top * i),module,SlimSeq::STEP1_LIGHT + STEPCOUNT-1 - i));
-		addParam(createParam<PvCKnobT>(Vec(18,42 + top * i),module,SlimSeq::STEP1_KNOB + STEPCOUNT-1 - i , -1.0f, 1.0f, 0.0f));
+		addChild(createLight<PvCBigLED<BlueLight>>(Vec(18,42 + top * i),module,SlimSeq::STEP1_LIGHT + STEPCOUNT-1 - i));
+		addParam(createParam<PvCLEDKnob>(Vec(18,42 + top * i),module,SlimSeq::STEP1_KNOB + STEPCOUNT-1 - i , -1.0f, 1.0f, 0.0f));
 		addInput(createInput<InPortAud>(Vec(4,22 + top * i),module,SlimSeq::STEP1_IN + + STEPCOUNT-1 - i));
 		addParam(createParam<StepButton>(Vec(29,29 + top * i),module,SlimSeq::STEP1_SEL + STEPCOUNT-1 - i , 0, 1, 0));
 		// right 1-8
 		addParam(createParam<StepButton>(Vec(80,29 + top * i),module,SlimSeq::STEP1_SEL + i , 0, 1, 0));
-		addChild(createLight<PvCBigLight<BlueLight>>(Vec(80,42 + top * i),module,SlimSeq::STEP1_LIGHT + i));
+		addChild(createLight<PvCBigLED<BlueLight>>(Vec(80,42 + top * i),module,SlimSeq::STEP1_LIGHT + i));
 		addInput(createInput<InPortAud>(Vec(94,22 + top * i),module,SlimSeq::STEP1_IN + i));
-		addParam(createParam<PvCKnobT>(Vec(80,42 + top * i),module,SlimSeq::STEP1_KNOB + i, -1.0f, 1.0f, 0.0f));
+		addParam(createParam<PvCLEDKnob>(Vec(80,42 + top * i),module,SlimSeq::STEP1_KNOB + i, -1.0f, 1.0f, 0.0f));
 	}
 	// direction lights
 	addChild(createLight<SmallLight<OrangeLight>>(Vec(49,22),module,SlimSeq::REVERSE_LIGHT));
@@ -261,7 +257,7 @@ SlimSeqWidget::SlimSeqWidget() {
 	addInput(createInput<InPortBin>(Vec(49,216),module,SlimSeq::RESET_IN));
 	addParam(createParam<ControlButton>(Vec(48,238),module,SlimSeq::RESET_UI , 0, 1, 0));
 	// main out
-	addChild(createLight<PvCBigLight<GreenRedLight>>(Vec(49,292),module,SlimSeq::OUT_POS_LED));
-	addParam(createParam<PvCKnobT>(Vec(49,292),module,SlimSeq::OUT_KNOB, -1.0f, 1.0f, 1.0f));
+	addChild(createLight<PvCBigLED<GreenRedLight>>(Vec(49,292),module,SlimSeq::OUT_POS_LED));
+	addParam(createParam<PvCLEDKnob>(Vec(49,292),module,SlimSeq::OUT_KNOB, -1.0f, 1.0f, 1.0f));
 	addOutput(createOutput<OutPortVal>(Vec(49,326),module,SlimSeq::OUT));
 }
