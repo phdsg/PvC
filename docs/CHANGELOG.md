@@ -2,6 +2,44 @@
 
 ##  Changelog
 
+#### [0.5.8](https://github.com/phdsg/PvC/tree/0.5.8)
+##### All Modules
+  - layout changes. still trying a few things...  
+
+##### [NEW] Bang!, da Button
+  - momentary button that fires gates/triggers on press and release events  
+  - also triggers: flip flops and some switches (A or B into Out / In into A or B)  
+
+##### ComPair
+  - half the panel size  
+
+##### [NEW] CoSuOf
+  - comparator, substractor, offsetter based on the functionality of the D-A167  
+
+##### [NEW] Geigths
+  - another sort of comparator (inspired by the bartos flur)
+  - splits a cv into 8 ranges and fires a pulse on the corresponding channel  
+  - pulse length is adjustable, also the input signal can be trimmed and offset  
+  - with trig input present the unit switches into sample and hold mode  
+
+##### Shutters
+  - 8 channel version removed, ShutItSlim is now ShutIt  
+
+##### [NEW] SlimSeq
+  - 16 step sequencer / sequential switch (inspired by tm 8s, code based on m.lueders seq. switch)  
+  
+##### [NEW] TaHaSaHaN
+  - Track and Hold / Sample and Hold / Noise  
+
+##### Vamps
+  - no more dual but still stereo.  
+
+##### [REMOVED] Multy, Oomph
+  - Multy gone for good. r.i.p.  
+  - Oomph (or some kind of distortion) will make a return at some point.  
+
+***
+
 #### [0.5.7](https://github.com/phdsg/PvC/tree/0.5.7)
 ##### ComPair
   - initialization  
