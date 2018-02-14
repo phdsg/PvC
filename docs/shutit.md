@@ -18,7 +18,7 @@ __OPEN__ - unmute all
 
 ### Controls
 _channels_  
-- empty panel area is a transparent button
+panel area around each channel is a transparent button  
 
 ## Changes
 __0.5.8__ - 2HP wider, new inputs to un-/mute/flip all channels  
