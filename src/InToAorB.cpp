@@ -75,8 +75,16 @@ void InToAorB::step() {
 	outputs[GATE_HI_OUT].value = gate * 10.0f;
 	outputs[SIGNAL_LO_OUT].value = !gate * inputs[SIGNAL_IN].value;
 	outputs[GATE_LO_OUT].value = !gate * 10.0f;
+	lights[HI_LED].value = gate;
+	lights[LO_LED].value = !gate;
 }
 
+template <typename BASE>
+ struct FourPixLight : BASE {
+ 	FourPixLight() {
+ 		this->box.size = Vec(4, 4);
+ 	}
+ };
 
 InToAorBWidget::InToAorBWidget() {
 	InToAorB *module = new InToAorB();
@@ -103,9 +111,11 @@ InToAorBWidget::InToAorBWidget() {
 	addInput(createInput<InPortBin>(Vec(4,158),module, InToAorB::FLIP_IN));
 	addInput(createInput<InPortBin>(Vec(4,196),module, InToAorB::GATE_IN));
 
+	addChild(createLight<FourPixLight<WhiteLight>>(Vec(13,243),module, InToAorB::HI_LED));
 	addOutput(createOutput<OutPortVal>(Vec(4,248),module, InToAorB::SIGNAL_HI_OUT));
 	addOutput(createOutput<OutPortBin>(Vec(4,272),module, InToAorB::GATE_HI_OUT));
 
+	addChild(createLight<FourPixLight<WhiteLight>>(Vec(13,307),module, InToAorB::LO_LED));
 	addOutput(createOutput<OutPortVal>(Vec(4,312),module, InToAorB::SIGNAL_LO_OUT));
 	addOutput(createOutput<OutPortBin>(Vec(4,336),module, InToAorB::GATE_LO_OUT));
 }
