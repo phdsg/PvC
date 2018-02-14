@@ -4,14 +4,11 @@ TaHaSaHaN
 
 TrackAndHoldAndSampleAndHoldandNoise
 
-Input signal (random noise if not connected) is fed into a TnH and a SnH.
-While the SnH takes one sample on every clocktrigger and holds it until
-it receives the next trigger, the TnH follows the signal as long as the gate
-is high and as gate goes low holds the last sample until the gate opens again.
-
-the mix knob blends the two signals into one output.
+the mix knob blends SaH and TaH signals into one output.
 left side: SaH
 right side: TaH
+
+TODO: cv handling
 
 */////////////////////////////////////////////////////////////////////////////
 
@@ -57,11 +54,12 @@ struct TaHaSaHaN : Module {
 	float input = 0.0f;
 	float snhOut = 0.0f;
 	float tnhOut = 0.0f;
+	float noise = 0.0f;
 
 };
 
 void TaHaSaHaN::step() {
-	float noise = randomf()*10.0f - 5.0f;
+	noise = randomf()*10.0f - 5.0f;
 
 	if (inputs[TRIGGER].active){
 		input = inputs[SAMPLE].normalize(noise);
@@ -78,7 +76,6 @@ void TaHaSaHaN::step() {
 	float blend = params[BLEND].value;
 	if (inputs[BLEND_CV].active)
 		blend *= clampf(inputs[BLEND_CV].value * 0.1f, 0.0f, 1.0f);
-
 
 	outputs[MIX].value = crossf(snhOut,tnhOut,blend);
 	outputs[SNH].value = snhOut;

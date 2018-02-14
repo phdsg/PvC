@@ -67,7 +67,7 @@ void CoSuOf::step() {
 	if (sumOut > gap) gate = true;
 	if (sumOut <= -gap) gate = false;
 
-	outputs[SUM_OUT].value = sumOut/3.0f;
+	outputs[SUM_OUT].value = sumOut; // TODO:
 	outputs[GATE_OUT].value = gate * 10.0f;
 	outputs[NATE_OUT].value = !gate * 10.0f;
 	
@@ -93,10 +93,10 @@ CoSuOfWidget::CoSuOfWidget() {
 	addChild(createScrew<ScrewHead4>(Vec(box.size.x - 15, 365)));
 
 	addInput(createInput<InPortAud>(Vec(4,22),module,CoSuOf::POS_IN));
-	addParam(createParam<PvCKnob>(Vec(4,48),module,CoSuOf::POS_LVL, 0.0f, 1.0f, 0.5f));
+	addParam(createParam<PvCKnob>(Vec(4,48),module,CoSuOf::POS_LVL, 0.0f, 1.0f, 1.0f));
 
 	addInput(createInput<InPortAud>(Vec(4,90),module,CoSuOf::NEG_IN));
-	addParam(createParam<PvCKnob>(Vec(4,116),module,CoSuOf::NEG_LVL, 0.0f, 1.0f, 0.5f));
+	addParam(createParam<PvCKnob>(Vec(4,116),module,CoSuOf::NEG_LVL, 0.0f, 1.0f, 1.0f));
 
 	addParam(createParam<PvCKnob>(Vec(4,168),module,CoSuOf::OFFSET, -10.0f, 10.0f, 0.0f));
 	addOutput(createOutput<OutPortVal>(Vec(4,208),module,CoSuOf::SUM_OUT));

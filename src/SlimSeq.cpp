@@ -7,10 +7,9 @@
 TODO:
 
 	-if-bool cleanup
-	-direction/mode lights
-	-mode serialization
+	-save modestates and resetpos
 	-adjustable step count
-	-playmodes: ping-pong, one-shot
+	-playmodes: pendulum/ping-pong, one-shot
 	-output slew (portamento)
 	-useful unclocked/held operation
 	-(maybe) momentary control inputs (instead of flips) / optional
@@ -22,6 +21,7 @@ TODO:
 #include "pvc.hpp"
 
 #include "dsp/digital.hpp" // SchmittTrigger PulseGenerator
+#include "dsp/filter.hpp" // SlewLimiter
 
 #define STEPCOUNT 16
 
@@ -84,6 +84,8 @@ struct SlimSeq : Module {
 	bool isReverse = false;
 	bool isHopper = false;
 
+	float stepInput = 0.0f;
+
 	SchmittTrigger clockTrigger, reverseTrigger, randomTrigger, holdTrigger, resetTrigger;
 	SchmittTrigger clockButton, reverseButton, randomButton, holdButton, resetButton;
 	SchmittTrigger posButtons[STEPCOUNT];
@@ -98,7 +100,9 @@ struct SlimSeq : Module {
 		isRandom = false;
 		isReverse = false;
 		isHopper = false;
-		
+
+		stepInput = 0.0f;
+
 		for(int i=0; i<STEPCOUNT; i++){
 			lights[STEP1_LIGHT + i].value = 0.0f;
 		}
@@ -107,7 +111,7 @@ struct SlimSeq : Module {
 
 
 void SlimSeq::step() {
-	float input = inputs[STEP1_IN+currentPos].normalize(5.0f) * params[STEP1_KNOB+currentPos].value;
+	stepInput = inputs[STEP1_IN+currentPos].normalize(5.0f) * params[STEP1_KNOB+currentPos].value;
 	
 	isRunning = (isHold) ? false : inputs[CLOCK_IN].active;
 	// clocked
@@ -174,17 +178,12 @@ void SlimSeq::step() {
 	while ( currentPos > (STEPCOUNT-1) )
 		currentPos -= STEPCOUNT;
 
-	
-	// calc out
-	outputs[OUT].value = clampf(input * params[OUT_KNOB].value, -10.0f, 10.0f);
+
+		// calc out
+	outputs[OUT].value = clampf(stepInput * params[OUT_KNOB].value, -10.0f, 10.0f);
 
 	// lights
 		// direction
-/*					HOLD 	HOP 	WLK 	REV 	FWD
-	REVERSE_LIGHT	1		0		1		1		0
-	RNDMODE_LIGHT	1		1		0		0		0
-	FORWARD_LIGHT	1		0		1		0		1
-*/
 	lights[REVERSE_LIGHT].value = isHold ? 1.0f : isRandom&&isHopper ? 0.0f : isRandom&&!isHopper ? 1.0f : isReverse ? 1.0f : 0.0f;
 	lights[RNDMODE_LIGHT].value = isHold ? 1.0f : isRandom&&isHopper ? 1.0f : isRandom&&!isHopper ? 0.0f : 0.0f;
 	lights[FORWARD_LIGHT].value = isHold ? 1.0f : isRandom&&isHopper ? 0.0f : isRandom&&!isHopper ? 1.0f : isReverse ? 0.0f : 1.0f;

@@ -4,7 +4,7 @@
  a 2 RackUnit stereo mod of Andrew Belt's Fundamental VCA
 
  MAYBE TODO:
- - reduce to one cv in + lin/exp option 
+  - third channel
 
 */////////////////////////////////////////////////////////////////////////////
 
@@ -58,7 +58,6 @@ void Vamps::step() {
 	}
 	outputs[OUT_L].value = left;
 	outputs[OUT_R].value = right;
-	
 }
 
 

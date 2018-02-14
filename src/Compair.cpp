@@ -23,8 +23,7 @@ channel output to the logic section can be inverted.
 all outputs are 0V-5V.
 
 TODO:
- -more sanity and functionality tests!
- -code clean-up, optimization, simplification
+  -code clean-up, optimization, simplification
 
 */////////////////////////////////////////////////////////////////////////////
 
@@ -122,13 +121,13 @@ void Compair::step(){
 	// get inputs and normalize B to A
 	float inputA = inputs[AUDIO_A_IN].value;
 	float inputB = inputs[AUDIO_B_IN].normalize(inputA);
-	
+
 	// get knob values
 	float posA = params[POS_A_PARAM].value;
 	float widthA = params[WIDTH_A_PARAM].value;
 	float posB = params[POS_B_PARAM].value;
 	float widthB = params[WIDTH_B_PARAM].value;;
-	
+
 	// testing bi-polar outputs
 		float highVal = 5.0f;
 		//float lowVal = 0.0f;
@@ -139,18 +138,18 @@ void Compair::step(){
 		posA = (params[POS_A_PARAM].value + inputs[POS_A_IN].value);
 	if (inputs[WIDTH_A_IN].active)
 		widthA = (params[WIDTH_A_PARAM].value + inputs[WIDTH_A_IN].value);
-	
+
 	// compute window A
 	float upperThreshA = posA + widthA*0.5f;
 	float lowerThreshA = posA - widthA*0.5f;
-	
+
 	// check if input A is in window A
 	outA = (inputA <= upperThreshA && inputA >= lowerThreshA) ? true : false;
-		
+
 	// channel B CV inputs to knob values and normalization
 	if (inputs[POS_B_IN].active || inputs[POS_A_IN].active)
 		posB = (params[POS_B_PARAM].value + inputs[POS_B_IN].normalize(inputs[POS_A_IN].value));
-	
+
 	if (inputs[WIDTH_B_IN].active || inputs[WIDTH_B_IN].active)
 		widthB = (params[WIDTH_B_PARAM].value + inputs[WIDTH_B_IN].normalize(inputs[WIDTH_A_IN].value));
 
@@ -159,9 +158,9 @@ void Compair::step(){
 	float lowerThreshB = posB - widthB*0.5f;
 
 	// check if input B is in window B
-	
+
 	outB = (inputB <= upperThreshB && inputB >= lowerThreshB) ? true : false;
-	
+
 	// Gate/Not outputs and lights
 	outputs[GATE_A_OUT].value = outA ? highVal : lowVal;
 	outputs[NOT_A_OUT].value = !outA ? highVal : lowVal;
@@ -174,7 +173,7 @@ void Compair::step(){
 	lights[GATE_B_LED].setBrightness( outB ? 0.75f : (0.25f - clampf( fabs(inputB-posB) * 0.025f, 0.0f, 0.25f) ) );
 	lights[OVER_B_LED].setBrightness( (inputB > upperThreshB) ? (inputB - upperThreshB)*0.1f + 0.25f : 0.0f );
 	lights[BELOW_B_LED].setBrightness( (inputB < lowerThreshB) ? (lowerThreshB - inputB)*0.1f + 0.25f : 0.0f );
-	
+
 	// logic input inverts
 	if (params[INVERT_A_PARAM].value)
 		outA = !outA;
@@ -261,11 +260,11 @@ CompairWidget::CompairWidget(){
 
 	addChild(createLight<LogicLight<CyanLight>>(Vec(13,288),module,Compair::AND_LED));
 	addOutput(createOutput<OutPortBin>(Vec(4,294),module,Compair::AND_OUT));
-	
+
 	addChild(createLight<LogicLight<YellowLight>>(Vec(13,330),module,Compair::XOR_LED));
 	addOutput(createOutput<OutPortBin>(Vec(4,336),module,Compair::XOR_OUT));
-	
-	
+
+
 	// B Side
 	addInput(createInput<InPortAud>(Vec(34,22),module,Compair::AUDIO_B_IN));
 
@@ -283,13 +282,13 @@ CompairWidget::CompairWidget(){
 
 	addOutput(createOutput<OutPortBin>(Vec(34,226),module,Compair::GATE_B_OUT));
 	addOutput(createOutput<OutPortBin>(Vec(34,250),module,Compair::NOT_B_OUT));
-	
+
 	addChild(createLight<LogicLight<OrangeLight>>(Vec(43,288),module,Compair::OR_LED));
 	addOutput(createOutput<OutPortBin>(Vec(34,294),module,Compair::OR_OUT));
-	
+
 	addChild(createLight<LogicLight<GreenLight>>(Vec(43,330),module,Compair::FLIP_LED));
 	addOutput(createOutput<OutPortBin>(Vec(34,336),module,Compair::FLIP_OUT));
-	
+
 }
 
 /*CompairWidget::CompairWidget(){
@@ -320,7 +319,7 @@ CompairWidget::CompairWidget(){
 	addChild(createLight<CompairLight<WhiteLight>>(Vec(8,235),module,Compair::GATE_A_LED));
 	addChild(createLight<CompairLight<RedLight>>(Vec(8,235),module,Compair::OVER_A_LED));
 	addOutput(createOutput<OutPortBin>(Vec(35,278),module,Compair::NOT_A_OUT));
-	
+
 	// B
 	addInput(createInput<InPortAud>(Vec(63,234),module,Compair::AUDIO_B_IN));
 	addParam(createParam<PvCKnob>(Vec(66,60), module, Compair::POS_B_PARAM, -5.0f, 5.0f, 0.0f));

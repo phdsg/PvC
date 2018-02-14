@@ -36,14 +36,16 @@ struct SumIt : Module {
 	SumIt() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {}
 
 	void step() override;
+
+	float mix = 0.0f;
+	int count = 0;
 };
 
 
 
 void SumIt::step() {
-	
-	float mix = 0.0f;
-	int count = 0;
+	mix = 0.0f;
+	count = 0;
 	
 	// sum and count inputs
 	for (int i = 0; i < 12; i++) {

@@ -59,6 +59,8 @@ struct BangDaButton : Module {
 		DOWN_MUX_IN,
 		DOWN_CH2_IN,
 
+		DA_BUTTON_TRIG,
+
 		NUM_INPUTS
 	};
 	
@@ -86,10 +88,8 @@ struct BangDaButton : Module {
 		NUM_LIGHTS
 	};
 
-	BangDaButton() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {}
-
-	void step() override;
-
+	bool pressed = false;
+	
 	bool flipUp = true;
 	bool flipDn = false;
 
@@ -98,43 +98,49 @@ struct BangDaButton : Module {
 
 	PulseGenerator upPulse;
 	PulseGenerator dnPulse;
+
+	BangDaButton() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {}
+
+	void step() override;
+
 };
 
 void BangDaButton::step() {
-	bool pressed = params[DA_BUTTON].value;
-
+	pressed = params[DA_BUTTON].value;
+	if (inputs[DA_BUTTON_TRIG].active) {
+		pressed = inputs[DA_BUTTON_TRIG].value > 0 ? !pressed : pressed;
+	}
 
 	if (dnFlipTrg.process(pressed)) {	// HOLD
 		flipDn = !flipDn;
-		dnPulse.trigger(0.02);
+		dnPulse.trigger(0.01);
 	}
 	if (upFlipTrg.process(!pressed)){ // RELEASE
 		flipUp = !flipUp;
-		upPulse.trigger(0.02);
+		upPulse.trigger(0.01);
 	}
 
 	
 	// outputs[UP_CH1_OUT].value = pressed ? inputs[UP_CH1_IN].normalize(0.0) : 0.0f;
 	// outputs[UP_CH2_OUT].value = pressed ? 0.0f : inputs[UP_CH2_IN].normalize(0.0);
-	outputs[UP_SW_OUT].value = pressed ? inputs[UP_SW_A_IN].normalize(0.0) : inputs[UP_SW_B_IN].normalize(0.0);
-	outputs[UP_MUX_A_OUT].value = pressed ? inputs[UP_MUX_IN].normalize(0.0) : 0.0;
-	outputs[UP_MUX_B_OUT].value = pressed ? 0.0 : inputs[UP_MUX_IN].normalize(0.0);
+	outputs[UP_SW_OUT].value = pressed ? inputs[UP_SW_A_IN].normalize(0.0f) : inputs[UP_SW_B_IN].normalize(0.0f);
+	outputs[UP_MUX_A_OUT].value = pressed * inputs[UP_MUX_IN].normalize(0.0f);
+	outputs[UP_MUX_B_OUT].value = !pressed * inputs[UP_MUX_IN].normalize(0.0f);
 	
-	// outputs[DOWN_CH1_OUT].value = pressed ? inputs[DOWN_CH1_IN].normalize(0.0) : 0.0f;
-	// outputs[DOWN_CH2_OUT].value = pressed ? 0.0f : inputs[DOWN_CH2_IN].normalize(0.0);
-	outputs[DOWN_SW_OUT].value = pressed ? inputs[DOWN_SW_B_IN].normalize(0.0) : inputs[DOWN_SW_A_IN].normalize(0.0);
-	outputs[DOWN_MUX_A_OUT].value = pressed ? 0.0 : inputs[DOWN_MUX_IN].normalize(0.0);
-	outputs[DOWN_MUX_B_OUT].value = pressed ? inputs[DOWN_MUX_IN].normalize(0.0) : 0.0;
+	// outputs[DOWN_CH1_OUT].value = pressed ? inputs[DOWN_CH1_IN].normalize(0.0f) : 0.0f;
+	// outputs[DOWN_CH2_OUT].value = pressed ? 0.0f : inputs[DOWN_CH2_IN].normalize(0.0f);
+	outputs[DOWN_SW_OUT].value = pressed ? inputs[DOWN_SW_B_IN].normalize(0.0f) : inputs[DOWN_SW_A_IN].normalize(0.0f);
+	outputs[DOWN_MUX_A_OUT].value = !pressed * inputs[DOWN_MUX_IN].normalize(0.0f);
+	outputs[DOWN_MUX_B_OUT].value = pressed * inputs[DOWN_MUX_IN].normalize(0.0f);
 
-	outputs[UP_GATE_OUT].value = pressed ? 0.0 : 10.0;
-	outputs[DOWN_GATE_OUT].value = pressed ? 10.0 : 0.0;
+	outputs[UP_GATE_OUT].value = !pressed * 10.0f;
+	outputs[DOWN_GATE_OUT].value = pressed * 10.0f;
 
-	outputs[UP_FLIP_OUT].value = (flipUp) ? 10.0:0.0;
-	outputs[DOWN_FLIP_OUT].value = (flipDn) ? 10.0:0.0;
+	outputs[UP_FLIP_OUT].value = flipUp * 10.0f;
+	outputs[DOWN_FLIP_OUT].value = flipDn * 10.0f;
 	
-	outputs[UP_TRIG_OUT].value = upPulse.process(1.0/engineGetSampleRate()) ? 10.0 : 0.0;
-	outputs[DOWN_TRIG_OUT].value = dnPulse.process(1.0/engineGetSampleRate()) ? 10.0 : 0.0;
-
+	outputs[UP_TRIG_OUT].value = upPulse.process(1.0/engineGetSampleRate()) * 10.0f;
+	outputs[DOWN_TRIG_OUT].value = dnPulse.process(1.0/engineGetSampleRate()) * 10.0f;
 	
 	lights[DOWN_LED].value = pressed;
 	lights[UP_LED].value = !pressed;
@@ -153,6 +159,13 @@ struct DaButton : SVGSwitch, MomentarySwitch {
 		addFrame(SVG::load(assetPlugin(plugin, "res/components/DaButton_up.svg")));
 		addFrame(SVG::load(assetPlugin(plugin, "res/components/DaButton_dn.svg")));
 		box.size = Vec(82,82);
+	}
+};
+struct InPortT : SVGPort {
+	InPortT() {
+		background->svg = SVG::load(assetPlugin(plugin, "res/components/empty.svg"));
+		background->wrap();
+		box.size = Vec(22,22);
 	}
 };
 
@@ -198,6 +211,7 @@ BangDaButtonWidget::BangDaButtonWidget() {
 	addOutput(createOutput<OutPortBin>(Vec(62,124),module,BangDaButton::UP_FLIP_OUT));
 
 	addParam(createParam<DaButton>(Vec(4,149),module,BangDaButton::DA_BUTTON, 0, 1, 0));
+	addInput(createInput<InPortT>(Vec(4,179),module,BangDaButton::DA_BUTTON_TRIG));
 	
 	addOutput(createOutput<OutPortBin>(Vec(6,234),module,BangDaButton::DOWN_FLIP_OUT));
 	addOutput(createOutput<OutPortBin>(Vec(34,234),module,BangDaButton::DOWN_TRIG_OUT));

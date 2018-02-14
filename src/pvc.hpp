@@ -5,51 +5,24 @@ using namespace rack;
 extern Plugin *plugin;
 
 // module widgets
-struct BangDaButtonWidget : ModuleWidget {
-	BangDaButtonWidget();
-};
-// struct BitSHWidget : ModuleWidget {
-// 	BitSHWidget();
-// };
-struct CompairWidget : ModuleWidget {
-	CompairWidget();
-	Menu *createContextMenu() override;
-};
-struct CoSuOfWidget : ModuleWidget {
-	CoSuOfWidget();
-};
-struct GeighthsWidget : ModuleWidget {
-	GeighthsWidget();
-};
-struct ShutItWidget : ModuleWidget {
-	ShutItWidget();
-};
-struct ShutItXLWidget : ModuleWidget {
-	ShutItXLWidget();
-};
-struct SlimSeqWidget : ModuleWidget {
-	SlimSeqWidget();
-};
-struct SumItWidget : ModuleWidget {
-	SumItWidget();
-};
-struct TaHaSaHaNWidget : ModuleWidget {
-	TaHaSaHaNWidget();
-};
-struct VampsWidget : ModuleWidget {
-	VampsWidget();
-};
-struct VubarWidget : ModuleWidget {
-	VubarWidget();
-};
-struct PvCBlankWidget : ModuleWidget {
-	PvCBlankWidget();
-};
+struct BangDaButtonWidget : ModuleWidget { BangDaButtonWidget(); };
+// struct BitSHWidget : ModuleWidget { BitSHWidget(); };
+// struct CoinTreeWidget : ModuleWidget { CoinTreeWidget(); };
+struct CompairWidget : ModuleWidget { CompairWidget(); Menu *createContextMenu() override; };
+struct CoSuOfWidget : ModuleWidget { CoSuOfWidget(); };
+struct FlipOLogicWidget : ModuleWidget { FlipOLogicWidget(); };
+struct GeighthsWidget : ModuleWidget { GeighthsWidget(); };
+struct ShutItWidget : ModuleWidget { ShutItWidget(); };
+// struct ShutItSlimWidget : ModuleWidget { ShutItSlimWidget(); };
+// struct ShutItXLWidget : ModuleWidget { ShutItXLWidget(); };
+struct SlimSeqWidget : ModuleWidget { SlimSeqWidget(); };
+struct SumItWidget : ModuleWidget { SumItWidget(); };
+struct TaHaSaHaNWidget : ModuleWidget { TaHaSaHaNWidget(); };
+struct VampsWidget : ModuleWidget { VampsWidget(); };
+struct VubarWidget : ModuleWidget { VubarWidget(); };
+struct PvCBlankWidget : ModuleWidget { PvCBlankWidget(); };
 
-
-// shared custom components
-
-/// ports
+//////////////////////////////////////////////////////////////////////////////
 
 struct OutPortBin : SVGPort {
 	OutPortBin() {
@@ -106,8 +79,6 @@ struct PvCSnapKnob : PvCKnob {
 	}
 };
 
-/// colorful lights
-
 struct WhiteLight : ModuleLightWidget {
  	WhiteLight() { addBaseColor(COLOR_WHITE); }
 };
@@ -128,8 +99,6 @@ struct PvCBigLED : BASE {
 	}
 };
 
-
-/// custom screwheads
 
 struct ScrewHead1 : SVGScrew {
 	ScrewHead1() {

@@ -63,20 +63,14 @@ struct Geighths : Module {
 
 void Geighths::step() {
 	float input = inputs[CV_IN].normalize(0.0f) * params[INPUT_GAIN].value + params[INPUT_OFFSET].value;
-
+	 // TODO: nicer input window scaling
 	input = clampf(input, 0.0f, 10.0f);
 	input = rescalef(input, 0.0f, 10.0f, 0, 8);
+		
+	sample = clockTrigger.process(inputs[CLOCK_IN].value) ? input : sample;
 	
-	// SnH when clocked
-	if (inputs[CLOCK_IN].active) { 
-		if (clockTrigger.process(inputs[CLOCK_IN].value)){
-			sample = input; 
-		}
-		inVal = sample;
-	}
-	else {
-		inVal = input;
-	}
+	inVal = (inputs[CLOCK_IN].active) ? sample : input;
+
 	// fire pulse on selected out
 	for (int i = 0; i < 8; i++) {
 		gateOn[i] = ((inVal > i) && (inVal < i+1)) ? true : false;
@@ -85,8 +79,9 @@ void Geighths::step() {
 			gatePulse[i].trigger(params[GATE1_LENGTH + i].value);
 		}
 
-		outputs[GATE1_OUT + i].value = gatePulse[i].process(1.0/engineGetSampleRate()) ? 10.0f : 0.0f;
-		lights[GATE1_LIGHT + i].value = ((gateOn[i]) || (gatePulse[i].process(1.0/engineGetSampleRate()))) ? 1.0f : 0.0f;
+		outputs[GATE1_OUT + i].value = gatePulse[i].process(1.0/engineGetSampleRate()) * 10.0f;
+		// lights[GATE1_LIGHT + i].value = ((gateOn[i]) || (gatePulse[i].process(1.0/engineGetSampleRate()))) ? 1.0f : 0.0f;
+		lights[GATE1_LIGHT + i].value = gateOn[i] * 0.75f + gatePulse[i].process(1.0/engineGetSampleRate()) * 0.25f;
 	}
 }
 
@@ -115,8 +110,8 @@ GeighthsWidget::GeighthsWidget() {
 
 	for (int i = 0; i < 8; i++)
 	{
-		addChild(createLight<PvCBigLED<WhiteLight>>(Vec(4,336 - 28*i),module,Geighths::GATE1_LIGHT + i));
-		addParam(createParam<PvCLEDKnob>(Vec(4, 336 - 28*i),module,Geighths::GATE1_LENGTH + i, 0.002f, 2.0f, 0.025f));
+		addChild(createLight<PvCBigLED<YellowLight>>(Vec(4,336 - 28*i),module,Geighths::GATE1_LIGHT + i));
+		addParam(createParam<PvCLEDKnob>(Vec(4, 336 - 28*i),module,Geighths::GATE1_LENGTH + i, 0.002f, 2.0f, 0.02f));
 		addOutput(createOutput<OutPortBin>(Vec(34, 336 - 28*i),module,Geighths::GATE1_OUT + i));
 	}
 }

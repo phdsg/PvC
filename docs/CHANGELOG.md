@@ -16,14 +16,18 @@
 ##### [NEW] CoSuOf
   - comparator, substractor, offsetter based on the functionality of the D-A167  
 
+##### [NEW] FlipOLogic
+  - logic gates and then some  
+
 ##### [NEW] Geigths
   - another sort of comparator (inspired by the bartos flur)
-  - splits a cv into 8 ranges and fires a pulse on the corresponding channel  
+  - fires a pulse if the input is in range of one the 8 outputs. [10V/8]
   - pulse length is adjustable, also the input signal can be trimmed and offset  
-  - with trig input present the unit switches into sample and hold mode  
+  - with trig input plugged the unit switches into sample and hold mode  
 
-##### Shutters
-  - 8 channel version removed, ShutItSlim is now ShutIt  
+##### ShutIt
+  - 2HP wider  
+  - new section at the bottom to unmute/mute/flip all channels
 
 ##### [NEW] SlimSeq
   - 16 step sequencer / sequential switch (inspired by tm 8s, code based on m.lueders seq. switch)  
@@ -36,7 +40,7 @@
 
 ##### [REMOVED] Multy, Oomph
   - Multy gone for good. r.i.p.  
-  - Oomph (or some kind of distortion) will make a return at some point.  
+  - Oomph (or some kind of distortion) might a return at some point.  
 
 ***
 
