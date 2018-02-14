@@ -12,6 +12,7 @@ struct CompairWidget : ModuleWidget { CompairWidget(); Menu *createContextMenu()
 struct CoSuOfWidget : ModuleWidget { CoSuOfWidget(); };
 struct FlipOLogicWidget : ModuleWidget { FlipOLogicWidget(); };
 struct GeighthsWidget : ModuleWidget { GeighthsWidget(); };
+struct InToAorBWidget : ModuleWidget { InToAorBWidget(); };
 struct ShutItWidget : ModuleWidget { ShutItWidget(); };
 // struct ShutItSlimWidget : ModuleWidget { ShutItSlimWidget(); };
 // struct ShutItXLWidget : ModuleWidget { ShutItXLWidget(); };

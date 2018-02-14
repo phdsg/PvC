@@ -23,6 +23,7 @@ void init(rack::Plugin *p) {
 	p->addModel(createModel<CoSuOfWidget>		("PvC", "CoSuOf", "CoSuOf", LOGIC_TAG, EFFECT_TAG));
 	p->addModel(createModel<FlipOLogicWidget>	("PvC", "FlipOLogic", "FlipOLogic", LOGIC_TAG, SWITCH_TAG));
 	p->addModel(createModel<GeighthsWidget>		("PvC", "Geighths", "Geighths", LOGIC_TAG, SWITCH_TAG));
+	p->addModel(createModel<InToAorBWidget>		("PvC", "InToAorB", "InToAorB", LOGIC_TAG, SWITCH_TAG));
 	p->addModel(createModel<ShutItWidget>		("PvC", "ShutIt", "ShutIt", SWITCH_TAG, MULTIPLE_TAG));
 	// p->addModel(createModel<ShutItSlimWidget>	("PvC", "ShutItSlim", "ShutItSlim", SWITCH_TAG, MULTIPLE_TAG));
 	// p->addModel(createModel<ShutItXLWidget>		("PvC", "ShutItXL", "ShutItXL", SWITCH_TAG, MULTIPLE_TAG));
