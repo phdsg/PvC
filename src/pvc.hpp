@@ -5,6 +5,7 @@ using namespace rack;
 extern Plugin *plugin;
 
 // module widgets
+struct AorBtoOutWidget : ModuleWidget { AorBtoOutWidget(); };
 struct BangDaButtonWidget : ModuleWidget { BangDaButtonWidget(); };
 // struct BitSHWidget : ModuleWidget { BitSHWidget(); };
 // struct CoinTreeWidget : ModuleWidget { CoinTreeWidget(); };
@@ -13,7 +14,6 @@ struct CoSuOfWidget : ModuleWidget { CoSuOfWidget(); };
 struct FlipOLogicWidget : ModuleWidget { FlipOLogicWidget(); };
 struct GeighthsWidget : ModuleWidget { GeighthsWidget(); };
 struct InToAorBWidget : ModuleWidget { InToAorBWidget(); };
-struct AorBtoOutWidget : ModuleWidget { AorBtoOutWidget(); };
 struct ShutItWidget : ModuleWidget { ShutItWidget(); };
 struct SlimSeqWidget : ModuleWidget { SlimSeqWidget(); };
 struct SumItWidget : ModuleWidget { SumItWidget(); };

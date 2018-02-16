@@ -1,10 +1,10 @@
-# SlimSeq (working title) <img align="right" src="images/slimseq_100.png">
+# SlimSeq <img align="right" src="images/slimseq_100.png">
 ... is an 8HP 16 step sequencer / 16-to-1 sequential switch  
 
 
 ## Details
 compact 16 stepper with a few tricks.  
-concept loosely based on this: [Transient Modules 8s](http://transientmodules.com/8s).  
+concept loosely based on Transient Modules 8s.  
 code based on martin lueders' sequential switch.  
 
 ### I/O

@@ -24,16 +24,20 @@ All the other module developers for their inspiring modules, especially
 ## List of Modules
 
 <img align="right" src="images/AllModules.png">  
-  
-  _(left to right)_
-    
-  __Mu\[L\]ty__ - Multiple ([details](shutit.md))  
+
+  __Bang, da Button__ - Control Button ([details](bang.md))  
+  __AorBtoOut / InToAorB__ - A/B chance switches ([details](chance_sw.md))  
+  __ComPair__ - 2ch Window Comparator ([details](compair.md))  
+  __CoSuOf__ - Comparator / Substractor / Offsetter ([details](cosuof.md))  
+  __FlipOLogic__ - Logic Gates ([details](flipologic.md))  
+  __Geighths__ - 8ch Gate Creator ([details](geighths.md))  
+  __ShutIt__ - Mute Switch / Mult ([details](shutit.md))  
+  __SlimSeq__ - 16 Step Sequencer / 16to1 Seq. Switch ([details](slimseq.md))  
+  __SumIt__ - 12ch Mixer ([details](sumit.md))  
+  __TaHaSaHaN__ - TrackNHold / SampleNHold / Noise ([details](tahasahan.md))  
   __VUBar__ - Meter ([details](vubar.md))  
   __vAMPs__ - Stereo VCA ([details](vamps.md))  
-  __Oomph__ - Distortion ([details](oomph.md))  
-  __SumIt__ - Mixer ([details](sumit.md))  
-  __ShutIt__ - Mute Switch ([details](shutit.md))  
-  __ComPair__ - Window Comparator ([details](compair.md))  
+  
   [...](plans.md)
     
     

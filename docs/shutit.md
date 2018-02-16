@@ -1,5 +1,5 @@
 # ShutIt <img align="right" src="images/shutit_100.png">
-... is an 8 channel mute switch / multiple module (replaces [MuLty](multy.md))  
+... is a 6HP 8 channel mute switch / multiple module (replaces [MuLty](multy.md))  
  
 ## Details
 ShutIt has 8 channels that can be individually muted using a remote trigger signal or by clicking the panel.
