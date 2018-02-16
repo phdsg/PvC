@@ -32,9 +32,3 @@ LED - shows output level
 
 ## Changes
 __0.5.8__ - initial version  
-
-### Back Story
-watched this video: https://www.youtube.com/watch?v=sT-eclbOAqc  
-and thought... i want that!  
-... with an input on each step.  
-... and while we're at it, with 16 steps and some extras (more to come).
