@@ -1,5 +1,5 @@
 # ComPair <img align="right" src="images/compair_100.png">
-... is a 8 rack unit wide Dual Window Comparator.
+... is a 4HP 2 Channel Window Comparator.  
 
 ## Details
 **ComPair** checks if an input is within a specified voltage range. 
@@ -30,11 +30,9 @@ CV inputs for each parameter are added to the voltage set by the knobs.
 Compare lights function as toggles inverting their channel's output to the logic section.  
 
 ## Changes
+0.5.8 - layout change
 0.5.7 - some fixes  
 0.5.6 - new compare lights, bi-polar output option  
 0.5.5 - inverters for the internal logic inputs  
 0.5.4 - added 1st version of the lights, new panel, fixes  
 0.5.3 - initial version  
-
-### little backstory
-...

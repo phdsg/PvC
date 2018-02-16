@@ -1,20 +1,26 @@
 # ShutIt <img align="right" src="images/shutit_100.png">
-... is a 4 rack unit wide 8 channel mute switch / multiple (replaces [MuLty](multy.md))  
-
+... is a 6HP 8 channel mute switch / multiple module (replaces MuLty)  
+ 
 ## Details
 ShutIt has 8 channels that can be individually muted using a remote trigger signal or by clicking the panel.
 Each input carries the signal of the last connected input above, so it also works as a flexible multiple or clock divider.
 
 ### I/O
-_per channel (8)_  
-__1 input__ - left, blue, normalized to last connected input above  
-__1 output__ - right, red  
-__1 trigger input__ - center, yellow, changes mute state (also normalized to last above)  
+_channels_  
+__signal input__ - normalized to last connected input above  
+__switch trigger__ - changes mute state (also normalized to last above)  
+__signal output__   
+
+_bottom_  
+__SHUT__ - mute all  
+__FLIP__ - flip all  
+__OPEN__ - unmute all  
 
 ### Controls
-_per channel (8)_  
-__Mute Channel__ - empty panel area is a transparent button
+_channels_  
+panel area around each channel is a transparent button  
 
 ## Changes
+__0.5.8__ - 2HP wider, new inputs to un-/mute/flip all channels  
 __0.5.7__ - trigger input normalization, visual changes  
 __0.5.6__ - initial version

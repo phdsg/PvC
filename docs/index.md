@@ -1,14 +1,14 @@
-[![](https://img.shields.io/badge/version-0.5.6-brightgreen.svg)](https://github.com/phdsg/PvC/releases/tag/0.5.6)
+[![](https://img.shields.io/badge/version-0.5.7-brightgreen.svg)](https://github.com/phdsg/PvC/releases/tag/0.5.7)
 
 ... is a set of [VCVRack](https://www.vcvrack.com) modules created mainly for my own use.
 Most are modified and/or slimmified versions of others or just simple tools/toys
-i wanted to have and enjoyed learning to program.
+i wanted to have and enjoyed learning to program.  
+These modules are my learning playground, so anything might change at any time.
 
 
 ## Disclaimer
 
-I'm new to the modular synthesis world, new to programming, new to github.  
-**... expect bugs, beginner mistakes, etc.**
+**This is NOT production level software! ... expect bugs, beginner mistakes, etc.**
 
 [Any and all feedback is welcome.](https://github.com/phdsg/PvC/issues)
 
@@ -16,34 +16,28 @@ I'm new to the modular synthesis world, new to programming, new to github.
 ## Thanks
 
 First of all: Andrew Belt for making VCVRack and making it open source.  
-All the other module developers for their inspiring modules, especially
-[Strum: his modules](https://github.com/Strum/Strums_Mental_VCV_Modules) and encouragement made me start this whole programming trip.  
+All the other module developers for their inspiring modules, especially [Strum: his modules](https://github.com/Strum/Strums_Mental_VCV_Modules) and encouragement made me start this whole programming trip.  
 
 
 
 ## List of Modules
 
 <img align="right" src="images/AllModules.png">  
-  
-  _(left to right)_
-    
-  __Mu\[L\]ty__ - Multiple ([details](shutit.md))  
-  __VUBar__ - Meter ([details](vubar.md))  
+
+  __Bang, da Button__ - Control Button ([details](bang.md))  
+  __AorBtoOut / InToAorB__ - A/B chance switches ([details](chance_sw.md))  
+  __ComPair__ - 2ch Window Comparator ([details](compair.md))  
+  __CoSuOf__ - Comparator / Substractor / Offsetter ([details](cosuof.md))  
+  __FlipOLogic__ - Logic Gates ([details](flipologic.md))  
+  __Geighths__ - 8ch Gate Creator ([details](geighths.md))  
+  __ShutIt__ - Mute Switch / Mult ([details](shutit.md))  
+  __SlimSeq__ - 16 Step Sequencer / 16to1 Seq. Switch ([details](slimseq.md))  
+  __SumIt__ - 12ch Mixer ([details](sumit.md))  
+  __TaHaSaHaN__ - TrackNHold / SampleNHold / Noise ([details](tahasahan.md))  
   __vAMPs__ - Stereo VCA ([details](vamps.md))  
-  __Oomph__ - Distortion ([details](oomph.md))  
-  __SumIt__ - Mixer ([details](sumit.md))  
-  __ShutIt__ - Mute Switch ([details](shutit.md))  
-  __ComPair__ - Window Comparator ([details](compair.md))  
-  [...](plans.md)
-    
-    
-    
-    
-    
-    
-    
-    
-    
+  __VUBar__ - Meter ([details](vubar.md))  
+  
+  
 ## Build Instructions
 
   To build the modules from source you first have to build rack from sources as described here:  
@@ -56,10 +50,10 @@ All the other module developers for their inspiring modules, especially
     `$ cd PvC && make`  
   
 
-## Binary Releases & Plugin Manager
+## Contact & Help
+I'm almost always online @ #VCVRack on Freenode (irc.freenode.net #VCVRack). Other module devs are too!  
+Also, the [issue tracker](https://github.com/phdsg/PvC/issues) can be used for all questions.
 
-Binary releases will return, once i've found the time to check out how the plugin manager works.
-Soon(...ish).
 
 ## Gumroad & Donations
 
@@ -70,10 +64,7 @@ __Thank you all for your support!__
 
 Still exploring some ideas where to go with the gumroad store in 2018...
 
-(until then it's still [up](https://gumroad.com/pvc) there with the 0.5.x binaries. not the latest right now, but soon.)
+(until then it's still [up](https://gumroad.com/pvc) there.)
 
 
-## Contact & Help
-I'm almost always online @ #VCVRack on Freenode (irc.freenode.net #VCVRack). Other module devs are too!  
-Also, the [issue tracker](https://github.com/phdsg/PvC/issues) can be used for all questions.
 

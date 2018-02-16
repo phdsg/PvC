@@ -5,51 +5,56 @@ using namespace rack;
 extern Plugin *plugin;
 
 // module widgets
-struct CompairWidget : ModuleWidget {
-	CompairWidget();
-	Menu *createContextMenu() override;
-};
-struct MultyWidget : ModuleWidget {
-	MultyWidget();
-};
-struct OomphWidget : ModuleWidget {
-	OomphWidget();
-};
-struct ShutItWidget : ModuleWidget {
-	ShutItWidget();
-};
-struct SumItWidget : ModuleWidget {
-	SumItWidget();
-};
-struct VampsWidget : ModuleWidget {
-	VampsWidget();
-};
-struct VubarWidget : ModuleWidget {
-	VubarWidget();
-};
+struct AorBtoOutWidget : ModuleWidget { AorBtoOutWidget(); };
+struct BangDaButtonWidget : ModuleWidget { BangDaButtonWidget(); };
+// struct BitSHWidget : ModuleWidget { BitSHWidget(); };
+// struct CoinTreeWidget : ModuleWidget { CoinTreeWidget(); };
+struct CompairWidget : ModuleWidget { CompairWidget(); Menu *createContextMenu() override; };
+struct CoSuOfWidget : ModuleWidget { CoSuOfWidget(); };
+struct FlipOLogicWidget : ModuleWidget { FlipOLogicWidget(); };
+struct GeighthsWidget : ModuleWidget { GeighthsWidget(); };
+struct InToAorBWidget : ModuleWidget { InToAorBWidget(); };
+struct ShutItWidget : ModuleWidget { ShutItWidget(); };
+struct SlimSeqWidget : ModuleWidget { SlimSeqWidget(); };
+struct SumItWidget : ModuleWidget { SumItWidget(); };
+struct TaHaSaHaNWidget : ModuleWidget { TaHaSaHaNWidget(); };
+struct VampsWidget : ModuleWidget { VampsWidget(); };
+struct VubarWidget : ModuleWidget { VubarWidget(); };
+struct PvCBlankWidget : ModuleWidget { PvCBlankWidget(); };
 
+//////////////////////////////////////////////////////////////////////////////
 
-// shared custom components
-
-/// ports
-
-struct OutPort : SVGPort {
-	OutPort() {
-		background->svg = SVG::load(assetPlugin(plugin, "res/components/OutPort.svg"));
+struct OutPortBin : SVGPort {
+	OutPortBin() {
+		background->svg = SVG::load(assetPlugin(plugin, "res/components/OutPortBin.svg"));
 		background->wrap();
 		box.size = background->box.size;
 	}
 };
-struct InPort : SVGPort {
-	InPort() {
-		background->svg = SVG::load(assetPlugin(plugin, "res/components/InPort.svg"));
+struct OutPortVal : SVGPort {
+	OutPortVal() {
+		background->svg = SVG::load(assetPlugin(plugin, "res/components/OutPortVal.svg"));
 		background->wrap();
 		box.size = background->box.size;
 	}
 };
-struct ModInPort : SVGPort {
-	ModInPort() {
-		background->svg = SVG::load(assetPlugin(plugin, "res/components/ModInPort.svg"));
+struct InPortBin : SVGPort {
+	InPortBin() {
+		background->svg = SVG::load(assetPlugin(plugin, "res/components/InPortBin.svg"));
+		background->wrap();
+		box.size = background->box.size;
+	}
+};
+struct InPortAud : SVGPort {
+	InPortAud() {
+		background->svg = SVG::load(assetPlugin(plugin, "res/components/InPortAud.svg"));
+		background->wrap();
+		box.size = background->box.size;
+	}
+};
+struct InPortCtrl : SVGPort {
+	InPortCtrl() {
+		background->svg = SVG::load(assetPlugin(plugin, "res/components/InPortCtrl.svg"));
 		background->wrap();
 		box.size = background->box.size;
 	}
@@ -63,13 +68,16 @@ struct PvCKnob : RoundKnob {
 		box.size = Vec(22,22);
 	}
 };
+struct PvCLEDKnob : PvCKnob {
+	PvCLEDKnob() {
+		setSVG(SVG::load(assetPlugin(plugin, "res/components/PvCKnobT.svg")));
+	}
+};
 struct PvCSnapKnob : PvCKnob {
 	PvCSnapKnob() {
 		snap = true;
 	}
 };
-
-/// colorful lights
 
 struct WhiteLight : ModuleLightWidget {
  	WhiteLight() { addBaseColor(COLOR_WHITE); }
@@ -84,7 +92,13 @@ struct CyanLight : ModuleLightWidget {
 	CyanLight() { addBaseColor(COLOR_CYAN);	}
 };
 
-/// custom screwheads
+template <typename BASE>
+struct PvCBigLED : BASE {
+	PvCBigLED() {
+		this->box.size = Vec(22, 22);
+	}
+};
+
 
 struct ScrewHead1 : SVGScrew {
 	ScrewHead1() {

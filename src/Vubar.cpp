@@ -34,6 +34,9 @@ struct Vubar : Module {
 		NUM_LIGHTS = METER_LIGHT + 12
 	};
 
+	VUMeter vuBar;
+	float signal_in = 0.0f;
+
 	Vubar() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {
 		// reset();
 	}
@@ -43,22 +46,14 @@ struct Vubar : Module {
 };
 
 void Vubar::step(){
+	signal_in = inputs[METER_INPUT].normalize(0.0f);
+	outputs[METER_THRU_OUT].value = signal_in;
+	
+	vuBar.dBInterval = params[RANGE_PARAM].value;
+	vuBar.setValue(signal_in * 0.1f);
 
-	if (inputs[METER_INPUT].active) {
-		float signal_in = inputs[METER_INPUT].value;
-		outputs[METER_THRU_OUT].value = signal_in;
-// Lights
-		VUMeter vuBar;
-		vuBar.dBInterval = params[RANGE_PARAM].value;
-		vuBar.setValue(signal_in * 0.1f);
-		for (int i = 0; i < 12; i++) {
-			lights[METER_LIGHT + i].setBrightnessSmooth(vuBar.getBrightness(i) * (params[DIM_PARAM].value) + clampf(fabs(signal_in*0.01f),0.00f,0.1f));
-		}
-	}
-	else {
-		for (int i = 0; i < 12; i++) {
-			lights[METER_LIGHT + i].value = 0;
-		}
+	for (int i = 0; i < 12; i++) {
+		lights[METER_LIGHT + i].setBrightnessSmooth(vuBar.getBrightness(i) * (params[DIM_PARAM].value) + clampf(fabs(signal_in*0.01f),0.00f,0.1f));
 	}
 }
 
@@ -127,9 +122,9 @@ VubarWidget::VubarWidget(){
 	}
 	// SCREWS
 	addChild(createScrew<ScrewHead1>(Vec(0, 0)));
-	addChild(createScrew<ScrewHead2>(Vec(box.size.x - 15, 0)));
+	//addChild(createScrew<ScrewHead2>(Vec(box.size.x - 15, 0)));
 	addChild(createScrew<ScrewHead3>(Vec(0, 365)));
-	addChild(createScrew<ScrewHead4>(Vec(box.size.x - 15, 365)));
+	//addChild(createScrew<ScrewHead4>(Vec(box.size.x - 15, 365)));
 
 	// LEDs
 	addChild(createLight<MeterLight<VuLED1>>	(Vec(5, 22 + 22 * 0), module, Vubar::METER_LIGHT + 0));
@@ -150,7 +145,7 @@ VubarWidget::VubarWidget(){
 	// dB interval toggle 
 	addParam(createParam<RangeToggle>(Vec(7, 24),module,Vubar::RANGE_PARAM, 1, 4, 2));
 	// INPUT
-	addInput(createInput<InPort>(Vec(4, 336), module, Vubar::METER_INPUT));
+	addInput(createInput<InPortAud>(Vec(4, 336), module, Vubar::METER_INPUT));
 	//thru out
-	addOutput(createOutput<OutPort>(Vec(4,312), module, Vubar::METER_THRU_OUT));
+	addOutput(createOutput<OutPortVal>(Vec(4,312), module, Vubar::METER_THRU_OUT));
 }

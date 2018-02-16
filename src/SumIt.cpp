@@ -33,17 +33,24 @@ struct SumIt : Module {
 		NUM_LIGHTS
 	};
 
+	float mix = 0.0f;
+	int count = 0;
+
 	SumIt() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {}
 
 	void step() override;
+
+	void reset() override {
+		mix = 0.0f;
+		count = 0;
+	}
 };
 
 
 
 void SumIt::step() {
-	
-	float mix = 0;
-	int count = 0;
+	mix = 0.0f;
+	count = 0;
 	
 	// sum and count inputs
 	for (int i = 0; i < 12; i++) {
@@ -73,15 +80,15 @@ SumItWidget::SumItWidget() {
 		addChild(panel);
 	}
 	// screws
-	addChild(createScrew<ScrewHead1>(Vec(0, 0)));
+	// addChild(createScrew<ScrewHead1>(Vec(0, 0)));
 	addChild(createScrew<ScrewHead2>(Vec(box.size.x - 15, 0)));
-	addChild(createScrew<ScrewHead3>(Vec(0, 365)));
+	// addChild(createScrew<ScrewHead3>(Vec(0, 365)));
 	addChild(createScrew<ScrewHead4>(Vec(box.size.x - 15, 365)));
 	// inputs
 	for (int i = 0; i < 12; i++) {
-		addInput(createInput<InPort>(Vec(4,22 + 24*i), module, SumIt::INPUT + i));
+		addInput(createInput<InPortAud>(Vec(4,22 + 24*i), module, SumIt::INPUT + i));
 	}
 	// gain and out
 	addParam(createParam<PvCKnob>(Vec(4,24 + 24*12), module, SumIt::VOLUME, 0.0f,2.0f,1.0f));
-	addOutput(createOutput<OutPort>(Vec(4,24 + 24*13), module, SumIt::OUTPUT));
+	addOutput(createOutput<OutPortVal>(Vec(4,24 + 24*13), module, SumIt::OUTPUT));
 }

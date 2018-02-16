@@ -15,7 +15,7 @@
    version="1.1"
    id="svg6414"
    inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
-   sodipodi:docname="PvCKnob.svg">
+   sodipodi:docname="PvCKnobT.svg">
   <defs
      id="defs6408">
     <clipPath
@@ -42,7 +42,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="22.627417"
      inkscape:cx="29.647988"
-     inkscape:cy="17.430316"
+     inkscape:cy="17.054666"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -78,7 +78,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -147,30 +147,11 @@
          id="rect850"
          style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.52916515;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal" />
     </g>
-    <rect
-       style="opacity:1;fill:#000000;fill-opacity:1;stroke:#b22222;stroke-width:0.52916664;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+    <path
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#b22222;stroke-width:1.99999988;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       d="M 9.5,1.1230469 C 4.6787089,1.8444593 1,5.971528 1,11 1,16.54 5.4600002,21 11,21 16.54,21 21,16.54 21,11 21,5.971528 17.321291,1.8444593 12.5,1.1230469 v 5.390625 C 14.386853,7.1418044 15.75,8.8968011 15.75,11 15.75,13.6315 13.6315,15.75 11,15.75 8.3685,15.75 6.25,13.6315 6.25,11 6.25,8.8968011 7.6131468,7.1418044 9.5,6.5136719 Z"
+       transform="matrix(0.26458333,0,0,0.26458333,36.542344,108.80432)"
        id="rect856"
-       width="5.2916665"
-       height="5.2916665"
-       x="36.806927"
-       y="109.0689"
-       rx="2.9104166"
-       ry="2.9104166" />
-    <rect
-       style="opacity:1;fill:#b22222;fill-opacity:1;stroke:none;stroke-width:0.91401511;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
-       id="rect858"
-       width="2.5135417"
-       height="2.5135417"
-       x="38.195992"
-       y="110.45796"
-       rx="5.0270834"
-       ry="5.0270834" />
-    <rect
-       style="opacity:1;fill:#b22222;fill-opacity:1;stroke:none;stroke-width:0.51700026;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
-       id="rect860"
-       width="0.79374999"
-       height="2.778125"
-       x="39.055885"
-       y="108.93661" />
+       inkscape:connector-curvature="0" />
   </g>
 </svg>
