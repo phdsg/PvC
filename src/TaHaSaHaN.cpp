@@ -45,16 +45,20 @@ struct TaHaSaHaN : Module {
 		NUM_LIGHTS
 	};
 
-	TaHaSaHaN() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {}
-
-	void step() override;
-
 	SchmittTrigger sampleTrigger;
 
 	float input = 0.0f;
 	float snhOut = 0.0f;
 	float tnhOut = 0.0f;
 	float noise = 0.0f;
+
+	TaHaSaHaN() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {}
+
+	void step() override;
+
+	void reset() override {
+		input = snhOut = tnhOut = noise = 0.0f;
+	}
 
 };
 

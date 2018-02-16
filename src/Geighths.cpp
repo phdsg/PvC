@@ -7,7 +7,7 @@ cv input selects one out of eight outputs to fire a gate from.
 assumed input range is 0-10V. full range is split into 8 segments.
 with a clock signal connected, the unit goes into sample and hold mode.
 
-PLANS:
+PLANS/IDEAS:
 	- option to use 8bit conversion to break up signal
 	- internal clock (maybe)
 	- random/stepped mode(s) with no cvIN but clockIN
@@ -58,6 +58,13 @@ struct Geighths : Module {
 	Geighths() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {}
 
 	void step() override;
+	void reset() override {
+		inVal = sample = 0.0f;
+
+		for (int i = 0; i < 8; i++)	{
+			gateOn[i] = false;
+		}
+	}
 };
 
 

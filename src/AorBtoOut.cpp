@@ -1,8 +1,7 @@
 /*
 
-InToAorB
+AorBtoOut
 
-TODO: toss mode
 
 */////////////////////////////////////////////////////////////////////////////
 
@@ -12,7 +11,7 @@ TODO: toss mode
 #include "dsp/digital.hpp"
 
 
-struct InToAorB : Module {
+struct AorBtoOut : Module {
 	enum ParamIds {
 		PROB_UI,
 		TOSS_MODE,
@@ -20,7 +19,8 @@ struct InToAorB : Module {
 		NUM_PARAMS
 	};
 	enum InputIds {
-		SIG_IN,
+		SIG_A_IN,
+		SIG_B_IN,
 		PROB_CV,
 		TOSS_IN,
 		FLIP_IN,
@@ -30,10 +30,11 @@ struct InToAorB : Module {
 		NUM_INPUTS
 	};
 	enum OutputIds {
-		SIG_A_OUT,
-		SIG_B_OUT,
+		SIG_OUT,
+				
 		GATE_A_OUT,
 		GATE_B_OUT,
+
 		TRIG_A_OUT,
 		TRIG_B_OUT,
 		
@@ -57,7 +58,7 @@ struct InToAorB : Module {
 	SchmittTrigger resetTrigger;
 	PulseGenerator gatePulse;
 	
-	InToAorB() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {}
+	AorBtoOut() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {}
 
 	void step() override;
 
@@ -84,17 +85,16 @@ struct InToAorB : Module {
 
 
 
-void InToAorB::step() {
+void AorBtoOut::step() {
 	flipMode = params[TOSS_MODE].value;
 
 	if (inputs[TOSS_IN].active) {
 		if (tossTrigger.process(inputs[TOSS_IN].value)) {
 			gatePulse.trigger(0.01f);
 			if (flipMode)
-				gate = (randomf() < params[PROB_UI].value + inputs[PROB_CV].value) ? !gate : gate; //
+				gate = (randomf() < params[PROB_UI].value + inputs[PROB_CV].value) ? !gate : gate;
 			else
 				gate = (randomf() < (params[PROB_UI].value + inputs[PROB_CV].value*0.1f));
-			
 		}
 	}
 
@@ -113,10 +113,9 @@ void InToAorB::step() {
 		gate = true;
 	}
 
-	outputs[SIG_A_OUT].value = !gate * inputs[SIG_IN].value;
+	outputs[SIG_OUT].value = !gate ? inputs[SIG_A_IN].value : inputs[SIG_B_IN].value;
 	outputs[GATE_A_OUT].value = !gate * 10.0f;
 	outputs[TRIG_A_OUT].value = !gate * gatePulse.process(1.0/engineGetSampleRate()) * 10.0f;
-	outputs[SIG_B_OUT].value = gate * inputs[SIG_IN].value;
 	outputs[GATE_B_OUT].value = gate * 10.0f;
 	outputs[TRIG_B_OUT].value = gate * gatePulse.process(1.0/engineGetSampleRate()) * 10.0f;
 	lights[A_LED].value = !gate;
@@ -139,43 +138,44 @@ template <typename BASE>
  	}
  };
 
-
-InToAorBWidget::InToAorBWidget() {
-	InToAorB *module = new InToAorB();
+AorBtoOutWidget::AorBtoOutWidget() {
+	AorBtoOut *module = new AorBtoOut();
 	setModule(module);
 	box.size = Vec(15*4, 380);
 
 	{
 		SVGPanel *panel = new SVGPanel();
 		panel->box.size = box.size;
-		panel->setBackground(SVG::load(assetPlugin(plugin, "res/panels/InToAorB.svg")));
+		panel->setBackground(SVG::load(assetPlugin(plugin, "res/panels/AorBtoOut.svg")));
 		addChild(panel);
 	}
 	// screws
-	addChild(createScrew<ScrewHead1>(Vec(0, 0)));
-	// addChild(createScrew<ScrewHead2>(Vec(box.size.x - 15, 0)));
-	addChild(createScrew<ScrewHead3>(Vec(0, 365)));
-	// addChild(createScrew<ScrewHead4>(Vec(box.size.x - 15, 365)));
+	// addChild(createScrew<ScrewHead1>(Vec(0, 0)));
+	addChild(createScrew<ScrewHead2>(Vec(box.size.x - 15, 0)));
+	// addChild(createScrew<ScrewHead3>(Vec(0, 365)));
+	addChild(createScrew<ScrewHead4>(Vec(box.size.x - 15, 365)));
 
-	addInput(createInput<InPortAud>(Vec(19,22), module, InToAorB::SIG_IN));
-
-	addParam(createParam<PvCKnob>(Vec(19,64), module, InToAorB::PROB_UI, 0.0f, 1.0f, 0.5f));
-	addInput(createInput<InPortCtrl>(Vec(19,88), module, InToAorB::PROB_CV));
-	addInput(createInput<InPortBin>(Vec(19,124), module, InToAorB::TOSS_IN));
-	addChild(createLight<FourPixLight<OrangeLight>>(Vec(25,163),module, InToAorB::DIR_LED));
-	addChild(createLight<FourPixLight<BlueLight>>(Vec(31,163),module, InToAorB::FLP_LED));
-	addParam(createParam<ModeToggle>(Vec(24,162), module, InToAorB::TOSS_MODE, 0, 1, 0));
-	addInput(createInput<InPortBin>(Vec(19,180), module, InToAorB::FLIP_IN));
+	addInput(createInput<InPortAud>(Vec(4,22),module, AorBtoOut::SIG_A_IN));
+	addInput(createInput<InPortAud>(Vec(34,22),module, AorBtoOut::SIG_B_IN));
 	
-	addInput(createInput<InPortBin>(Vec(4,224),module, InToAorB::SET_A_IN));
-	addChild(createLight<FourPixLight<CyanLight>>(Vec(13,267),module, InToAorB::A_LED));
-	addOutput(createOutput<OutPortVal>(Vec(4,276),module, InToAorB::SIG_A_OUT));
-	addOutput(createOutput<OutPortBin>(Vec(4,312),module, InToAorB::GATE_A_OUT));
-	addOutput(createOutput<OutPortBin>(Vec(4,336),module, InToAorB::TRIG_A_OUT));
+	addParam(createParam<PvCKnob>(Vec(19,64),module, AorBtoOut::PROB_UI, 0.0f, 1.0f, 0.5f));
+	addInput(createInput<InPortCtrl>(Vec(19,88),module, AorBtoOut::PROB_CV));
+	addInput(createInput<InPortBin>(Vec(19,124),module, AorBtoOut::TOSS_IN));
+	addChild(createLight<FourPixLight<OrangeLight>>(Vec(25,163),module, AorBtoOut::DIR_LED));
+	addChild(createLight<FourPixLight<BlueLight>>(Vec(31,163),module, AorBtoOut::FLP_LED));
+	addParam(createParam<ModeToggle>(Vec(24,162), module, AorBtoOut::TOSS_MODE, 0, 1, 0));
+	addInput(createInput<InPortBin>(Vec(19,180),module, AorBtoOut::FLIP_IN));
+		
+	addInput(createInput<InPortBin>(Vec(4,224),module, AorBtoOut::SET_A_IN));
+	addInput(createInput<InPortBin>(Vec(34,224),module, AorBtoOut::SET_B_IN));
 
-	addInput(createInput<InPortBin>(Vec(34,224),module, InToAorB::SET_B_IN));
-	addChild(createLight<FourPixLight<PurpleLight>>(Vec(43,267),module, InToAorB::B_LED));
-	addOutput(createOutput<OutPortVal>(Vec(34,276),module, InToAorB::SIG_B_OUT));
-	addOutput(createOutput<OutPortBin>(Vec(34,312),module, InToAorB::GATE_B_OUT));
-	addOutput(createOutput<OutPortBin>(Vec(34,336),module, InToAorB::TRIG_B_OUT));
+	addOutput(createOutput<OutPortVal>(Vec(19,276),module, AorBtoOut::SIG_OUT));
+
+	addChild(createLight<FourPixLight<CyanLight>>(Vec(13,267),module, AorBtoOut::A_LED));
+	addOutput(createOutput<OutPortBin>(Vec(4,312),module, AorBtoOut::GATE_A_OUT));
+	addOutput(createOutput<OutPortBin>(Vec(4,336),module, AorBtoOut::TRIG_A_OUT));
+
+	addChild(createLight<FourPixLight<PurpleLight>>(Vec(43,267),module, AorBtoOut::B_LED));
+	addOutput(createOutput<OutPortBin>(Vec(34,312),module, AorBtoOut::GATE_B_OUT));
+	addOutput(createOutput<OutPortBin>(Vec(34,336),module, AorBtoOut::TRIG_B_OUT));
 }

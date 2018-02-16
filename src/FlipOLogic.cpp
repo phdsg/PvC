@@ -16,8 +16,8 @@ the FLOP and FLAP divisions and then the logic outs get
 AND compared on the left side vs the left input and 
 XOR compared on the right side vs the right input.
 
-of course this internal routing can be broken with other external sources
-or by repatching the module itself for even more interesting combinations.
+this internal routing can be broken with other external sources or by
+repatching the module itself for even more interesting combinations.
 
 */////////////////////////////////////////////////////////////////////////////
 
@@ -127,12 +127,19 @@ struct FlipOLogic : Module {
 
 	void step() override;
 
+	void reset() override {
+		flpIn = false;
+		flip = flop = flap = false;
+		leftIn = rightIn = false;
+		lgcInA = lgcInB = lgcInC = false;
+		lgcAnd = lgcNand = lgcOr = lgcNor = lgcXor = lgcXnor = false;
+	}
 };
 
 
 void FlipOLogic::step() {
-	//  flipflops (dividers)
 	flpIn = inputs[FLIP_IN].value > 0 ? true : false;
+
 	flip = flipTrigger.process(flpIn) ? !flip : flip;
 	flop = flopTrigger.process(flip) ? !flop : flop;
 	flap = flapTrigger.process(flop) ? !flap : flap;
@@ -141,7 +148,7 @@ void FlipOLogic::step() {
 	rightIn = inputs[RIGHT_IN].normalize(flap) > 0 ? true : false;
 
 	lgcInA = inputs[LGC_A_IN].normalize(leftIn) > 0 ? true : false;
-	lgcInB = inputs[LGC_B_IN].normalize(flpIn) > 0 ? true : false;
+	lgcInB = inputs[LGC_B_IN].normalize(flip) > 0 ? true : false;
 	lgcInC = inputs[LGC_C_IN].normalize(rightIn) > 0 ? true : false;
 
 	lgcAnd = lgcInA && lgcInB && lgcInC;

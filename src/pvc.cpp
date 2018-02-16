@@ -16,25 +16,27 @@ void init(rack::Plugin *p) {
 	// p->website = "https://phdsg.github.io/PvC/";
 	// p->manual = "https://phdsg.github.io/PvC/";
 	// For each module, specify the ModuleWidget
-	p->addModel(createModel<BangDaButtonWidget>	("PvC", "BangDaButton", "BangDaButton", CONTROLLER_TAG, SWITCH_TAG));
-	//p->addModel(createModel<BitSHWidget>		("PvC", "BitSH", "BitSH", BLANK_TAG));
-	//p->addModel(createModel<CoinTreeWidget>		("PvC", "CoinTree", "CoinTree", LOGIC_TAG, RANDOM_TAG, SWITCH_TAG));
-	p->addModel(createModel<CompairWidget>		("PvC", "Compair", "Compair", LOGIC_TAG, DIGITAL_TAG, EFFECT_TAG, DUAL_TAG));
-	p->addModel(createModel<CoSuOfWidget>		("PvC", "CoSuOf", "CoSuOf", LOGIC_TAG, EFFECT_TAG));
-	p->addModel(createModel<FlipOLogicWidget>	("PvC", "FlipOLogic", "FlipOLogic", LOGIC_TAG, SWITCH_TAG));
-	p->addModel(createModel<GeighthsWidget>		("PvC", "Geighths", "Geighths", LOGIC_TAG, SWITCH_TAG));
+	p->addModel(createModel<AorBtoOutWidget>	("PvC", "AorBtoOut", "AorBtoOut", LOGIC_TAG, SWITCH_TAG));
 	p->addModel(createModel<InToAorBWidget>		("PvC", "InToAorB", "InToAorB", LOGIC_TAG, SWITCH_TAG));
-	p->addModel(createModel<ShutItWidget>		("PvC", "ShutIt", "ShutIt", SWITCH_TAG, MULTIPLE_TAG));
-	// p->addModel(createModel<ShutItSlimWidget>	("PvC", "ShutItSlim", "ShutItSlim", SWITCH_TAG, MULTIPLE_TAG));
-	// p->addModel(createModel<ShutItXLWidget>		("PvC", "ShutItXL", "ShutItXL", SWITCH_TAG, MULTIPLE_TAG));
-	p->addModel(createModel<SlimSeqWidget>		("PvC", "SlimSeq", "SlimSeq", SWITCH_TAG, SEQUENCER_TAG));
+	p->addModel(createModel<CoSuOfWidget>		("PvC", "CoSuOf", "CoSuOf", LOGIC_TAG, EFFECT_TAG));
 	p->addModel(createModel<SumItWidget>		("PvC", "SumIt", "SumIt", MIXER_TAG, ATTENUATOR_TAG, AMPLIFIER_TAG));
 	p->addModel(createModel<TaHaSaHaNWidget>	("PvC", "TaHaSaHaN", "TaHaSaHaN", SAMPLE_AND_HOLD_TAG, NOISE_TAG, RANDOM_TAG));
 	p->addModel(createModel<VampsWidget>		("PvC", "Vamps", "Vamps", AMPLIFIER_TAG, ATTENUATOR_TAG, DUAL_TAG));
 	p->addModel(createModel<VubarWidget>		("PvC", "Vubar", "VuBar", VISUAL_TAG));
-	p->addModel(createModel<PvCBlankWidget>		("PvC", "PvC64", "PvC64", BLANK_TAG));
-
+		
+	p->addModel(createModel<CompairWidget>		("PvC", "Compair", "Compair", LOGIC_TAG, DIGITAL_TAG, EFFECT_TAG, DUAL_TAG));
+	p->addModel(createModel<GeighthsWidget>		("PvC", "Geighths", "Geighths", LOGIC_TAG, SWITCH_TAG));
 	
+	p->addModel(createModel<BangDaButtonWidget>	("PvC", "BangDaButton", "BangDaButton", CONTROLLER_TAG, SWITCH_TAG));
+	p->addModel(createModel<FlipOLogicWidget>	("PvC", "FlipOLogic", "FlipOLogic", LOGIC_TAG, SWITCH_TAG));
+	p->addModel(createModel<ShutItWidget>		("PvC", "ShutIt", "ShutIt", SWITCH_TAG, MULTIPLE_TAG));
+	
+	p->addModel(createModel<SlimSeqWidget>		("PvC", "SlimSeq", "SlimSeq", SWITCH_TAG, SEQUENCER_TAG));
+		
+	p->addModel(createModel<PvCBlankWidget>		("PvC", "PvC64", "PvC64", BLANK_TAG));
+	//p->addModel(createModel<BitSHWidget>		("PvC", "BitSH", "BitSH", BLANK_TAG));
+	//p->addModel(createModel<CoinTreeWidget>		("PvC", "CoinTree", "CoinTree", LOGIC_TAG, RANDOM_TAG, SWITCH_TAG));
+
 	
 	// Any other plugin initialization may go here.
 	// As an alternative, consider lazy-loading assets and lookup tables when your module is created to reduce startup times of Rack.

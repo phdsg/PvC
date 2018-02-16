@@ -2,31 +2,14 @@
 
 BangDaButton
 
-a cv sending button to trigger/switch things with a few fun extras...
+a cv sending button to trigger/switch things.
 
-main section:
-
- Big Momentary Button and 2 Groups of 3 outputs:
- 	Outputs:
- 		above: released button state
- 		below: pressed button state
- 	Types:
- 		gate: is high as long as the state is true
- 		trig: pulses once on state changes
- 		flip: toggles on state changes
-
-up section
-	channel 1: 2 in 1 out, A or B into X
-	channel 2: 1 in 1 out, A or MUTE into X
-	channel 3: 2 in 1 out, A into X or Y
-	channel 4: 1 in 1 out, A or MUTE into X 
-
-down section
-	same as up section but in mirrored order
+button provides gate/trig outs for press and release events as well
+as two flipflops.
+it also opens/closes 4 A/B switches 2 x 1to2 and 2 x 2to1
+a "hidden" gate port can be used to control the button with external sources.
 
 TODO:
-	cv in
-	change mutes into a/b's
 	toggle/momentary modes for the channels
 	toggles for the flipflops
 
@@ -103,6 +86,11 @@ struct BangDaButton : Module {
 
 	void step() override;
 
+	void reset() override {
+		pressed = false;
+		flipUp = true;
+		flipDn = false;		
+	}
 };
 
 void BangDaButton::step() {

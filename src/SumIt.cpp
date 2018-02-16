@@ -33,12 +33,17 @@ struct SumIt : Module {
 		NUM_LIGHTS
 	};
 
+	float mix = 0.0f;
+	int count = 0;
+
 	SumIt() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {}
 
 	void step() override;
 
-	float mix = 0.0f;
-	int count = 0;
+	void reset() override {
+		mix = 0.0f;
+		count = 0;
+	}
 };
 
 

@@ -17,6 +17,11 @@ OUTS:
  GATE = high[10] if SUM is > 0 / low[0] if SUM is <= 0
  NATE = !GATE
 
+WARNING: due to how the module operates you can produce excessivly high (or
+low) voltages on the SUM output (+/- 30V for the extreme cases of inputs).
+i didn't want to clamp or scale the output.
+so, use the attenuators and a meter to adjust for desired V-range!
+
 */////////////////////////////////////////////////////////////////////////////
 
 
@@ -52,10 +57,16 @@ struct CoSuOf : Module {
 		NUM_LIGHTS
 	};
 
+	bool gate = false;
+	
 	CoSuOf() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {}
 
 	void step() override;
-	bool gate = false;
+	void reset() override {
+		gate = false;
+	}
+
+	
 };
 
 

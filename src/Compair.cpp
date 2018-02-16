@@ -95,7 +95,13 @@ struct Compair : Module {
 	}
 
 	void step() override;
-	// void reset() override;
+	void reset() override {
+		outA = false;
+		outB = false;
+		flip = false;
+
+		outputMode = ORIGINAL;
+	}
 	// void randomize() override;
 
 	json_t *toJson() override {
