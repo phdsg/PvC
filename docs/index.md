@@ -35,19 +35,11 @@ All the other module developers for their inspiring modules, especially
   __SlimSeq__ - 16 Step Sequencer / 16to1 Seq. Switch ([details](slimseq.md))  
   __SumIt__ - 12ch Mixer ([details](sumit.md))  
   __TaHaSaHaN__ - TrackNHold / SampleNHold / Noise ([details](tahasahan.md))  
-  __VUBar__ - Meter ([details](vubar.md))  
   __vAMPs__ - Stereo VCA ([details](vamps.md))  
-  
+  __VUBar__ - Meter ([details](vubar.md))  
   [...](plans.md)
-    
-    
-    
-    
-    
-    
-    
-    
-    
+  
+  
 ## Build Instructions
 
   To build the modules from source you first have to build rack from sources as described here:  
