@@ -10,6 +10,9 @@
   - momentary button that fires gates/triggers on press and release events  
   - also triggers: flip flops and some switches (A or B into Out / In into A or B)  
 
+##### [NEW] AorBtoOut / InToAorB
+  - chance switches
+
 ##### ComPair
   - half the panel size  
 
