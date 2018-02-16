@@ -1,5 +1,8 @@
 # [PvC Modules for VCVRack](https://phdsg.github.io/PvC/)
 
+## VCVRack Plugin Manager Link
+[here](https://vcvrack.com/plugins.html#pvc)
+
 ## Build Instructions
 
   To build the modules from source you first have to build rack from sources as described  
