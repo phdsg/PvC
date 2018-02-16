@@ -16,8 +16,7 @@ These modules are my learning playground, so anything might change at any time.
 ## Thanks
 
 First of all: Andrew Belt for making VCVRack and making it open source.  
-All the other module developers for their inspiring modules, especially
-[Strum: his modules](https://github.com/Strum/Strums_Mental_VCV_Modules) and encouragement made me start this whole programming trip.  
+All the other module developers for their inspiring modules, especially [Strum: his modules](https://github.com/Strum/Strums_Mental_VCV_Modules) and encouragement made me start this whole programming trip.  
 
 
 
@@ -37,7 +36,6 @@ All the other module developers for their inspiring modules, especially
   __TaHaSaHaN__ - TrackNHold / SampleNHold / Noise ([details](tahasahan.md))  
   __vAMPs__ - Stereo VCA ([details](vamps.md))  
   __VUBar__ - Meter ([details](vubar.md))  
-  [...](plans.md)
   
   
 ## Build Instructions
