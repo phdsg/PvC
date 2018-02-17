@@ -50,7 +50,7 @@ struct ShutIt : Module {
 	
 	void randomize() override {
 		for (int i = 0; i < CHANCOUNT; i++) {
-			muteState[i] = (randomf() < 0.5);
+			muteState[i] = (randomUniform() < 0.5);
 		}
 	}
 	// MUTE states
@@ -137,32 +137,30 @@ struct WhiteRedLight : ModuleLightWidget {
 	}
 };
 
-ShutItWidget::ShutItWidget() {
-	ShutIt *module = new ShutIt();
-	setModule(module);
-	box.size = Vec(15*6, 380);
-	{
-		SVGPanel *panel = new SVGPanel();
-		panel->box.size = box.size;
-		panel->setBackground(SVG::load(assetPlugin(plugin, "res/panels/ShutIt.svg")));
-		addChild(panel);
-	}
+struct ShutItWidget : ModuleWidget {
+	ShutItWidget(ShutIt *module);
+};
+
+ShutItWidget::ShutItWidget(ShutIt *module) : ModuleWidget(module) {
+	setPanel(SVG::load(assetPlugin(plugin, "res/panels/ShutIt.svg")));
 	// screws
-	addChild(createScrew<ScrewHead1>(Vec(0, 0)));
-	addChild(createScrew<ScrewHead2>(Vec(box.size.x - 15, 0)));
-	addChild(createScrew<ScrewHead3>(Vec(0, 365)));
-	addChild(createScrew<ScrewHead4>(Vec(box.size.x - 15, 365)));
+	addChild(Widget::create<ScrewHead1>(Vec(0, 0)));
+	addChild(Widget::create<ScrewHead2>(Vec(box.size.x - 15, 0)));
+	addChild(Widget::create<ScrewHead3>(Vec(0, 365)));
+	addChild(Widget::create<ScrewHead4>(Vec(box.size.x - 15, 365)));
 	// channels
 	for (int i = 0; i < CHANCOUNT; i++) {
 		float top = 38.0f;
 
-		addChild(createLight<FourPixLight<WhiteRedLight>>(Vec(73,25 + top*i), module, ShutIt::A_STATE + 2*i));
-		addParam(createParam<EmptyButton>(Vec(2,20 + top*i),module, ShutIt::A_MUTE + i, 0, 1 , 0));
-		addInput(createInput<InPortAud>(Vec(4,22 + top*i),module, ShutIt::A_IN + i));
-		addInput(createInput<InPortBin>(Vec(34,22 + top*i),module, ShutIt::A_TRIG + i));
-		addOutput(createOutput<OutPortVal>(Vec(64,30 + top*i),module, ShutIt::A_OUT + i));
+		addChild(ModuleLightWidget::create<FourPixLight<WhiteRedLight>>(Vec(73,25 + top*i), module, ShutIt::A_STATE + 2*i));
+		addParam(ParamWidget::create<EmptyButton>(Vec(2,20 + top*i),module, ShutIt::A_MUTE + i, 0, 1 , 0));
+		addInput(Port::create<InPortAud>(Vec(4,22 + top*i), Port::INPUT, module, ShutIt::A_IN + i));
+		addInput(Port::create<InPortBin>(Vec(34,22 + top*i), Port::INPUT, module, ShutIt::A_TRIG + i));
+		addOutput(Port::create<OutPortVal>(Vec(64,30 + top*i), Port::OUTPUT, module, ShutIt::A_OUT + i));
 	}
-	addInput(createInput<InPortBin>(Vec(4,336),module, ShutIt::MUTE_ALL_TRIG));
-	addInput(createInput<InPortBin>(Vec(34,336),module, ShutIt::FLIP_ALL_TRIG));
-	addInput(createInput<InPortBin>(Vec(64,336),module, ShutIt::UNMUTE_ALL_TRIG));
+	addInput(Port::create<InPortBin>(Vec(4,336), Port::INPUT, module, ShutIt::MUTE_ALL_TRIG));
+	addInput(Port::create<InPortBin>(Vec(34,336), Port::INPUT, module, ShutIt::FLIP_ALL_TRIG));
+	addInput(Port::create<InPortBin>(Vec(64,336), Port::INPUT, module, ShutIt::UNMUTE_ALL_TRIG));
 }
+
+Model *modelShutIt = Model::create<ShutIt, ShutItWidget>("PvC", "ShutIt", "ShutIt", LOGIC_TAG, SWITCH_TAG);

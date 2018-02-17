@@ -121,10 +121,10 @@ void SlimSeq::step() {
 
 			if (isRandom) {
 				if (isHopper) {
-					currentPos += roundf(randomf()*15.0f);
+					currentPos += round(randomUniform()*15.0f);
 				}
 				else {
-					currentPos += (roundf(randomf())) ? 1 : -1;
+					currentPos += (round(randomUniform())) ? 1 : -1;
 				}
 			}
 			else {
@@ -180,7 +180,7 @@ void SlimSeq::step() {
 
 
 		// calc out
-	outputs[OUT].value = clampf(stepInput * params[OUT_KNOB].value, -10.0f, 10.0f);
+	outputs[OUT].value = clamp(stepInput * params[OUT_KNOB].value, -10.0f, 10.0f);
 
 	// lights
 		// direction
@@ -209,10 +209,12 @@ struct ControlButton : StepButton {
 	}
 };
 
-SlimSeqWidget::SlimSeqWidget() {
+struct SlimSeqWidget : ModuleWidget {
+	SlimSeqWidget(SlimSeq *module);
+};
 
-	SlimSeq *module = new SlimSeq();
-	setModule(module);
+SlimSeqWidget::SlimSeqWidget(SlimSeq *module) : ModuleWidget(module) {
+
 	box.size = Vec(15*8, 380);
 
 	{
@@ -222,41 +224,44 @@ SlimSeqWidget::SlimSeqWidget() {
 		addChild(panel);
 	}
 	// screws
-	addChild(createScrew<ScrewHead2>(Vec(15, 0)));
-	addChild(createScrew<ScrewHead4>(Vec(box.size.x-30, 0)));
-	addChild(createScrew<ScrewHead3>(Vec(15, 365)));
-	addChild(createScrew<ScrewHead1>(Vec(box.size.x-30, 365)));
+	addChild(Widget::create<ScrewHead2>(Vec(15, 0)));
+	addChild(Widget::create<ScrewHead4>(Vec(box.size.x-30, 0)));
+	addChild(Widget::create<ScrewHead3>(Vec(15, 365)));
+	addChild(Widget::create<ScrewHead1>(Vec(box.size.x-30, 365)));
 	// steps
 	for (int i = 0; i < 8; i++)	{
 		int top = 42;
 		// left 16-9
-		addChild(createLight<PvCBigLED<BlueLight>>(Vec(18,42 + top * i),module,SlimSeq::STEP1_LIGHT + STEPCOUNT-1 - i));
-		addParam(createParam<PvCLEDKnob>(Vec(18,42 + top * i),module,SlimSeq::STEP1_KNOB + STEPCOUNT-1 - i , -1.0f, 1.0f, 0.0f));
-		addInput(createInput<InPortAud>(Vec(4,22 + top * i),module,SlimSeq::STEP1_IN + + STEPCOUNT-1 - i));
-		addParam(createParam<StepButton>(Vec(29,29 + top * i),module,SlimSeq::STEP1_SEL + STEPCOUNT-1 - i , 0, 1, 0));
+		addChild(ModuleLightWidget::create<PvCBigLED<BlueLight>>(Vec(18,42 + top * i),module,SlimSeq::STEP1_LIGHT + STEPCOUNT-1 - i));
+		addParam(ParamWidget::create<PvCLEDKnob>(Vec(18,42 + top * i),module,SlimSeq::STEP1_KNOB + STEPCOUNT-1 - i , -1.0f, 1.0f, 0.0f));
+		addInput(Port::create<InPortAud>(Vec(4,22 + top * i), Port::INPUT, module,SlimSeq::STEP1_IN + + STEPCOUNT-1 - i));
+		addParam(ParamWidget::create<StepButton>(Vec(29,29 + top * i),module,SlimSeq::STEP1_SEL + STEPCOUNT-1 - i , 0, 1, 0));
 		// right 1-8
-		addParam(createParam<StepButton>(Vec(80,29 + top * i),module,SlimSeq::STEP1_SEL + i , 0, 1, 0));
-		addChild(createLight<PvCBigLED<BlueLight>>(Vec(80,42 + top * i),module,SlimSeq::STEP1_LIGHT + i));
-		addInput(createInput<InPortAud>(Vec(94,22 + top * i),module,SlimSeq::STEP1_IN + i));
-		addParam(createParam<PvCLEDKnob>(Vec(80,42 + top * i),module,SlimSeq::STEP1_KNOB + i, -1.0f, 1.0f, 0.0f));
+		addParam(ParamWidget::create<StepButton>(Vec(80,29 + top * i),module,SlimSeq::STEP1_SEL + i , 0, 1, 0));
+		addChild(ModuleLightWidget::create<PvCBigLED<BlueLight>>(Vec(80,42 + top * i),module,SlimSeq::STEP1_LIGHT + i));
+		addInput(Port::create<InPortAud>(Vec(94,22 + top * i), Port::INPUT, module,SlimSeq::STEP1_IN + i));
+		addParam(ParamWidget::create<PvCLEDKnob>(Vec(80,42 + top * i),module,SlimSeq::STEP1_KNOB + i, -1.0f, 1.0f, 0.0f));
 	}
 	// direction lights
-	addChild(createLight<SmallLight<OrangeLight>>(Vec(49,22),module,SlimSeq::REVERSE_LIGHT));
-	addChild(createLight<SmallLight<OrangeLight>>(Vec(57,22),module,SlimSeq::RNDMODE_LIGHT));
-	addChild(createLight<SmallLight<OrangeLight>>(Vec(65,22),module,SlimSeq::FORWARD_LIGHT));
+	addChild(ModuleLightWidget::create<SmallLight<OrangeLight>>(Vec(49,22),module,SlimSeq::REVERSE_LIGHT));
+	addChild(ModuleLightWidget::create<SmallLight<OrangeLight>>(Vec(57,22),module,SlimSeq::RNDMODE_LIGHT));
+	addChild(ModuleLightWidget::create<SmallLight<OrangeLight>>(Vec(65,22),module,SlimSeq::FORWARD_LIGHT));
 	// control inputs
-	addInput(createInput<InPortBin>(Vec(49,48),module,SlimSeq::CLOCK_IN));
-	//addParam(createParam<ControlButton>(Vec(48,70),module,SlimSeq::CLOCK_UI , 0, 1, 0));
-	addInput(createInput<InPortBin>(Vec(49,90),module,SlimSeq::REVERSE_IN));
-	addParam(createParam<ControlButton>(Vec(48,112),module,SlimSeq::REVERSE_UI , 0, 1, 0));
-	addInput(createInput<InPortBin>(Vec(49,132),module,SlimSeq::RNDMODE_IN));
-	addParam(createParam<ControlButton>(Vec(48,154),module,SlimSeq::RNDMODE_UI , 0, 1, 0));
-	addInput(createInput<InPortBin>(Vec(49,174),module,SlimSeq::HOLD_IN));
-	addParam(createParam<ControlButton>(Vec(48,192),module,SlimSeq::HOLD_UI , 0, 1, 0));
-	addInput(createInput<InPortBin>(Vec(49,216),module,SlimSeq::RESET_IN));
-	addParam(createParam<ControlButton>(Vec(48,238),module,SlimSeq::RESET_UI , 0, 1, 0));
+	addInput(Port::create<InPortBin>(Vec(49,48), Port::INPUT, module,SlimSeq::CLOCK_IN));
+	//addParam(ParamWidget::create<ControlButton>(Vec(48,70),module,SlimSeq::CLOCK_UI , 0, 1, 0));
+	addInput(Port::create<InPortBin>(Vec(49,90), Port::INPUT, module,SlimSeq::REVERSE_IN));
+	addParam(ParamWidget::create<ControlButton>(Vec(48,112),module,SlimSeq::REVERSE_UI , 0, 1, 0));
+	addInput(Port::create<InPortBin>(Vec(49,132), Port::INPUT, module,SlimSeq::RNDMODE_IN));
+	addParam(ParamWidget::create<ControlButton>(Vec(48,154),module,SlimSeq::RNDMODE_UI , 0, 1, 0));
+	addInput(Port::create<InPortBin>(Vec(49,174), Port::INPUT, module,SlimSeq::HOLD_IN));
+	addParam(ParamWidget::create<ControlButton>(Vec(48,192),module,SlimSeq::HOLD_UI , 0, 1, 0));
+	addInput(Port::create<InPortBin>(Vec(49,216), Port::INPUT, module,SlimSeq::RESET_IN));
+	addParam(ParamWidget::create<ControlButton>(Vec(48,238),module,SlimSeq::RESET_UI , 0, 1, 0));
 	// main out
-	addChild(createLight<PvCBigLED<GreenRedLight>>(Vec(49,292),module,SlimSeq::OUT_POS_LED));
-	addParam(createParam<PvCLEDKnob>(Vec(49,292),module,SlimSeq::OUT_KNOB, -1.0f, 1.0f, 1.0f));
-	addOutput(createOutput<OutPortVal>(Vec(49,326),module,SlimSeq::OUT));
+	addChild(ModuleLightWidget::create<PvCBigLED<GreenRedLight>>(Vec(49,292),module,SlimSeq::OUT_POS_LED));
+	addParam(ParamWidget::create<PvCLEDKnob>(Vec(49,292),module,SlimSeq::OUT_KNOB, -1.0f, 1.0f, 1.0f));
+	addOutput(Port::create<OutPortVal>(Vec(49,326), Port::OUTPUT, module,SlimSeq::OUT));
 }
+
+Model *modelSlimSeq = Model::create<SlimSeq, SlimSeqWidget>(
+	"PvC", "SlimSeq", "SlimSeq", SEQUENCER_TAG, SWITCH_TAG);

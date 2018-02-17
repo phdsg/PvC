@@ -170,13 +170,13 @@ void Compair::step(){
 	// Gate/Not outputs and lights
 	outputs[GATE_A_OUT].value = outA ? highVal : lowVal;
 	outputs[NOT_A_OUT].value = !outA ? highVal : lowVal;
-	lights[GATE_A_LED].setBrightness( outA ? 0.75f : (0.25f - clampf( fabs(inputA-posA) * 0.025f, 0.0f, 0.25f) ) );
+	lights[GATE_A_LED].setBrightness( outA ? 0.75f : (0.25f - clamp( fabsf(inputA-posA) * 0.025f, 0.0f, 0.25f) ) );
 	lights[OVER_A_LED].setBrightness( (inputA > upperThreshA) ? (inputA - upperThreshA)*0.1f + 0.25f : 0.0f );
 	lights[BELOW_A_LED].setBrightness( (inputA < lowerThreshA) ? (lowerThreshA - inputA)*0.1f + 0.25f : 0.0f );
 
 	outputs[GATE_B_OUT].value = outB ? highVal : lowVal;
 	outputs[NOT_B_OUT].value = !outB ? highVal : lowVal;
-	lights[GATE_B_LED].setBrightness( outB ? 0.75f : (0.25f - clampf( fabs(inputB-posB) * 0.025f, 0.0f, 0.25f) ) );
+	lights[GATE_B_LED].setBrightness( outB ? 0.75f : (0.25f - clamp( fabsf(inputB-posB) * 0.025f, 0.0f, 0.25f) ) );
 	lights[OVER_B_LED].setBrightness( (inputB > upperThreshB) ? (inputB - upperThreshB)*0.1f + 0.25f : 0.0f );
 	lights[BELOW_B_LED].setBrightness( (inputB < lowerThreshB) ? (lowerThreshB - inputB)*0.1f + 0.25f : 0.0f );
 
@@ -230,9 +230,13 @@ template <typename BASE>
  	}
  };
 
-CompairWidget::CompairWidget(){
-	Compair *module = new Compair();
-	setModule(module);
+struct CompairWidget : ModuleWidget {
+	CompairWidget(Compair *module);
+	Menu *createContextMenu() override;
+};
+
+CompairWidget::CompairWidget(Compair *module) : ModuleWidget(module) {
+
 	box.size = Vec(4 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
 	{
 		SVGPanel *panel = new SVGPanel();
@@ -241,59 +245,59 @@ CompairWidget::CompairWidget(){
 		addChild(panel);
 	}
 	// SCREWS
-	addChild(createScrew<ScrewHead1>(Vec(15, 0)));
-	//addChild(createScrew<ScrewHead2>(Vec(box.size.x - 15, 0)));
-	addChild(createScrew<ScrewHead3>(Vec(15, 365)));
-	//addChild(createScrew<ScrewHead4>(Vec(box.size.x - 30, 365)));
+	addChild(Widget::create<ScrewHead1>(Vec(15, 0)));
+	//addChild(Widget::create<ScrewHead2>(Vec(box.size.x - 15, 0)));
+	addChild(Widget::create<ScrewHead3>(Vec(15, 365)));
+	//addChild(Widget::create<ScrewHead4>(Vec(box.size.x - 30, 365)));
 
 	// A Side
-	addInput(createInput<InPortAud>(Vec(4,22),module,Compair::AUDIO_A_IN));
+	addInput(Port::create<InPortAud>(Vec(4,22), Port::INPUT, module,Compair::AUDIO_A_IN));
 
-	addParam(createParam<PvCKnob>(Vec(4,60), module, Compair::POS_A_PARAM, -5.0f , 5.0f, 0.0f));
-	addInput(createInput<InPortCtrl>(Vec(4,84),module,Compair::POS_A_IN));
+	addParam(ParamWidget::create<PvCKnob>(Vec(4,60), module, Compair::POS_A_PARAM, -5.0f , 5.0f, 0.0f));
+	addInput(Port::create<InPortCtrl>(Vec(4,84), Port::INPUT, module,Compair::POS_A_IN));
 
-	addParam(createParam<PvCKnob>(Vec(4,124), module, Compair::WIDTH_A_PARAM, 0.01f , 10.001f, 5.0f));
-	addInput(createInput<InPortCtrl>(Vec(4,148),module,Compair::WIDTH_A_IN));
+	addParam(ParamWidget::create<PvCKnob>(Vec(4,124), module, Compair::WIDTH_A_PARAM, 0.01f , 10.001f, 5.0f));
+	addInput(Port::create<InPortCtrl>(Vec(4,148), Port::INPUT, module,Compair::WIDTH_A_IN));
 
-	addChild(createScrew<CompairLightBg>(Vec(4, 188)));
-	addChild(createLight<CompairLight<BlueLight>>(Vec(4,188),module,Compair::BELOW_A_LED));
-	addChild(createLight<CompairLight<WhiteLight>>(Vec(4,188),module,Compair::GATE_A_LED));
-	addChild(createLight<CompairLight<RedLight>>(Vec(4,188),module,Compair::OVER_A_LED));
-	addParam(createParam<CompairToggle>(Vec(4,188),module,Compair::INVERT_A_PARAM, 0, 1, 0));
+	addChild(Widget::create<CompairLightBg>(Vec(4, 188)));
+	addChild(ModuleLightWidget::create<CompairLight<BlueLight>>(Vec(4,188),module,Compair::BELOW_A_LED));
+	addChild(ModuleLightWidget::create<CompairLight<WhiteLight>>(Vec(4,188),module,Compair::GATE_A_LED));
+	addChild(ModuleLightWidget::create<CompairLight<RedLight>>(Vec(4,188),module,Compair::OVER_A_LED));
+	addParam(ParamWidget::create<CompairToggle>(Vec(4,188),module,Compair::INVERT_A_PARAM, 0, 1, 0));
 
-	addOutput(createOutput<OutPortBin>(Vec(4,226),module,Compair::GATE_A_OUT));
-	addOutput(createOutput<OutPortBin>(Vec(4,250),module,Compair::NOT_A_OUT));
+	addOutput(Port::create<OutPortBin>(Vec(4,226), Port::OUTPUT, module,Compair::GATE_A_OUT));
+	addOutput(Port::create<OutPortBin>(Vec(4,250), Port::OUTPUT, module,Compair::NOT_A_OUT));
 
-	addChild(createLight<LogicLight<CyanLight>>(Vec(13,288),module,Compair::AND_LED));
-	addOutput(createOutput<OutPortBin>(Vec(4,294),module,Compair::AND_OUT));
+	addChild(ModuleLightWidget::create<LogicLight<CyanLight>>(Vec(13,288),module,Compair::AND_LED));
+	addOutput(Port::create<OutPortBin>(Vec(4,294), Port::OUTPUT, module,Compair::AND_OUT));
 
-	addChild(createLight<LogicLight<YellowLight>>(Vec(13,330),module,Compair::XOR_LED));
-	addOutput(createOutput<OutPortBin>(Vec(4,336),module,Compair::XOR_OUT));
+	addChild(ModuleLightWidget::create<LogicLight<YellowLight>>(Vec(13,330),module,Compair::XOR_LED));
+	addOutput(Port::create<OutPortBin>(Vec(4,336), Port::OUTPUT, module,Compair::XOR_OUT));
 
 
 	// B Side
-	addInput(createInput<InPortAud>(Vec(34,22),module,Compair::AUDIO_B_IN));
+	addInput(Port::create<InPortAud>(Vec(34,22), Port::INPUT, module,Compair::AUDIO_B_IN));
 
-	addParam(createParam<PvCKnob>(Vec(34,60), module, Compair::POS_B_PARAM, -5.0f, 5.0f, 0.0f));
-	addInput(createInput<InPortCtrl>(Vec(34,84),module,Compair::POS_B_IN));
+	addParam(ParamWidget::create<PvCKnob>(Vec(34,60), module, Compair::POS_B_PARAM, -5.0f, 5.0f, 0.0f));
+	addInput(Port::create<InPortCtrl>(Vec(34,84), Port::INPUT, module,Compair::POS_B_IN));
 
-	addParam(createParam<PvCKnob>(Vec(34,124), module, Compair::WIDTH_B_PARAM, 0.01f , 10.001f, 5.0f));
-	addInput(createInput<InPortCtrl>(Vec(34,148),module,Compair::WIDTH_B_IN));
+	addParam(ParamWidget::create<PvCKnob>(Vec(34,124), module, Compair::WIDTH_B_PARAM, 0.01f , 10.001f, 5.0f));
+	addInput(Port::create<InPortCtrl>(Vec(34,148), Port::INPUT, module,Compair::WIDTH_B_IN));
 
-	addChild(createScrew<CompairLightBg>(Vec(34, 188)));
-	addChild(createLight<CompairLight<BlueLight>>(Vec(34,188),module,Compair::BELOW_B_LED));
-	addChild(createLight<CompairLight<WhiteLight>>(Vec(34,188),module,Compair::GATE_B_LED));
-	addChild(createLight<CompairLight<RedLight>>(Vec(34,188),module,Compair::OVER_B_LED));
-	addParam(createParam<CompairToggle>(Vec(34,188),module,Compair::INVERT_B_PARAM, 0, 1, 0));
+	addChild(Widget::create<CompairLightBg>(Vec(34, 188)));
+	addChild(ModuleLightWidget::create<CompairLight<BlueLight>>(Vec(34,188),module,Compair::BELOW_B_LED));
+	addChild(ModuleLightWidget::create<CompairLight<WhiteLight>>(Vec(34,188),module,Compair::GATE_B_LED));
+	addChild(ModuleLightWidget::create<CompairLight<RedLight>>(Vec(34,188),module,Compair::OVER_B_LED));
+	addParam(ParamWidget::create<CompairToggle>(Vec(34,188),module,Compair::INVERT_B_PARAM, 0, 1, 0));
 
-	addOutput(createOutput<OutPortBin>(Vec(34,226),module,Compair::GATE_B_OUT));
-	addOutput(createOutput<OutPortBin>(Vec(34,250),module,Compair::NOT_B_OUT));
+	addOutput(Port::create<OutPortBin>(Vec(34,226), Port::OUTPUT, module,Compair::GATE_B_OUT));
+	addOutput(Port::create<OutPortBin>(Vec(34,250), Port::OUTPUT, module,Compair::NOT_B_OUT));
 
-	addChild(createLight<LogicLight<OrangeLight>>(Vec(43,288),module,Compair::OR_LED));
-	addOutput(createOutput<OutPortBin>(Vec(34,294),module,Compair::OR_OUT));
+	addChild(ModuleLightWidget::create<LogicLight<OrangeLight>>(Vec(43,288),module,Compair::OR_LED));
+	addOutput(Port::create<OutPortBin>(Vec(34,294), Port::OUTPUT, module,Compair::OR_OUT));
 
-	addChild(createLight<LogicLight<GreenLight>>(Vec(43,330),module,Compair::FLIP_LED));
-	addOutput(createOutput<OutPortBin>(Vec(34,336),module,Compair::FLIP_OUT));
+	addChild(ModuleLightWidget::create<LogicLight<GreenLight>>(Vec(43,330),module,Compair::FLIP_LED));
+	addOutput(Port::create<OutPortBin>(Vec(34,336), Port::OUTPUT, module,Compair::FLIP_OUT));
 
 }
 
@@ -308,48 +312,48 @@ CompairWidget::CompairWidget(){
 		addChild(panel);
 	}
 	// SCREWS
-	addChild(createScrew<ScrewHead1>(Vec(15, 0)));
-	//addChild(createScrew<ScrewHead2>(Vec(box.size.x - 15, 0)));
-	addChild(createScrew<ScrewHead3>(Vec(15, 365)));
-	addChild(createScrew<ScrewHead4>(Vec(box.size.x - 30, 365)));
+	addChild(Widget::create<ScrewHead1>(Vec(15, 0)));
+	//addChild(Widget::create<ScrewHead2>(Vec(box.size.x - 15, 0)));
+	addChild(Widget::create<ScrewHead3>(Vec(15, 365)));
+	addChild(Widget::create<ScrewHead4>(Vec(box.size.x - 30, 365)));
 
 	// A
-	addInput(createInput<InPortAud>(Vec(35,234),module,Compair::AUDIO_A_IN));
-	addParam(createParam<PvCKnob>(Vec(10,60), module, Compair::POS_A_PARAM, -5.0f , 5.0f, 0.0f));
-	addInput(createInput<InPortCtrl>(Vec(7,190),module,Compair::POS_A_IN));
-	addParam(createParam<PvCKnob>(Vec(10,128), module, Compair::WIDTH_A_PARAM, 0.01f , 10.001f, 5.0f));
-	addInput(createInput<InPortCtrl>(Vec(35,190),module,Compair::WIDTH_A_IN));
-	addOutput(createOutput<OutPortBin>(Vec(7,278),module,Compair::GATE_A_OUT));
-	addChild(createScrew<LEDback>(Vec(7, 234)));
-	addChild(createLight<CompairLight<BlueLight>>(Vec(8,235),module,Compair::BELOW_A_LED));
-	addChild(createLight<CompairLight<WhiteLight>>(Vec(8,235),module,Compair::GATE_A_LED));
-	addChild(createLight<CompairLight<RedLight>>(Vec(8,235),module,Compair::OVER_A_LED));
-	addOutput(createOutput<OutPortBin>(Vec(35,278),module,Compair::NOT_A_OUT));
+	addInput(Port::create<InPortAud>(Vec(35,234), Port::INPUT, module,Compair::AUDIO_A_IN));
+	addParam(ParamWidget::create<PvCKnob>(Vec(10,60), module, Compair::POS_A_PARAM, -5.0f , 5.0f, 0.0f));
+	addInput(Port::create<InPortCtrl>(Vec(7,190), Port::INPUT, module,Compair::POS_A_IN));
+	addParam(ParamWidget::create<PvCKnob>(Vec(10,128), module, Compair::WIDTH_A_PARAM, 0.01f , 10.001f, 5.0f));
+	addInput(Port::create<InPortCtrl>(Vec(35,190), Port::INPUT, module,Compair::WIDTH_A_IN));
+	addOutput(Port::create<OutPortBin>(Vec(7,278), Port::OUTPUT, module,Compair::GATE_A_OUT));
+	addChild(Widget::create<LEDback>(Vec(7, 234)));
+	addChild(ModuleLightWidget::create<CompairLight<BlueLight>>(Vec(8,235),module,Compair::BELOW_A_LED));
+	addChild(ModuleLightWidget::create<CompairLight<WhiteLight>>(Vec(8,235),module,Compair::GATE_A_LED));
+	addChild(ModuleLightWidget::create<CompairLight<RedLight>>(Vec(8,235),module,Compair::OVER_A_LED));
+	addOutput(Port::create<OutPortBin>(Vec(35,278), Port::OUTPUT, module,Compair::NOT_A_OUT));
 
 	// B
-	addInput(createInput<InPortAud>(Vec(63,234),module,Compair::AUDIO_B_IN));
-	addParam(createParam<PvCKnob>(Vec(66,60), module, Compair::POS_B_PARAM, -5.0f, 5.0f, 0.0f));
-	addInput(createInput<InPortCtrl>(Vec(90,190),module,Compair::POS_B_IN));
-	addParam(createParam<PvCKnob>(Vec(66,128), module, Compair::WIDTH_B_PARAM, 0.01f , 10.001f, 5.0f));
-	addInput(createInput<InPortCtrl>(Vec(63,190),module,Compair::WIDTH_B_IN));
-	addOutput(createOutput<OutPortBin>(Vec(90,278),module,Compair::GATE_B_OUT));
-	addChild(createScrew<LEDback>(Vec(90, 234)));
-	addChild(createLight<CompairLight<BlueLight>>(Vec(91,235),module,Compair::BELOW_B_LED));
-	addChild(createLight<CompairLight<WhiteLight>>(Vec(91,235),module,Compair::GATE_B_LED));
-	addChild(createLight<CompairLight<RedLight>>(Vec(91,235),module,Compair::OVER_B_LED));
-	addOutput(createOutput<OutPortBin>(Vec(63,278),module,Compair::NOT_B_OUT));
+	addInput(Port::create<InPortAud>(Vec(63,234), Port::INPUT, module,Compair::AUDIO_B_IN));
+	addParam(ParamWidget::create<PvCKnob>(Vec(66,60), module, Compair::POS_B_PARAM, -5.0f, 5.0f, 0.0f));
+	addInput(Port::create<InPortCtrl>(Vec(90,190), Port::INPUT, module,Compair::POS_B_IN));
+	addParam(ParamWidget::create<PvCKnob>(Vec(66,128), module, Compair::WIDTH_B_PARAM, 0.01f , 10.001f, 5.0f));
+	addInput(Port::create<InPortCtrl>(Vec(63,190), Port::INPUT, module,Compair::WIDTH_B_IN));
+	addOutput(Port::create<OutPortBin>(Vec(90,278), Port::OUTPUT, module,Compair::GATE_B_OUT));
+	addChild(Widget::create<LEDback>(Vec(90, 234)));
+	addChild(ModuleLightWidget::create<CompairLight<BlueLight>>(Vec(91,235),module,Compair::BELOW_B_LED));
+	addChild(ModuleLightWidget::create<CompairLight<WhiteLight>>(Vec(91,235),module,Compair::GATE_B_LED));
+	addChild(ModuleLightWidget::create<CompairLight<RedLight>>(Vec(91,235),module,Compair::OVER_B_LED));
+	addOutput(Port::create<OutPortBin>(Vec(63,278), Port::OUTPUT, module,Compair::NOT_B_OUT));
 	// Invert toggles
-	addParam(createParam<CompairToggle>(Vec(11,238),module,Compair::INVERT_A_PARAM, 0, 1, 0));
-	addParam(createParam<CompairToggle>(Vec(94,238),module,Compair::INVERT_B_PARAM, 0, 1, 0));
+	addParam(ParamWidget::create<CompairToggle>(Vec(11,238),module,Compair::INVERT_A_PARAM, 0, 1, 0));
+	addParam(ParamWidget::create<CompairToggle>(Vec(94,238),module,Compair::INVERT_B_PARAM, 0, 1, 0));
 	// LOGIC
-	addOutput(createOutput<OutPortBin>(Vec(7,324),module,Compair::AND_OUT));
-	addChild(createLight<LogicLight<CyanLight>>(Vec(16,318),module,Compair::AND_LED));
-	addOutput(createOutput<OutPortBin>(Vec(35,324),module,Compair::OR_OUT));
-	addChild(createLight<LogicLight<OrangeLight>>(Vec(44,318),module,Compair::OR_LED));
-	addOutput(createOutput<OutPortBin>(Vec(63,324),module,Compair::XOR_OUT));
-	addChild(createLight<LogicLight<YellowLight>>(Vec(72,318),module,Compair::XOR_LED));
-	addOutput(createOutput<OutPortBin>(Vec(90,324),module,Compair::FLIP_OUT));
-	addChild(createLight<LogicLight<GreenLight>>(Vec(99,318),module,Compair::FLIP_LED));
+	addOutput(Port::create<OutPortBin>(Vec(7,324), Port::OUTPUT, module,Compair::AND_OUT));
+	addChild(ModuleLightWidget::create<LogicLight<CyanLight>>(Vec(16,318),module,Compair::AND_LED));
+	addOutput(Port::create<OutPortBin>(Vec(35,324), Port::OUTPUT, module,Compair::OR_OUT));
+	addChild(ModuleLightWidget::create<LogicLight<OrangeLight>>(Vec(44,318),module,Compair::OR_LED));
+	addOutput(Port::create<OutPortBin>(Vec(63,324), Port::OUTPUT, module,Compair::XOR_OUT));
+	addChild(ModuleLightWidget::create<LogicLight<YellowLight>>(Vec(72,318),module,Compair::XOR_LED));
+	addOutput(Port::create<OutPortBin>(Vec(90,324), Port::OUTPUT, module,Compair::FLIP_OUT));
+	addChild(ModuleLightWidget::create<LogicLight<GreenLight>>(Vec(99,318),module,Compair::FLIP_LED));
 }*/
 
 struct CompairOutputModeItem : MenuItem {
@@ -390,3 +394,6 @@ Menu *CompairWidget::createContextMenu() {
 
 	return menu;
 }
+
+Model *modelCompair = Model::create<Compair, CompairWidget>(
+	"PvC", "Compair", "Compair", LOGIC_TAG, DIGITAL_TAG, DUAL_TAG);

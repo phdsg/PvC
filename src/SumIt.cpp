@@ -64,15 +64,16 @@ void SumIt::step() {
 
 	// out gain and clamp
 	mix *= params[VOLUME].value;
-	outputs[OUTPUT].value = clampf(mix, -10.0f, 10.0f);
+	outputs[OUTPUT].value = clamp(mix, -10.0f, 10.0f);
 }
 
+struct SumItWidget : ModuleWidget {
+	SumItWidget(SumIt *module);
+};
 
-SumItWidget::SumItWidget() {
-	SumIt *module = new SumIt();
-	setModule(module);
+SumItWidget::SumItWidget(SumIt *module) : ModuleWidget(module) {
+
 	box.size = Vec(15*2, 380);
-
 	{
 		SVGPanel *panel = new SVGPanel();
 		panel->box.size = box.size;
@@ -80,15 +81,17 @@ SumItWidget::SumItWidget() {
 		addChild(panel);
 	}
 	// screws
-	// addChild(createScrew<ScrewHead1>(Vec(0, 0)));
-	addChild(createScrew<ScrewHead2>(Vec(box.size.x - 15, 0)));
-	// addChild(createScrew<ScrewHead3>(Vec(0, 365)));
-	addChild(createScrew<ScrewHead4>(Vec(box.size.x - 15, 365)));
+	// addChild(Widget::create<ScrewHead1>(Vec(0, 0)));
+	addChild(Widget::create<ScrewHead2>(Vec(box.size.x - 15, 0)));
+	// addChild(Widget::create<ScrewHead3>(Vec(0, 365)));
+	addChild(Widget::create<ScrewHead4>(Vec(box.size.x - 15, 365)));
 	// inputs
 	for (int i = 0; i < 12; i++) {
-		addInput(createInput<InPortAud>(Vec(4,22 + 24*i), module, SumIt::INPUT + i));
+		addInput(Port::create<InPortAud>(Vec(4,22 + 24*i), Port::INPUT, module, SumIt::INPUT + i));
 	}
 	// gain and out
-	addParam(createParam<PvCKnob>(Vec(4,24 + 24*12), module, SumIt::VOLUME, 0.0f,2.0f,1.0f));
-	addOutput(createOutput<OutPortVal>(Vec(4,24 + 24*13), module, SumIt::OUTPUT));
+	addParam(ParamWidget::create<PvCKnob>(Vec(4,24 + 24*12), module, SumIt::VOLUME, 0.0f,2.0f,1.0f));
+	addOutput(Port::create<OutPortVal>(Vec(4,24 + 24*13), Port::OUTPUT, module, SumIt::OUTPUT));
 }
+
+Model *modelSumIt = Model::create<SumIt, SumItWidget>("PvC", "SumIt", "SumIt", ATTENUATOR_TAG, AMPLIFIER_TAG, MIXER_TAG);

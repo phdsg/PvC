@@ -91,9 +91,9 @@ void InToAorB::step() {
 		if (tossTrigger.process(inputs[TOSS_IN].value)) {
 			gatePulse.trigger(0.01f);
 			if (flipMode)
-				gate = (randomf() < params[PROB_UI].value + inputs[PROB_CV].value) ? !gate : gate; //
+				gate = (randomUniform() < params[PROB_UI].value + inputs[PROB_CV].value) ? !gate : gate; //
 			else
-				gate = (randomf() < (params[PROB_UI].value + inputs[PROB_CV].value*0.1f));
+				gate = (randomUniform() < (params[PROB_UI].value + inputs[PROB_CV].value*0.1f));
 			
 		}
 	}
@@ -139,10 +139,12 @@ template <typename BASE>
  	}
  };
 
+struct InToAorBWidget : ModuleWidget {
+	InToAorBWidget(InToAorB *module);
+};
 
-InToAorBWidget::InToAorBWidget() {
-	InToAorB *module = new InToAorB();
-	setModule(module);
+InToAorBWidget::InToAorBWidget(InToAorB *module) : ModuleWidget(module) {
+
 	box.size = Vec(15*4, 380);
 
 	{
@@ -152,30 +154,32 @@ InToAorBWidget::InToAorBWidget() {
 		addChild(panel);
 	}
 	// screws
-	addChild(createScrew<ScrewHead1>(Vec(0, 0)));
-	// addChild(createScrew<ScrewHead2>(Vec(box.size.x - 15, 0)));
-	addChild(createScrew<ScrewHead3>(Vec(0, 365)));
-	// addChild(createScrew<ScrewHead4>(Vec(box.size.x - 15, 365)));
+	addChild(Widget::create<ScrewHead1>(Vec(0, 0)));
+	// addChild(Widget::create<ScrewHead2>(Vec(box.size.x - 15, 0)));
+	addChild(Widget::create<ScrewHead3>(Vec(0, 365)));
+	// addChild(Widget::create<ScrewHead4>(Vec(box.size.x - 15, 365)));
 
-	addInput(createInput<InPortAud>(Vec(19,22), module, InToAorB::SIG_IN));
+	addInput(Port::create<InPortAud>(Vec(19,22), Port::INPUT, module, InToAorB::SIG_IN));
 
-	addParam(createParam<PvCKnob>(Vec(19,64), module, InToAorB::PROB_UI, 0.0f, 1.0f, 0.5f));
-	addInput(createInput<InPortCtrl>(Vec(19,88), module, InToAorB::PROB_CV));
-	addInput(createInput<InPortBin>(Vec(19,124), module, InToAorB::TOSS_IN));
-	addChild(createLight<FourPixLight<OrangeLight>>(Vec(25,163),module, InToAorB::DIR_LED));
-	addChild(createLight<FourPixLight<BlueLight>>(Vec(31,163),module, InToAorB::FLP_LED));
-	addParam(createParam<ModeToggle>(Vec(24,162), module, InToAorB::TOSS_MODE, 0, 1, 0));
-	addInput(createInput<InPortBin>(Vec(19,180), module, InToAorB::FLIP_IN));
+	addParam(ParamWidget::create<PvCKnob>(Vec(19,64), module, InToAorB::PROB_UI, 0.0f, 1.0f, 0.5f));
+	addInput(Port::create<InPortCtrl>(Vec(19,88), Port::INPUT, module, InToAorB::PROB_CV));
+	addInput(Port::create<InPortBin>(Vec(19,124), Port::INPUT, module, InToAorB::TOSS_IN));
+	addChild(ModuleLightWidget::create<FourPixLight<OrangeLight>>(Vec(25,163),module, InToAorB::DIR_LED));
+	addChild(ModuleLightWidget::create<FourPixLight<BlueLight>>(Vec(31,163),module, InToAorB::FLP_LED));
+	addParam(ParamWidget::create<ModeToggle>(Vec(24,162), module, InToAorB::TOSS_MODE, 0, 1, 0));
+	addInput(Port::create<InPortBin>(Vec(19,180), Port::INPUT, module, InToAorB::FLIP_IN));
 	
-	addInput(createInput<InPortBin>(Vec(4,224),module, InToAorB::SET_A_IN));
-	addChild(createLight<FourPixLight<CyanLight>>(Vec(13,267),module, InToAorB::A_LED));
-	addOutput(createOutput<OutPortVal>(Vec(4,276),module, InToAorB::SIG_A_OUT));
-	addOutput(createOutput<OutPortBin>(Vec(4,312),module, InToAorB::GATE_A_OUT));
-	addOutput(createOutput<OutPortBin>(Vec(4,336),module, InToAorB::TRIG_A_OUT));
+	addInput(Port::create<InPortBin>(Vec(4,224), Port::INPUT, module, InToAorB::SET_A_IN));
+	addChild(ModuleLightWidget::create<FourPixLight<CyanLight>>(Vec(13,267),module, InToAorB::A_LED));
+	addOutput(Port::create<OutPortVal>(Vec(4,276), Port::OUTPUT, module, InToAorB::SIG_A_OUT));
+	addOutput(Port::create<OutPortBin>(Vec(4,312), Port::OUTPUT, module, InToAorB::GATE_A_OUT));
+	addOutput(Port::create<OutPortBin>(Vec(4,336), Port::OUTPUT, module, InToAorB::TRIG_A_OUT));
 
-	addInput(createInput<InPortBin>(Vec(34,224),module, InToAorB::SET_B_IN));
-	addChild(createLight<FourPixLight<PurpleLight>>(Vec(43,267),module, InToAorB::B_LED));
-	addOutput(createOutput<OutPortVal>(Vec(34,276),module, InToAorB::SIG_B_OUT));
-	addOutput(createOutput<OutPortBin>(Vec(34,312),module, InToAorB::GATE_B_OUT));
-	addOutput(createOutput<OutPortBin>(Vec(34,336),module, InToAorB::TRIG_B_OUT));
+	addInput(Port::create<InPortBin>(Vec(34,224), Port::INPUT, module, InToAorB::SET_B_IN));
+	addChild(ModuleLightWidget::create<FourPixLight<PurpleLight>>(Vec(43,267),module, InToAorB::B_LED));
+	addOutput(Port::create<OutPortVal>(Vec(34,276), Port::OUTPUT, module, InToAorB::SIG_B_OUT));
+	addOutput(Port::create<OutPortBin>(Vec(34,312), Port::OUTPUT, module, InToAorB::GATE_B_OUT));
+	addOutput(Port::create<OutPortBin>(Vec(34,336), Port::OUTPUT, module, InToAorB::TRIG_B_OUT));
 }
+Model *modelInToAorB = Model::create<InToAorB, InToAorBWidget>(
+	"PvC", "InToAorB", "InToAorB", LOGIC_TAG);

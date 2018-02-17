@@ -5,22 +5,20 @@ using namespace rack;
 extern Plugin *plugin;
 
 // module widgets
-struct AorBtoOutWidget : ModuleWidget { AorBtoOutWidget(); };
-struct BangDaButtonWidget : ModuleWidget { BangDaButtonWidget(); };
-// struct BitSHWidget : ModuleWidget { BitSHWidget(); };
-// struct CoinTreeWidget : ModuleWidget { CoinTreeWidget(); };
-struct CompairWidget : ModuleWidget { CompairWidget(); Menu *createContextMenu() override; };
-struct CoSuOfWidget : ModuleWidget { CoSuOfWidget(); };
-struct FlipOLogicWidget : ModuleWidget { FlipOLogicWidget(); };
-struct GeighthsWidget : ModuleWidget { GeighthsWidget(); };
-struct InToAorBWidget : ModuleWidget { InToAorBWidget(); };
-struct ShutItWidget : ModuleWidget { ShutItWidget(); };
-struct SlimSeqWidget : ModuleWidget { SlimSeqWidget(); };
-struct SumItWidget : ModuleWidget { SumItWidget(); };
-struct TaHaSaHaNWidget : ModuleWidget { TaHaSaHaNWidget(); };
-struct VampsWidget : ModuleWidget { VampsWidget(); };
-struct VubarWidget : ModuleWidget { VubarWidget(); };
-struct PvCBlankWidget : ModuleWidget { PvCBlankWidget(); };
+extern Model *modelAorBtoOut;
+extern Model *modelInToAorB;
+extern Model *modelBangDaButton;
+extern Model *modelCompair;
+extern Model *modelCoSuOf;
+extern Model *modelFlipOLogic;
+extern Model *modelGeighths;
+extern Model *modelShutIt;
+extern Model *modelSlimSeq;
+extern Model *modelSumIt;
+extern Model *modelTaHaSaHaN;
+extern Model *modelVamps;
+extern Model *modelVubar;
+extern Model *modelPvCBlank;
 
 //////////////////////////////////////////////////////////////////////////////
 
