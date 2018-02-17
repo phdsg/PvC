@@ -25,13 +25,13 @@ All the other module developers for their inspiring modules, especially [Strum: 
 <img align="right" src="images/AllModules.png">  
 
   __Bang, da Button__ - Control Button ([details](bang.md))  
-  __AorBtoOut / InToAorB__ - A/B chance switches ([details](chance_sw.md))  
+  __AorBtoOut / InToAorB__ - A/B Chance Switches ([details](chance_sw.md))  
   __ComPair__ - 2ch Window Comparator ([details](compair.md))  
   __CoSuOf__ - Comparator / Substractor / Offsetter ([details](cosuof.md))  
   __FlipOLogic__ - Logic Gates ([details](flipologic.md))  
   __Geighths__ - 8ch Gate Creator ([details](geighths.md))  
-  __ShutIt__ - Mute Switch / Mult ([details](shutit.md))  
-  __SlimSeq__ - 16 Step Sequencer / 16to1 Seq. Switch ([details](slimseq.md))  
+  __ShutIt__ - 8ch Mute Switch / Multiple ([details](shutit.md))  
+  __SlimSeq__ - 16 Step Sequencer / 16to1 Sequential Switch ([details](slimseq.md))  
   __SumIt__ - 12ch Mixer ([details](sumit.md))  
   __TaHaSaHaN__ - TrackNHold / SampleNHold / Noise ([details](tahasahan.md))  
   __vAMPs__ - Stereo VCA ([details](vamps.md))  
