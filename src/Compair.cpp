@@ -236,14 +236,8 @@ struct CompairWidget : ModuleWidget {
 };
 
 CompairWidget::CompairWidget(Compair *module) : ModuleWidget(module) {
-
-	box.size = Vec(4 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
-	{
-		SVGPanel *panel = new SVGPanel();
-		panel->box.size = box.size;
-		panel->setBackground(SVG::load(assetPlugin(plugin, "res/panels/Compair.svg")));
-		addChild(panel);
-	}
+	setPanel(SVG::load(assetPlugin(plugin, "res/panels/Compair.svg")));
+	
 	// SCREWS
 	addChild(Widget::create<ScrewHead1>(Vec(15, 0)));
 	//addChild(Widget::create<ScrewHead2>(Vec(box.size.x - 15, 0)));

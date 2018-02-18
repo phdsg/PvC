@@ -217,15 +217,8 @@ struct FlipOLogicWidget : ModuleWidget {
 };
 
 FlipOLogicWidget::FlipOLogicWidget(FlipOLogic *module) : ModuleWidget(module) {
+	setPanel(SVG::load(assetPlugin(plugin, "res/panels/FlipOLogic.svg")));
 
-	box.size = Vec(15*6, 380);
-
-	{
-		SVGPanel *panel = new SVGPanel();
-		panel->box.size = box.size;
-		panel->setBackground(SVG::load(assetPlugin(plugin, "res/panels/FlipOLogic.svg")));
-		addChild(panel);
-	}
 	// screws
 	//addChild(Widget::create<ScrewHead1>(Vec(0, 0)));
 	addChild(Widget::create<ScrewHead2>(Vec(box.size.x - 15, 0)));
@@ -291,4 +284,4 @@ FlipOLogicWidget::FlipOLogicWidget(FlipOLogic *module) : ModuleWidget(module) {
 }
 
 Model *modelFlipOLogic = Model::create<FlipOLogic, FlipOLogicWidget>(
-	"PvC", "FlipOLogic", "FlipOLogic", LOGIC_TAG);
+	"PvC", "FlipOLogic", "FlipOLogic", LOGIC_TAG, SWITCH_TAG);

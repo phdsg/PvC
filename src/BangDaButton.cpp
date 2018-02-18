@@ -162,15 +162,8 @@ struct BangDaButtonWidget : ModuleWidget {
 };
 
 BangDaButtonWidget::BangDaButtonWidget(BangDaButton *module) : ModuleWidget(module) {
-
-	box.size = Vec(15*6, 380);
-
-	{
-		SVGPanel *panel = new SVGPanel();
-		panel->box.size = box.size;
-		panel->setBackground(SVG::load(assetPlugin(plugin, "res/panels/BangDaButton.svg")));
-		addChild(panel);
-	}
+	setPanel(SVG::load(assetPlugin(plugin, "res/panels/BangDaButton.svg")));
+	
 	// screws
 	addChild(Widget::create<ScrewHead3>(Vec(15, 0)));
 	addChild(Widget::create<ScrewHead2>(Vec(box.size.x - 30, 0)));

@@ -93,15 +93,8 @@ struct TaHaSaHaNWidget : ModuleWidget {
 };
 
 TaHaSaHaNWidget::TaHaSaHaNWidget(TaHaSaHaN *module) : ModuleWidget(module) {
+	setPanel(SVG::load(assetPlugin(plugin, "res/panels/TaHaSaHaN.svg")));
 
-	box.size = Vec(15*2, 380);
-
-	{
-		SVGPanel *panel = new SVGPanel();
-		panel->box.size = box.size;
-		panel->setBackground(SVG::load(assetPlugin(plugin, "res/panels/TaHaSaHaN.svg")));
-		addChild(panel);
-	}
 	// screws
 	addChild(Widget::create<ScrewHead4>(Vec(0, 0)));
 	// addChild(Widget::create<ScrewHead1>(Vec(box.size.x - 15, 0)));

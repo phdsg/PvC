@@ -115,14 +115,8 @@ struct VubarWidget : ModuleWidget {
 };
 
 VubarWidget::VubarWidget(Vubar *module) : ModuleWidget(module) {
-
-	box.size = Vec(2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
-	{
-		SVGPanel *panel = new SVGPanel();
-		panel->box.size = box.size;
-		panel->setBackground(SVG::load(assetPlugin(plugin, "res/panels/panel2HE.svg")));
-		addChild(panel);
-	}
+	setPanel(SVG::load(assetPlugin(plugin, "res/panels/panel2HE.svg")));
+	
 	// SCREWS
 	addChild(Widget::create<ScrewHead1>(Vec(0, 0)));
 	//addChild(Widget::create<ScrewHead2>(Vec(box.size.x - 15, 0)));

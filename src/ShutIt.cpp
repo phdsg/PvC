@@ -153,6 +153,7 @@ struct ShutItWidget : ModuleWidget {
 
 ShutItWidget::ShutItWidget(ShutIt *module) : ModuleWidget(module) {
 	setPanel(SVG::load(assetPlugin(plugin, "res/panels/ShutIt.svg")));
+	
 	// screws
 	addChild(Widget::create<ScrewHead1>(Vec(0, 0)));
 	addChild(Widget::create<ScrewHead2>(Vec(box.size.x - 15, 0)));

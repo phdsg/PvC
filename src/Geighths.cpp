@@ -97,15 +97,8 @@ struct GeighthsWidget : ModuleWidget {
 };
 
 GeighthsWidget::GeighthsWidget(Geighths *module) : ModuleWidget(module) {
-
-	box.size = Vec(15*4, 380);
-
-	{
-		SVGPanel *panel = new SVGPanel();
-		panel->box.size = box.size;
-		panel->setBackground(SVG::load(assetPlugin(plugin, "res/panels/Geighths.svg")));
-		addChild(panel);
-	}
+	setPanel(SVG::load(assetPlugin(plugin, "res/panels/Geighths.svg")));
+	
 	// screws
 	addChild(Widget::create<ScrewHead1>(Vec(0, 0)));
 	addChild(Widget::create<ScrewHead2>(Vec(box.size.x - 15, 0)));

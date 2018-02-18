@@ -65,10 +65,7 @@ struct CoSuOf : Module {
 	void reset() override {
 		gate = false;
 	}
-
-	
 };
-
 
 void CoSuOf::step() {
 
@@ -91,15 +88,7 @@ struct CoSuOfWidget : ModuleWidget {
 };
 
 CoSuOfWidget::CoSuOfWidget(CoSuOf *module) : ModuleWidget(module) {
-
-	box.size = Vec(15*2, 380);
-
-	{
-		SVGPanel *panel = new SVGPanel();
-		panel->box.size = box.size;
-		panel->setBackground(SVG::load(assetPlugin(plugin, "res/panels/CoSuOf.svg")));
-		addChild(panel);
-	}
+	setPanel(SVG::load(assetPlugin(plugin, "res/panels/CoSuOf.svg")));
 	// screws
 	addChild(Widget::create<ScrewHead1>(Vec(0, 0)));
 	addChild(Widget::create<ScrewHead2>(Vec(box.size.x - 15, 0)));
@@ -122,4 +111,4 @@ CoSuOfWidget::CoSuOfWidget(CoSuOf *module) : ModuleWidget(module) {
 }
 
 Model *modelCoSuOf = Model::create<CoSuOf, CoSuOfWidget>(
-	"PvC", "CoSuOf", "CoSuOf", LOGIC_TAG);
+	"PvC", "CoSuOf", "CoSuOf", LOGIC_TAG, ATTENUATOR_TAG, AMPLIFIER_TAG);

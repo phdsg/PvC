@@ -214,15 +214,8 @@ struct SlimSeqWidget : ModuleWidget {
 };
 
 SlimSeqWidget::SlimSeqWidget(SlimSeq *module) : ModuleWidget(module) {
+	setPanel(SVG::load(assetPlugin(plugin, "res/panels/SlimSeq.svg")));
 
-	box.size = Vec(15*8, 380);
-
-	{
-		SVGPanel *panel = new SVGPanel();
-		panel->box.size = box.size;
-		panel->setBackground(SVG::load(assetPlugin(plugin,"res/panels/SlimSeq.svg")));
-		addChild(panel);
-	}
 	// screws
 	addChild(Widget::create<ScrewHead2>(Vec(15, 0)));
 	addChild(Widget::create<ScrewHead4>(Vec(box.size.x-30, 0)));
