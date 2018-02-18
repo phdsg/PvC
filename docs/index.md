@@ -25,7 +25,7 @@ All the other module developers for their inspiring modules, especially [Strum: 
 <img align="right" src="images/AllModules.png">  
 
   __Bang, da Button__ - Control Button ([details](bang.md))  
-  __AorBtoOut / InToAorB__ - A/B Chance Switches ([details](chance_sw.md))  
+  __Heads & Tails__ - A/B Chance Switches ([details](chance_sw.md))  
   __ComPair__ - 2ch Window Comparator ([details](compair.md))  
   __CoSuOf__ - Comparator / Substractor / Offsetter ([details](cosuof.md))  
   __FlipOLogic__ - Logic Gates ([details](flipologic.md))  
