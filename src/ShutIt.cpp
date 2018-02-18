@@ -11,13 +11,16 @@ ShutIt
 struct ShutIt : Module {
 	enum ParamIds {
 		A_MUTE,
-		NUM_PARAMS = A_MUTE + CHANCOUNT
+		SHUT_ALL = A_MUTE + CHANCOUNT,
+		OPEN_ALL,
+		FLIP_ALL,
+		NUM_PARAMS
 	};
 	enum InputIds {
 		A_IN,
 		A_TRIG = A_IN + CHANCOUNT,
-		MUTE_ALL_TRIG = A_TRIG + CHANCOUNT,
-		UNMUTE_ALL_TRIG,
+		SHUT_ALL_TRIG = A_TRIG + CHANCOUNT,
+		OPEN_ALL_TRIG,
 		FLIP_ALL_TRIG,
 
 		NUM_INPUTS
@@ -100,22 +103,31 @@ void ShutIt::step() {
 		lights[A_STATE + 2*i].value = muteState[i] ? 0 : 1;
 		lights[A_STATE+1 + 2*i].value = muteState[i] ? 1 : 0;
 	}
-	if (muteAllTrig.process(inputs[MUTE_ALL_TRIG].value)) {
+	if (muteAllTrig.process(inputs[SHUT_ALL_TRIG].value + params[SHUT_ALL].value)) {
 		for (int i = 0; i < CHANCOUNT; i++)	{
 			muteState[i] = true;
 		}
 	}
-	if (unmuteAllTrig.process(inputs[UNMUTE_ALL_TRIG].value)) {
+	if (unmuteAllTrig.process(inputs[OPEN_ALL_TRIG].value + params[OPEN_ALL].value)) {
 		for (int i = 0; i < CHANCOUNT; i++)	{
 			muteState[i] = false;
 		}
 	}
-	if (flipAllTrig.process(inputs[FLIP_ALL_TRIG].value)) {
+	if (flipAllTrig.process(inputs[FLIP_ALL_TRIG].value + params[FLIP_ALL].value)) {
 		for (int i = 0; i < CHANCOUNT; i++)	{
 			muteState[i] = !muteState[i];
 		}
 	}
 }
+
+struct LabelButtonS : SVGSwitch, MomentarySwitch {
+	LabelButtonS() {
+		addFrame(SVG::load(assetPlugin(plugin, "res/components/LabelButtonS_0.svg")));
+		addFrame(SVG::load(assetPlugin(plugin, "res/components/LabelButtonS_1.svg")));
+
+		box.size = Vec(24,12);
+	}
+};
 
 template <typename BASE>
  struct FourPixLight : BASE {
@@ -162,8 +174,11 @@ ShutItWidget::ShutItWidget() {
 		addInput(createInput<InPortBin>(Vec(28,26 + top*i),module, ShutIt::A_TRIG + i));
 		addOutput(createOutput<OutPortVal>(Vec(52,26 + top*i),module, ShutIt::A_OUT + i));
 	}
-	addInput(createInput<InPortBin>(Vec(4,324),module, ShutIt::MUTE_ALL_TRIG));
-	addInput(createInput<InPortBin>(Vec(34,324),module, ShutIt::FLIP_ALL_TRIG));
-	addInput(createInput<InPortBin>(Vec(64,324),module, ShutIt::UNMUTE_ALL_TRIG));
+	addInput(createInput<InPortBin>(Vec(4,322),module, ShutIt::SHUT_ALL_TRIG));
+	addParam(createParam<LabelButtonS>(Vec(3,347), module, ShutIt::SHUT_ALL, 0, 1, 0));
+	addInput(createInput<InPortBin>(Vec(34,322),module, ShutIt::FLIP_ALL_TRIG));
+	addParam(createParam<LabelButtonS>(Vec(33,347), module, ShutIt::FLIP_ALL, 0, 1, 0));
+	addInput(createInput<InPortBin>(Vec(64,322),module, ShutIt::OPEN_ALL_TRIG));
+	addParam(createParam<LabelButtonS>(Vec(63,347), module, ShutIt::OPEN_ALL, 0, 1, 0));
 	// TODO: buttons
 }
