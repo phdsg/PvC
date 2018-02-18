@@ -86,9 +86,12 @@ void CoSuOf::step() {
 	lights[NATE_LED].value = !gate;
 }
 
-CoSuOfWidget::CoSuOfWidget() {
-	CoSuOf *module = new CoSuOf();
-	setModule(module);
+struct CoSuOfWidget : ModuleWidget {
+	CoSuOfWidget(CoSuOf *module);
+};
+
+CoSuOfWidget::CoSuOfWidget(CoSuOf *module) : ModuleWidget(module) {
+
 	box.size = Vec(15*2, 380);
 
 	{
@@ -98,22 +101,25 @@ CoSuOfWidget::CoSuOfWidget() {
 		addChild(panel);
 	}
 	// screws
-	addChild(createScrew<ScrewHead1>(Vec(0, 0)));
-	addChild(createScrew<ScrewHead2>(Vec(box.size.x - 15, 0)));
-	addChild(createScrew<ScrewHead3>(Vec(0, 365)));
-	addChild(createScrew<ScrewHead4>(Vec(box.size.x - 15, 365)));
+	addChild(Widget::create<ScrewHead1>(Vec(0, 0)));
+	addChild(Widget::create<ScrewHead2>(Vec(box.size.x - 15, 0)));
+	addChild(Widget::create<ScrewHead3>(Vec(0, 365)));
+	addChild(Widget::create<ScrewHead4>(Vec(box.size.x - 15, 365)));
 
-	addInput(createInput<InPortAud>(Vec(4,22),module,CoSuOf::POS_IN));
-	addParam(createParam<PvCKnob>(Vec(4,48),module,CoSuOf::POS_LVL, 0.0f, 1.0f, 1.0f));
+	addInput(Port::create<InPortAud>(Vec(4,22), Port::INPUT, module,CoSuOf::POS_IN));
+	addParam(ParamWidget::create<PvCKnob>(Vec(4,48),module,CoSuOf::POS_LVL, 0.0f, 1.0f, 1.0f));
 
-	addInput(createInput<InPortAud>(Vec(4,90),module,CoSuOf::NEG_IN));
-	addParam(createParam<PvCKnob>(Vec(4,116),module,CoSuOf::NEG_LVL, 0.0f, 1.0f, 1.0f));
+	addInput(Port::create<InPortAud>(Vec(4,90), Port::INPUT, module,CoSuOf::NEG_IN));
+	addParam(ParamWidget::create<PvCKnob>(Vec(4,116),module,CoSuOf::NEG_LVL, 0.0f, 1.0f, 1.0f));
 
-	addParam(createParam<PvCKnob>(Vec(4,168),module,CoSuOf::OFFSET, -10.0f, 10.0f, 0.0f));
-	addOutput(createOutput<OutPortVal>(Vec(4,208),module,CoSuOf::SUM_OUT));
+	addParam(ParamWidget::create<PvCKnob>(Vec(4,168),module,CoSuOf::OFFSET, -10.0f, 10.0f, 0.0f));
+	addOutput(Port::create<OutPortVal>(Vec(4,208), Port::OUTPUT, module,CoSuOf::SUM_OUT));
 
-	addChild(createLight<PvCBigLED<GreenRedLight>>(Vec(4, 258),module, CoSuOf::GATE_LED));
-	addParam(createParam<PvCLEDKnob>(Vec(4,258),module,CoSuOf::GAP, 0.0f, 10.0f, 0.0f));
-	addOutput(createOutput<OutPortBin>(Vec(4,300),module,CoSuOf::GATE_OUT));
-	addOutput(createOutput<OutPortBin>(Vec(4,336),module,CoSuOf::NATE_OUT));
+	addChild(ModuleLightWidget::create<PvCBigLED<GreenRedLight>>(Vec(4, 258),module, CoSuOf::GATE_LED));
+	addParam(ParamWidget::create<PvCLEDKnob>(Vec(4,258),module,CoSuOf::GAP, 0.0f, 10.0f, 0.0f));
+	addOutput(Port::create<OutPortBin>(Vec(4,300), Port::OUTPUT, module,CoSuOf::GATE_OUT));
+	addOutput(Port::create<OutPortBin>(Vec(4,336), Port::OUTPUT, module,CoSuOf::NATE_OUT));
 }
+
+Model *modelCoSuOf = Model::create<CoSuOf, CoSuOfWidget>(
+	"PvC", "CoSuOf", "CoSuOf", LOGIC_TAG);

@@ -36,10 +36,12 @@ void PvCBlank::step() {
  // TODO: make cursor blink...
 }
 
+struct PvCBlankWidget : ModuleWidget {
+	PvCBlankWidget(PvCBlank *module);
+};
 
-PvCBlankWidget::PvCBlankWidget() {
-	PvCBlank *module = new PvCBlank();
-	setModule(module);
+PvCBlankWidget::PvCBlankWidget(PvCBlank *module) : ModuleWidget(module) {
+
 	box.size = Vec(15*34, 380);
 
 	{
@@ -49,13 +51,16 @@ PvCBlankWidget::PvCBlankWidget() {
 		addChild(panel);
 	}
 	// // screws
-	// addChild(createScrew<ScrewHead1>(Vec(0, 0)));
-	// addChild(createScrew<ScrewHead2>(Vec(box.size.x - 15, 0)));
-	// addChild(createScrew<ScrewHead3>(Vec(0, 365)));
-	// addChild(createScrew<ScrewHead4>(Vec(box.size.x - 15, 365)));
+	// addChild(Widget::create<ScrewHead1>(Vec(0, 0)));
+	// addChild(Widget::create<ScrewHead2>(Vec(box.size.x - 15, 0)));
+	// addChild(Widget::create<ScrewHead3>(Vec(0, 365)));
+	// addChild(Widget::create<ScrewHead4>(Vec(box.size.x - 15, 365)));
 
-	// addInput(createInput<>(Vec(,),module,PvCBlank::));
-	// addParam(createParam<>(Vec(,),module,PvCBlank::));
-	// addOutput(createOutput<>(Vec(,),module,PvCBlank::));
+	// addInput(Port::create<>(Vec(,), Port::INPUT, module,PvCBlank::));
+	// addParam(ParamWidget::create<>(Vec(,),module,PvCBlank::));
+	// addOutput(Port::create<>(Vec(,), Port::OUTPUT, module,PvCBlank::));
 
 }
+
+Model *modelPvCBlank = Model::create<PvCBlank, PvCBlankWidget>(
+	"PvC", "PvCBlank", "PvCBlank", BLANK_TAG);
