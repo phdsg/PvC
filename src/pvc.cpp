@@ -22,10 +22,10 @@ void init(rack::Plugin *p) {
 	p->addModel(createModel<TaHaSaHaNWidget>	("PvC", "TaHaSaHaN", "TaHaSaHaN", SAMPLE_AND_HOLD_TAG, NOISE_TAG, RANDOM_TAG));
 	p->addModel(createModel<VampsWidget>		("PvC", "Vamps", "Vamps", AMPLIFIER_TAG, ATTENUATOR_TAG, DUAL_TAG));
 	p->addModel(createModel<VubarWidget>		("PvC", "Vubar", "VuBar", VISUAL_TAG));
-	p->addModel(createModel<AorBtoOutWidget>	("PvC", "AorBtoOut", "AorBtoOut", LOGIC_TAG, SWITCH_TAG, RANDOM_TAG));
-	p->addModel(createModel<InToAorBWidget>		("PvC", "InToAorB", "InToAorB", LOGIC_TAG, SWITCH_TAG, RANDOM_TAG));		
 	p->addModel(createModel<CompairWidget>		("PvC", "Compair", "Compair", LOGIC_TAG, DIGITAL_TAG, DUAL_TAG));
 	p->addModel(createModel<GeighthsWidget>		("PvC", "Geighths", "Geighths", LOGIC_TAG, SWITCH_TAG, SAMPLE_AND_HOLD_TAG));
+	p->addModel(createModel<AorBtoOutWidget>	("PvC", "AorBtoOut", "Heads", LOGIC_TAG, SWITCH_TAG, RANDOM_TAG));
+	p->addModel(createModel<InToAorBWidget>		("PvC", "InToAorB", "Tails", LOGIC_TAG, SWITCH_TAG, RANDOM_TAG));		
 	p->addModel(createModel<BangDaButtonWidget>	("PvC", "BangDaButton", "BangDaButton", CONTROLLER_TAG, SWITCH_TAG));
 	p->addModel(createModel<FlipOLogicWidget>	("PvC", "FlipOLogic", "FlipOLogic", LOGIC_TAG, SWITCH_TAG));
 	p->addModel(createModel<ShutItWidget>		("PvC", "ShutIt", "ShutIt", SWITCH_TAG, MULTIPLE_TAG));

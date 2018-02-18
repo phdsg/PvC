@@ -15,6 +15,10 @@ struct AorBtoOut : Module {
 	enum ParamIds {
 		PROB_UI,
 		TOSS_MODE,
+		TOSS_UI,
+		FLIP_UI,
+		SET_A_UI,
+		SET_B_UI,
 
 		NUM_PARAMS
 	};
@@ -88,27 +92,27 @@ struct AorBtoOut : Module {
 void AorBtoOut::step() {
 	flipMode = params[TOSS_MODE].value;
 
-	if (inputs[TOSS_IN].active) {
-		if (tossTrigger.process(inputs[TOSS_IN].value)) {
+	if (tossTrigger.process(inputs[TOSS_IN].value + params[TOSS_UI].value)) {
 			gatePulse.trigger(0.01f);
 			if (flipMode)
-				gate = (randomf() < params[PROB_UI].value + inputs[PROB_CV].value) ? !gate : gate;
+				gate = (randomf() < params[PROB_UI].value + inputs[PROB_CV].value) ? !gate : gate; //
 			else
 				gate = (randomf() < (params[PROB_UI].value + inputs[PROB_CV].value*0.1f));
-		}
+			
 	}
 
-	if (flipTrigger.process(inputs[FLIP_IN].value)) {
+
+	if (flipTrigger.process(inputs[FLIP_IN].value + params[FLIP_UI].value)) {
 		gatePulse.trigger(0.01f);
 		gate = !gate;
 	}
 
-	if (resetTrigger.process(inputs[SET_A_IN].value)) {
+	if (resetTrigger.process(inputs[SET_A_IN].value + params[SET_A_UI].value)) {
 		gatePulse.trigger(0.01f);
 		gate = false;
 	}
 
-	if (resetTrigger.process(inputs[SET_B_IN].value)) {
+	if (resetTrigger.process(inputs[SET_B_IN].value + params[SET_B_UI].value)) {
 		gatePulse.trigger(0.01f);
 		gate = true;
 	}
@@ -123,7 +127,21 @@ void AorBtoOut::step() {
 	lights[DIR_LED].value = !flipMode;
 	lights[FLP_LED].value = flipMode;
 }
+struct LabelButtonL : SVGSwitch, MomentarySwitch {
+	LabelButtonL() {
+		addFrame(SVG::load(assetPlugin(plugin, "res/components/LabelButtonL_0.svg")));
+		addFrame(SVG::load(assetPlugin(plugin, "res/components/LabelButtonL_1.svg")));
+		box.size = Vec(36,12);
+	}
+};
+struct LabelButtonS : SVGSwitch, MomentarySwitch {
+	LabelButtonS() {
+		addFrame(SVG::load(assetPlugin(plugin, "res/components/LabelButtonS_0.svg")));
+		addFrame(SVG::load(assetPlugin(plugin, "res/components/LabelButtonS_1.svg")));
 
+		box.size = Vec(24,12);
+	}
+};
 struct ModeToggle : SVGSwitch, ToggleSwitch {
 	ModeToggle() {
 		addFrame(SVG::load(assetPlugin(plugin, "res/components/empty.svg")));
@@ -150,10 +168,10 @@ AorBtoOutWidget::AorBtoOutWidget() {
 		addChild(panel);
 	}
 	// screws
-	// addChild(createScrew<ScrewHead1>(Vec(0, 0)));
+	addChild(createScrew<ScrewHead1>(Vec(15, 0)));
 	addChild(createScrew<ScrewHead2>(Vec(box.size.x - 15, 0)));
-	// addChild(createScrew<ScrewHead3>(Vec(0, 365)));
-	addChild(createScrew<ScrewHead4>(Vec(box.size.x - 15, 365)));
+	addChild(createScrew<ScrewHead3>(Vec(30, 365)));
+	// addChild(createScrew<ScrewHead4>(Vec(box.size.x - 15, 365)));
 
 	addInput(createInput<InPortAud>(Vec(4,22),module, AorBtoOut::SIG_A_IN));
 	addInput(createInput<InPortAud>(Vec(34,22),module, AorBtoOut::SIG_B_IN));
@@ -161,13 +179,17 @@ AorBtoOutWidget::AorBtoOutWidget() {
 	addParam(createParam<PvCKnob>(Vec(19,64),module, AorBtoOut::PROB_UI, 0.0f, 1.0f, 0.5f));
 	addInput(createInput<InPortCtrl>(Vec(19,88),module, AorBtoOut::PROB_CV));
 	addInput(createInput<InPortBin>(Vec(19,124),module, AorBtoOut::TOSS_IN));
-	addChild(createLight<FourPixLight<OrangeLight>>(Vec(25,163),module, AorBtoOut::DIR_LED));
-	addChild(createLight<FourPixLight<BlueLight>>(Vec(31,163),module, AorBtoOut::FLP_LED));
-	addParam(createParam<ModeToggle>(Vec(24,162), module, AorBtoOut::TOSS_MODE, 0, 1, 0));
+	addParam(createParam<LabelButtonL>(Vec(12,149), module, AorBtoOut::TOSS_UI, 0, 1, 0));
+	addChild(createLight<FourPixLight<OrangeLight>>(Vec(25,165),module, AorBtoOut::DIR_LED));
+	addChild(createLight<FourPixLight<BlueLight>>(Vec(31,165),module, AorBtoOut::FLP_LED));
+	addParam(createParam<ModeToggle>(Vec(24,164), module, AorBtoOut::TOSS_MODE, 0, 1, 0));
 	addInput(createInput<InPortBin>(Vec(19,180),module, AorBtoOut::FLIP_IN));
+	addParam(createParam<LabelButtonL>(Vec(12,205), module, AorBtoOut::FLIP_UI, 0, 1, 0));
 		
-	addInput(createInput<InPortBin>(Vec(4,224),module, AorBtoOut::SET_A_IN));
-	addInput(createInput<InPortBin>(Vec(34,224),module, AorBtoOut::SET_B_IN));
+	addInput(createInput<InPortBin>(Vec(4,222),module, AorBtoOut::SET_A_IN));
+	addParam(createParam<LabelButtonS>(Vec(3,247), module, AorBtoOut::SET_A_UI, 0, 1, 0));
+	addInput(createInput<InPortBin>(Vec(34,222),module, AorBtoOut::SET_B_IN));
+	addParam(createParam<LabelButtonS>(Vec(33,247), module, AorBtoOut::SET_B_UI, 0, 1, 0));
 
 	addOutput(createOutput<OutPortVal>(Vec(19,276),module, AorBtoOut::SIG_OUT));
 

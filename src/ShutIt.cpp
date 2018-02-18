@@ -127,7 +127,7 @@ template <typename BASE>
  struct EmptyButton : SVGSwitch, MomentarySwitch {
 	EmptyButton() {
 		addFrame(SVG::load(assetPlugin(plugin, "res/components/empty.svg")));
-		box.size = Vec(86,36);
+		box.size = Vec(86,35);
 	}
 };
 struct WhiteRedLight : ModuleLightWidget {
@@ -154,15 +154,16 @@ ShutItWidget::ShutItWidget() {
 	addChild(createScrew<ScrewHead4>(Vec(box.size.x - 15, 365)));
 	// channels
 	for (int i = 0; i < CHANCOUNT; i++) {
-		float top = 38.0f;
+		float top = 36.0f;
 
-		addChild(createLight<FourPixLight<WhiteRedLight>>(Vec(73,25 + top*i), module, ShutIt::A_STATE + 2*i));
-		addParam(createParam<EmptyButton>(Vec(2,20 + top*i),module, ShutIt::A_MUTE + i, 0, 1 , 0));
-		addInput(createInput<InPortAud>(Vec(4,22 + top*i),module, ShutIt::A_IN + i));
-		addInput(createInput<InPortBin>(Vec(34,22 + top*i),module, ShutIt::A_TRIG + i));
-		addOutput(createOutput<OutPortVal>(Vec(64,30 + top*i),module, ShutIt::A_OUT + i));
+		addChild(createLight<FourPixLight<WhiteRedLight>>(Vec(79,27 + top*i), module, ShutIt::A_STATE + 2*i));
+		addParam(createParam<EmptyButton>(Vec(2,19 + top*i),module, ShutIt::A_MUTE + i, 0, 1 , 0));
+		addInput(createInput<InPortAud>(Vec(4,26 + top*i),module, ShutIt::A_IN + i));
+		addInput(createInput<InPortBin>(Vec(28,26 + top*i),module, ShutIt::A_TRIG + i));
+		addOutput(createOutput<OutPortVal>(Vec(52,26 + top*i),module, ShutIt::A_OUT + i));
 	}
-	addInput(createInput<InPortBin>(Vec(4,336),module, ShutIt::MUTE_ALL_TRIG));
-	addInput(createInput<InPortBin>(Vec(34,336),module, ShutIt::FLIP_ALL_TRIG));
-	addInput(createInput<InPortBin>(Vec(64,336),module, ShutIt::UNMUTE_ALL_TRIG));
+	addInput(createInput<InPortBin>(Vec(4,324),module, ShutIt::MUTE_ALL_TRIG));
+	addInput(createInput<InPortBin>(Vec(34,324),module, ShutIt::FLIP_ALL_TRIG));
+	addInput(createInput<InPortBin>(Vec(64,324),module, ShutIt::UNMUTE_ALL_TRIG));
+	// TODO: buttons
 }
