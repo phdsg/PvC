@@ -1,6 +1,5 @@
 # Heads & Tails <img align="right" src="images/tails_100.png"> <img align="right" src="images/heads_100.png">
-... is a set two 4HP A/B switches. a 2-1 (Heads) and a 1-2 (Tails) variant.
-switching can be done directly or on a coin toss chance.
+... is a set two 4HP A/B switches with a random component.
 
 ## Details
 Based on an idea by Joop van der Linden (@joopvl) to combine a bernoulli gate with an audio path.  
