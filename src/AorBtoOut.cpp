@@ -15,6 +15,10 @@ struct AorBtoOut : Module {
 	enum ParamIds {
 		PROB_UI,
 		TOSS_MODE,
+		TOSS_UI,
+		FLIP_UI,
+		SET_A_UI,
+		SET_B_UI,
 
 		NUM_PARAMS
 	};
@@ -97,17 +101,17 @@ void AorBtoOut::step() {
 		}
 	}
 
-	if (flipTrigger.process(inputs[FLIP_IN].value)) {
+	if (flipTrigger.process(inputs[FLIP_IN].value + params[FLIP_UI].value)) {
 		gatePulse.trigger(0.01f);
 		gate = !gate;
 	}
 
-	if (resetTrigger.process(inputs[SET_A_IN].value)) {
+	if (resetTrigger.process(inputs[SET_A_IN].value + params[SET_A_UI].value)) {
 		gatePulse.trigger(0.01f);
 		gate = false;
 	}
 
-	if (resetTrigger.process(inputs[SET_B_IN].value)) {
+	if (resetTrigger.process(inputs[SET_B_IN].value + params[SET_B_UI].value)) {
 		gatePulse.trigger(0.01f);
 		gate = true;
 	}
@@ -123,10 +127,24 @@ void AorBtoOut::step() {
 	lights[FLP_LED].value = flipMode;
 }
 
+struct LabelButtonL : SVGSwitch, MomentarySwitch {
+	LabelButtonL() {
+		addFrame(SVG::load(assetPlugin(plugin, "res/components/LabelButtonL_0.svg")));
+		addFrame(SVG::load(assetPlugin(plugin, "res/components/LabelButtonL_1.svg")));
+		box.size = Vec(36,12);
+	}
+};
+struct LabelButtonS : SVGSwitch, MomentarySwitch {
+	LabelButtonS() {
+		addFrame(SVG::load(assetPlugin(plugin, "res/components/LabelButtonS_0.svg")));
+		addFrame(SVG::load(assetPlugin(plugin, "res/components/LabelButtonS_1.svg")));
+
+		box.size = Vec(24,12);
+	}
+};
 struct ModeToggle : SVGSwitch, ToggleSwitch {
 	ModeToggle() {
 		addFrame(SVG::load(assetPlugin(plugin, "res/components/empty.svg")));
-		// addFrame(SVG::load(assetPlugin(plugin, "res/components/CompairToggleDn.svg")));
 		box.size = Vec(12,6);
 	}
 };
@@ -143,25 +161,30 @@ struct AorBtoOutWidget : ModuleWidget {
 
 AorBtoOutWidget::AorBtoOutWidget(AorBtoOut *module) : ModuleWidget(module) {
 	setPanel(SVG::load(assetPlugin(plugin, "res/panels/AorBtoOut.svg")));
+  
 	// screws
-	// addChild(Widget::create<ScrewHead1>(Vec(0, 0)));
+	addChild(Widget::create<ScrewHead1>(Vec(15, 0)));
 	addChild(Widget::create<ScrewHead2>(Vec(box.size.x - 15, 0)));
-	// addChild(Widget::create<ScrewHead3>(Vec(0, 365)));
-	addChild(Widget::create<ScrewHead4>(Vec(box.size.x - 15, 365)));
+	addChild(Widget::create<ScrewHead3>(Vec(30, 365)));
+	// addChild(Widget::create<ScrewHead4>(Vec(box.size.x - 15, 365)));
 
 	addInput(Port::create<InPortAud>(Vec(4,22), Port::INPUT, module, AorBtoOut::SIG_A_IN));
 	addInput(Port::create<InPortAud>(Vec(34,22), Port::INPUT, module, AorBtoOut::SIG_B_IN));
-	
+	  
 	addParam(ParamWidget::create<PvCKnob>(Vec(19,64),module, AorBtoOut::PROB_UI, 0.0f, 1.0f, 0.5f));
 	addInput(Port::create<InPortCtrl>(Vec(19,88), Port::INPUT, module, AorBtoOut::PROB_CV));
 	addInput(Port::create<InPortBin>(Vec(19,124), Port::INPUT, module, AorBtoOut::TOSS_IN));
-	addChild(ModuleLightWidget::create<FourPixLight<OrangeLight>>(Vec(25,163),module, AorBtoOut::DIR_LED));
-	addChild(ModuleLightWidget::create<FourPixLight<BlueLight>>(Vec(31,163),module, AorBtoOut::FLP_LED));
-	addParam(ParamWidget::create<ModeToggle>(Vec(24,162), module, AorBtoOut::TOSS_MODE, 0, 1, 0));
+  addParam(ParamWidget::create<LabelButtonL>(Vec(12,149), module, AorBtoOut::TOSS_UI, 0, 1, 0));
+	addChild(ModuleLightWidget::create<FourPixLight<OrangeLight>>(Vec(25,165),module, AorBtoOut::DIR_LED));
+	addChild(ModuleLightWidget::create<FourPixLight<BlueLight>>(Vec(31,165),module, AorBtoOut::FLP_LED));
+	addParam(ParamWidget::create<ModeToggle>(Vec(24,164), module, AorBtoOut::TOSS_MODE, 0, 1, 0));
 	addInput(Port::create<InPortBin>(Vec(19,180), Port::INPUT, module, AorBtoOut::FLIP_IN));
-		
-	addInput(Port::create<InPortBin>(Vec(4,224), Port::INPUT, module, AorBtoOut::SET_A_IN));
-	addInput(Port::create<InPortBin>(Vec(34,224), Port::INPUT, module, AorBtoOut::SET_B_IN));
+  addParam(ParamWidget::create<LabelButtonL>(Vec(12,205), module, AorBtoOut::FLIP_UI, 0, 1, 0));
+	
+	addInput(Port::create<InPortBin>(Vec(4,222), Port::INPUT, module, AorBtoOut::SET_A_IN));
+  addParam(ParamWidget::create<LabelButtonL>(Vec(3,247), module, AorBtoOut::SET_A_UI, 0, 1, 0));
+	addInput(Port::create<InPortBin>(Vec(34,222), Port::INPUT, module, AorBtoOut::SET_B_IN));
+  addParam(ParamWidget::create<LabelButtonL>(Vec(33,247), module, AorBtoOut::SET_B_UI, 0, 1, 0));
 
 	addOutput(Port::create<OutPortVal>(Vec(19,276), Port::OUTPUT, module, AorBtoOut::SIG_OUT));
 
@@ -175,4 +198,3 @@ AorBtoOutWidget::AorBtoOutWidget(AorBtoOut *module) : ModuleWidget(module) {
 }
 
 Model *modelAorBtoOut = Model::create<AorBtoOut, AorBtoOutWidget>("PvC", "AorBtoOut", "AorBtoOut", LOGIC_TAG, SWITCH_TAG, RANDOM_TAG);
-

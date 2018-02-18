@@ -16,6 +16,10 @@ struct InToAorB : Module {
 	enum ParamIds {
 		PROB_UI,
 		TOSS_MODE,
+		TOSS_UI,
+		FLIP_UI,
+		SET_A_UI,
+		SET_B_UI,
 
 		NUM_PARAMS
 	};
@@ -94,21 +98,20 @@ void InToAorB::step() {
 				gate = (randomUniform() < params[PROB_UI].value + inputs[PROB_CV].value) ? !gate : gate; //
 			else
 				gate = (randomUniform() < (params[PROB_UI].value + inputs[PROB_CV].value*0.1f));
-			
 		}
 	}
 
-	if (flipTrigger.process(inputs[FLIP_IN].value)) {
+  if (flipTrigger.process(inputs[FLIP_IN].value + params[FLIP_UI].value)) {
 		gatePulse.trigger(0.01f);
 		gate = !gate;
 	}
 
-	if (resetTrigger.process(inputs[SET_A_IN].value)) {
+	if (resetTrigger.process(inputs[SET_A_IN].value + params[SET_A_UI].value)) {
 		gatePulse.trigger(0.01f);
 		gate = false;
 	}
 
-	if (resetTrigger.process(inputs[SET_B_IN].value)) {
+	if (resetTrigger.process(inputs[SET_B_IN].value + params[SET_B_UI].value)) {
 		gatePulse.trigger(0.01f);
 		gate = true;
 	}
@@ -128,8 +131,21 @@ void InToAorB::step() {
 struct ModeToggle : SVGSwitch, ToggleSwitch {
 	ModeToggle() {
 		addFrame(SVG::load(assetPlugin(plugin, "res/components/empty.svg")));
-		// addFrame(SVG::load(assetPlugin(plugin, "res/components/CompairToggleDn.svg")));
 		box.size = Vec(12,6);
+	}
+};
+struct LabelButtonL : SVGSwitch, MomentarySwitch {
+	LabelButtonL() {
+		addFrame(SVG::load(assetPlugin(plugin, "res/components/LabelButtonL_0.svg")));
+		addFrame(SVG::load(assetPlugin(plugin, "res/components/LabelButtonL_1.svg")));
+		box.size = Vec(36,12);
+	}
+};
+struct LabelButtonS : SVGSwitch, MomentarySwitch {
+	LabelButtonS() {
+		addFrame(SVG::load(assetPlugin(plugin, "res/components/LabelButtonS_0.svg")));
+		addFrame(SVG::load(assetPlugin(plugin, "res/components/LabelButtonS_1.svg")));
+		box.size = Vec(24,12);
 	}
 };
 template <typename BASE>
@@ -144,38 +160,35 @@ struct InToAorBWidget : ModuleWidget {
 };
 
 InToAorBWidget::InToAorBWidget(InToAorB *module) : ModuleWidget(module) {
-
-	box.size = Vec(15*4, 380);
-
-	{
-		SVGPanel *panel = new SVGPanel();
-		panel->box.size = box.size;
-		panel->setBackground(SVG::load(assetPlugin(plugin, "res/panels/InToAorB.svg")));
-		addChild(panel);
-	}
+  setPanel(SVG::load(assetPlugin(plugin, "res/panels/InToAorB.svg")));
+  
 	// screws
-	addChild(Widget::create<ScrewHead1>(Vec(0, 0)));
-	// addChild(Widget::create<ScrewHead2>(Vec(box.size.x - 15, 0)));
-	addChild(Widget::create<ScrewHead3>(Vec(0, 365)));
-	// addChild(Widget::create<ScrewHead4>(Vec(box.size.x - 15, 365)));
+	// addChild(Widget::create<ScrewHead1>(Vec(0, 0)));
+	addChild(Widget::create<ScrewHead2>(Vec(box.size.x - 30, 0)));
+	addChild(Widget::create<ScrewHead3>(Vec(15, 365)));
+	addChild(Widget::create<ScrewHead4>(Vec(box.size.x - 15, 365)));
 
 	addInput(Port::create<InPortAud>(Vec(19,22), Port::INPUT, module, InToAorB::SIG_IN));
 
 	addParam(ParamWidget::create<PvCKnob>(Vec(19,64), module, InToAorB::PROB_UI, 0.0f, 1.0f, 0.5f));
 	addInput(Port::create<InPortCtrl>(Vec(19,88), Port::INPUT, module, InToAorB::PROB_CV));
 	addInput(Port::create<InPortBin>(Vec(19,124), Port::INPUT, module, InToAorB::TOSS_IN));
+  addParam(ParamWidget::create<LabelButtonL>(Vec(12,149), module, InToAorB::TOSS_UI, 0, 1, 0));
 	addChild(ModuleLightWidget::create<FourPixLight<OrangeLight>>(Vec(25,163),module, InToAorB::DIR_LED));
 	addChild(ModuleLightWidget::create<FourPixLight<BlueLight>>(Vec(31,163),module, InToAorB::FLP_LED));
 	addParam(ParamWidget::create<ModeToggle>(Vec(24,162), module, InToAorB::TOSS_MODE, 0, 1, 0));
 	addInput(Port::create<InPortBin>(Vec(19,180), Port::INPUT, module, InToAorB::FLIP_IN));
+  addParam(ParamWidget::create<LabelButtonL>(Vec(12,205), module, InToAorB::FLIP_UI, 0, 1, 0));
 	
-	addInput(Port::create<InPortBin>(Vec(4,224), Port::INPUT, module, InToAorB::SET_A_IN));
+	addInput(Port::create<InPortBin>(Vec(4,222), Port::INPUT, module, InToAorB::SET_A_IN));
+  addParam(ParamWidget::create<LabelButtonL>(Vec(3,247), module, InToAorB::SET_A_UI, 0, 1, 0));
 	addChild(ModuleLightWidget::create<FourPixLight<CyanLight>>(Vec(13,267),module, InToAorB::A_LED));
 	addOutput(Port::create<OutPortVal>(Vec(4,276), Port::OUTPUT, module, InToAorB::SIG_A_OUT));
 	addOutput(Port::create<OutPortBin>(Vec(4,312), Port::OUTPUT, module, InToAorB::GATE_A_OUT));
 	addOutput(Port::create<OutPortBin>(Vec(4,336), Port::OUTPUT, module, InToAorB::TRIG_A_OUT));
 
-	addInput(Port::create<InPortBin>(Vec(34,224), Port::INPUT, module, InToAorB::SET_B_IN));
+	addInput(Port::create<InPortBin>(Vec(34,222), Port::INPUT, module, InToAorB::SET_B_IN));
+   addParam(ParamWidget::create<LabelButtonL>(Vec(33,247), module, InToAorB::SET_B_UI, 0, 1, 0));
 	addChild(ModuleLightWidget::create<FourPixLight<PurpleLight>>(Vec(43,267),module, InToAorB::B_LED));
 	addOutput(Port::create<OutPortVal>(Vec(34,276), Port::OUTPUT, module, InToAorB::SIG_B_OUT));
 	addOutput(Port::create<OutPortBin>(Vec(34,312), Port::OUTPUT, module, InToAorB::GATE_B_OUT));
@@ -183,3 +196,4 @@ InToAorBWidget::InToAorBWidget(InToAorB *module) : ModuleWidget(module) {
 }
 Model *modelInToAorB = Model::create<InToAorB, InToAorBWidget>(
 	"PvC", "InToAorB", "InToAorB", LOGIC_TAG);
+

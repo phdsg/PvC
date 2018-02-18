@@ -23,3 +23,4 @@ void init(rack::Plugin *p) {
 	p->addModel(modelVubar);
 	p->addModel(modelPvCBlank);
 }
+

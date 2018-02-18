@@ -11,13 +11,16 @@ ShutIt
 struct ShutIt : Module {
 	enum ParamIds {
 		A_MUTE,
-		NUM_PARAMS = A_MUTE + CHANCOUNT
+		SHUT_ALL = A_MUTE + CHANCOUNT,
+		OPEN_ALL,
+		FLIP_ALL,
+		NUM_PARAMS
 	};
 	enum InputIds {
 		A_IN,
 		A_TRIG = A_IN + CHANCOUNT,
-		MUTE_ALL_TRIG = A_TRIG + CHANCOUNT,
-		UNMUTE_ALL_TRIG,
+		SHUT_ALL_TRIG = A_TRIG + CHANCOUNT,
+		OPEN_ALL_TRIG,
 		FLIP_ALL_TRIG,
 
 		NUM_INPUTS
@@ -47,10 +50,9 @@ struct ShutIt : Module {
 			muteState[i] = false;
 		}
 	}
-	
-	void randomize() override {
+		void randomize() override {
 		for (int i = 0; i < CHANCOUNT; i++) {
-			muteState[i] = (randomUniform() < 0.5);
+			muteState[i] = (randomf() < 0.5);
 		}
 	}
 	// MUTE states
@@ -100,23 +102,31 @@ void ShutIt::step() {
 		lights[A_STATE + 2*i].value = muteState[i] ? 0 : 1;
 		lights[A_STATE+1 + 2*i].value = muteState[i] ? 1 : 0;
 	}
-	if (muteAllTrig.process(inputs[MUTE_ALL_TRIG].value)) {
+	if (muteAllTrig.process(inputs[SHUT_ALL_TRIG].value + params[SHUT_ALL].value)) {
 		for (int i = 0; i < CHANCOUNT; i++)	{
 			muteState[i] = true;
 		}
 	}
-	if (unmuteAllTrig.process(inputs[UNMUTE_ALL_TRIG].value)) {
+	if (unmuteAllTrig.process(inputs[OPEN_ALL_TRIG].value + params[OPEN_ALL].value)) {
 		for (int i = 0; i < CHANCOUNT; i++)	{
 			muteState[i] = false;
 		}
 	}
-	if (flipAllTrig.process(inputs[FLIP_ALL_TRIG].value)) {
+	if (flipAllTrig.process(inputs[FLIP_ALL_TRIG].value + params[FLIP_ALL].value)) {
 		for (int i = 0; i < CHANCOUNT; i++)	{
 			muteState[i] = !muteState[i];
 		}
 	}
 }
 
+struct LabelButtonS : SVGSwitch, MomentarySwitch {
+	LabelButtonS() {
+		addFrame(SVG::load(assetPlugin(plugin, "res/components/LabelButtonS_0.svg")));
+		addFrame(SVG::load(assetPlugin(plugin, "res/components/LabelButtonS_1.svg")));
+
+		box.size = Vec(24,12);
+	}
+};
 template <typename BASE>
  struct FourPixLight : BASE {
  	FourPixLight() {
@@ -150,17 +160,22 @@ ShutItWidget::ShutItWidget(ShutIt *module) : ModuleWidget(module) {
 	addChild(Widget::create<ScrewHead4>(Vec(box.size.x - 15, 365)));
 	// channels
 	for (int i = 0; i < CHANCOUNT; i++) {
-		float top = 38.0f;
+		float top = 36.0f;
 
-		addChild(ModuleLightWidget::create<FourPixLight<WhiteRedLight>>(Vec(73,25 + top*i), module, ShutIt::A_STATE + 2*i));
-		addParam(ParamWidget::create<EmptyButton>(Vec(2,20 + top*i),module, ShutIt::A_MUTE + i, 0, 1 , 0));
-		addInput(Port::create<InPortAud>(Vec(4,22 + top*i), Port::INPUT, module, ShutIt::A_IN + i));
-		addInput(Port::create<InPortBin>(Vec(34,22 + top*i), Port::INPUT, module, ShutIt::A_TRIG + i));
-		addOutput(Port::create<OutPortVal>(Vec(64,30 + top*i), Port::OUTPUT, module, ShutIt::A_OUT + i));
+		addChild(ModuleLightWidget::create<FourPixLight<WhiteRedLight>>(Vec(79,27 + top*i), module, ShutIt::A_STATE + 2*i));
+		addParam(ParamWidget::create<EmptyButton>(Vec(2,19 + top*i), module, ShutIt::A_MUTE + i, 0, 1, 0));
+		addInput(Port::create<InPortAud>(Vec(4,26 + top*i), Port::INPUT, module, ShutIt::A_IN + i));
+		addInput(Port::create<InPortBin>(Vec(28,26 + top*i), Port::INPUT, module, ShutIt::A_TRIG + i));
+		addOutput(Port::create<OutPortVal>(Vec(52,26 + top*i), Port::OUTPUT, module, ShutIt::A_OUT + i));
 	}
-	addInput(Port::create<InPortBin>(Vec(4,336), Port::INPUT, module, ShutIt::MUTE_ALL_TRIG));
-	addInput(Port::create<InPortBin>(Vec(34,336), Port::INPUT, module, ShutIt::FLIP_ALL_TRIG));
-	addInput(Port::create<InPortBin>(Vec(64,336), Port::INPUT, module, ShutIt::UNMUTE_ALL_TRIG));
+	addInput(Port::create<InPortBin>(Vec(4,322), Port::INPUT, module, ShutIt::SHUT_ALL_TRIG));
+  addParam(ParamWidget::create<LabelButtonS>(Vec(3,347), module, ShutIt::SHUT_ALL, 0, 1, 0));
+	addInput(Port::create<InPortBin>(Vec(34,322), Port::INPUT, module, ShutIt::FLIP_ALL_TRIG));
+  addParam(ParamWidget::create<LabelButtonS>(Vec(33,347), module, ShutIt::FLIP_ALL, 0, 1, 0));
+	addInput(Port::create<InPortBin>(Vec(64,322), Port::INPUT, module, ShutIt::OPEN_ALL_TRIG));
+  addParam(ParamWidget::create<LabelButtonS>(Vec(63,347), module, ShutIt::OPEN_ALL, 0, 1, 0));
+  
 }
 
 Model *modelShutIt = Model::create<ShutIt, ShutItWidget>("PvC", "ShutIt", "ShutIt", LOGIC_TAG, SWITCH_TAG);
+
