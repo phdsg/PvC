@@ -135,12 +135,6 @@ void BangDaButton::step() {
 	
 }
 
-template <typename BASE>
- struct FivePixLight : BASE {
- 	FivePixLight() {
- 		this->box.size = Vec(5, 5);
- 	}
- };
 
 struct DaButton : SVGSwitch, MomentarySwitch {
 	DaButton() {
@@ -171,23 +165,23 @@ BangDaButtonWidget::BangDaButtonWidget(BangDaButton *module) : ModuleWidget(modu
 	addChild(Widget::create<ScrewHead1>(Vec(box.size.x - 30, 365)));
 
 	addInput(Port::create<InPortAud>(Vec(4,22), Port::INPUT, module,BangDaButton::UP_SW_A_IN));
-	addChild(ModuleLightWidget::create<FivePixLight<GreenLight>>(Vec(28,30.5),module,BangDaButton::DOWN_LED));
+	addChild(ModuleLightWidget::create<FourPixLight<GreenLight>>(Vec(28,30.5),module,BangDaButton::DOWN_LED));
 	addOutput(Port::create<OutPortVal>(Vec(34,22), Port::OUTPUT, module,BangDaButton::UP_SW_OUT));
-	addChild(ModuleLightWidget::create<FivePixLight<GreenLight>>(Vec(57,30.5),module,BangDaButton::UP_LED));
+	addChild(ModuleLightWidget::create<FourPixLight<GreenLight>>(Vec(57,30.5),module,BangDaButton::UP_LED));
 	addInput(Port::create<InPortAud>(Vec(64,22), Port::INPUT, module,BangDaButton::UP_SW_B_IN));
 
 	// addInput(Port::create<InPortAud>(Vec(4,44), Port::INPUT, module,BangDaButton::UP_CH1_IN));
-	// addChild(ModuleLightWidget::create<FivePixLight<RedLight>>(Vec(27,52),module,BangDaButton::UP_LED));
+	// addChild(ModuleLightWidget::create<FourPixLight<RedLight>>(Vec(27,52),module,BangDaButton::UP_LED));
 	// addOutput(Port::create<OutPortVal>(Vec(34,44), Port::OUTPUT, module,BangDaButton::UP_CH1_OUT));
 	
 	addOutput(Port::create<OutPortVal>(Vec(4,68), Port::OUTPUT, module,BangDaButton::UP_MUX_A_OUT));
-	addChild(ModuleLightWidget::create<FivePixLight<GreenLight>>(Vec(27,76.5),module,BangDaButton::DOWN_LED));
+	addChild(ModuleLightWidget::create<FourPixLight<GreenLight>>(Vec(27,76.5),module,BangDaButton::DOWN_LED));
 	addInput(Port::create<InPortAud>(Vec(34,68), Port::INPUT, module,BangDaButton::UP_MUX_IN));
-	addChild(ModuleLightWidget::create<FivePixLight<GreenLight>>(Vec(57,76.5),module,BangDaButton::UP_LED));
+	addChild(ModuleLightWidget::create<FourPixLight<GreenLight>>(Vec(57,76.5),module,BangDaButton::UP_LED));
 	addOutput(Port::create<OutPortVal>(Vec(64,68), Port::OUTPUT, module,BangDaButton::UP_MUX_B_OUT));
 	
 	// addInput(Port::create<InPortAud>(Vec(34,92), Port::INPUT, module,BangDaButton::UP_CH2_IN));
-	// addChild(ModuleLightWidget::create<FivePixLight<RedLight>>(Vec(57,100),module,BangDaButton::DOWN_LED));
+	// addChild(ModuleLightWidget::create<FourPixLight<RedLight>>(Vec(57,100),module,BangDaButton::DOWN_LED));
 	// addOutput(Port::create<OutPortVal>(Vec(64,92), Port::OUTPUT, module,BangDaButton::UP_CH2_OUT));
 	
 	addOutput(Port::create<OutPortBin>(Vec(6,124), Port::OUTPUT, module,BangDaButton::UP_GATE_OUT));
@@ -202,23 +196,23 @@ BangDaButtonWidget::BangDaButtonWidget(BangDaButton *module) : ModuleWidget(modu
 	addOutput(Port::create<OutPortBin>(Vec(62,234), Port::OUTPUT, module,BangDaButton::DOWN_GATE_OUT));
 	
 	// addInput(Port::create<InPortAud>(Vec(4,266), Port::INPUT, module,BangDaButton::DOWN_CH1_IN));
-	// addChild(ModuleLightWidget::create<FivePixLight<RedLight>>(Vec(27,274),module,BangDaButton::UP_LED));
+	// addChild(ModuleLightWidget::create<FourPixLight<RedLight>>(Vec(27,274),module,BangDaButton::UP_LED));
 	// addOutput(Port::create<OutPortVal>(Vec(34,266), Port::OUTPUT, module,BangDaButton::DOWN_CH1_OUT));
 	
 	addOutput(Port::create<OutPortVal>(Vec(4,290), Port::OUTPUT, module,BangDaButton::DOWN_MUX_A_OUT));
-	addChild(ModuleLightWidget::create<FivePixLight<GreenLight>>(Vec(27,298.5),module,BangDaButton::UP_LED));
+	addChild(ModuleLightWidget::create<FourPixLight<GreenLight>>(Vec(27,298.5),module,BangDaButton::UP_LED));
 	addInput(Port::create<InPortAud>(Vec(34,290), Port::INPUT, module,BangDaButton::DOWN_MUX_IN));
-	addChild(ModuleLightWidget::create<FivePixLight<GreenLight>>(Vec(57,298.5),module,BangDaButton::DOWN_LED));
+	addChild(ModuleLightWidget::create<FourPixLight<GreenLight>>(Vec(57,298.5),module,BangDaButton::DOWN_LED));
 	addOutput(Port::create<OutPortVal>(Vec(64,290), Port::OUTPUT, module,BangDaButton::DOWN_MUX_B_OUT));
 	
 	// addInput(Port::create<InPortAud>(Vec(34,314), Port::INPUT, module,BangDaButton::DOWN_CH2_IN));
-	// addChild(ModuleLightWidget::create<FivePixLight<RedLight>>(Vec(57,322),module,BangDaButton::DOWN_LED));
+	// addChild(ModuleLightWidget::create<FourPixLight<RedLight>>(Vec(57,322),module,BangDaButton::DOWN_LED));
 	// addOutput(Port::create<OutPortVal>(Vec(64,314), Port::OUTPUT, module,BangDaButton::DOWN_CH2_OUT));
 	
 	addInput(Port::create<InPortAud>(Vec(4,336), Port::INPUT, module,BangDaButton::DOWN_SW_A_IN));
-	addChild(ModuleLightWidget::create<FivePixLight<GreenLight>>(Vec(27,344.5),module,BangDaButton::UP_LED));
+	addChild(ModuleLightWidget::create<FourPixLight<GreenLight>>(Vec(27,344.5),module,BangDaButton::UP_LED));
 	addOutput(Port::create<OutPortVal>(Vec(34,336), Port::OUTPUT, module,BangDaButton::DOWN_SW_OUT));
-	addChild(ModuleLightWidget::create<FivePixLight<GreenLight>>(Vec(57,344.5),module,BangDaButton::DOWN_LED));
+	addChild(ModuleLightWidget::create<FourPixLight<GreenLight>>(Vec(57,344.5),module,BangDaButton::DOWN_LED));
 	addInput(Port::create<InPortAud>(Vec(64,336), Port::INPUT, module,BangDaButton::DOWN_SW_B_IN));
 
 }

@@ -205,12 +205,6 @@ void FlipOLogic::step() {
 	lights[RIGHT_VS_XNOR_LED].value = (rightIn != lgcXnor);
 }
 
-template <typename BASE>
- struct FourPixLight : BASE {
- 	FourPixLight() {
-		this->box.size = Vec(4, 4);
- 	}
- };
 
 struct FlipOLogicWidget : ModuleWidget {
 	FlipOLogicWidget(FlipOLogic *module);
@@ -284,4 +278,4 @@ FlipOLogicWidget::FlipOLogicWidget(FlipOLogic *module) : ModuleWidget(module) {
 }
 
 Model *modelFlipOLogic = Model::create<FlipOLogic, FlipOLogicWidget>(
-	"PvC", "FlipOLogic", "FlipOLogic", LOGIC_TAG, SWITCH_TAG);
+	"PvC", "FlipOLogic", "FlipOLogic", LOGIC_TAG, SWITCH_TAG, CLOCK_MODULATOR_TAG);

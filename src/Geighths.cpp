@@ -120,4 +120,4 @@ GeighthsWidget::GeighthsWidget(Geighths *module) : ModuleWidget(module) {
 }
 
 Model *modelGeighths = Model::create<Geighths, GeighthsWidget>(
-	"PvC", "Geighths", "Geighths", LOGIC_TAG);
+	"PvC", "Geighths", "Geighths", LOGIC_TAG, SAMPLE_AND_HOLD_TAG);

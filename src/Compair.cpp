@@ -23,6 +23,7 @@ channel output to the logic section can be inverted.
 all outputs are 0V-5V.
 
 TODO:
+  -proper RGB Light...
   -code clean-up, optimization, simplification
 
 */////////////////////////////////////////////////////////////////////////////
@@ -223,12 +224,6 @@ template <typename BASE>
  	}
  };
 
-template <typename BASE>
- struct LogicLight : BASE {
- 	LogicLight() {
-		this->box.size = Vec(4, 4);
- 	}
- };
 
 struct CompairWidget : ModuleWidget {
 	CompairWidget(Compair *module);
@@ -262,10 +257,10 @@ CompairWidget::CompairWidget(Compair *module) : ModuleWidget(module) {
 	addOutput(Port::create<OutPortBin>(Vec(4,226), Port::OUTPUT, module,Compair::GATE_A_OUT));
 	addOutput(Port::create<OutPortBin>(Vec(4,250), Port::OUTPUT, module,Compair::NOT_A_OUT));
 
-	addChild(ModuleLightWidget::create<LogicLight<CyanLight>>(Vec(13,288),module,Compair::AND_LED));
+	addChild(ModuleLightWidget::create<FourPixLight<CyanLight>>(Vec(13,288),module,Compair::AND_LED));
 	addOutput(Port::create<OutPortBin>(Vec(4,294), Port::OUTPUT, module,Compair::AND_OUT));
 
-	addChild(ModuleLightWidget::create<LogicLight<YellowLight>>(Vec(13,330),module,Compair::XOR_LED));
+	addChild(ModuleLightWidget::create<FourPixLight<YellowLight>>(Vec(13,330),module,Compair::XOR_LED));
 	addOutput(Port::create<OutPortBin>(Vec(4,336), Port::OUTPUT, module,Compair::XOR_OUT));
 
 
@@ -287,10 +282,10 @@ CompairWidget::CompairWidget(Compair *module) : ModuleWidget(module) {
 	addOutput(Port::create<OutPortBin>(Vec(34,226), Port::OUTPUT, module,Compair::GATE_B_OUT));
 	addOutput(Port::create<OutPortBin>(Vec(34,250), Port::OUTPUT, module,Compair::NOT_B_OUT));
 
-	addChild(ModuleLightWidget::create<LogicLight<OrangeLight>>(Vec(43,288),module,Compair::OR_LED));
+	addChild(ModuleLightWidget::create<FourPixLight<OrangeLight>>(Vec(43,288),module,Compair::OR_LED));
 	addOutput(Port::create<OutPortBin>(Vec(34,294), Port::OUTPUT, module,Compair::OR_OUT));
 
-	addChild(ModuleLightWidget::create<LogicLight<GreenLight>>(Vec(43,330),module,Compair::FLIP_LED));
+	addChild(ModuleLightWidget::create<FourPixLight<GreenLight>>(Vec(43,330),module,Compair::FLIP_LED));
 	addOutput(Port::create<OutPortBin>(Vec(34,336), Port::OUTPUT, module,Compair::FLIP_OUT));
 
 }
@@ -341,13 +336,13 @@ CompairWidget::CompairWidget(Compair *module) : ModuleWidget(module) {
 	addParam(ParamWidget::create<CompairToggle>(Vec(94,238),module,Compair::INVERT_B_PARAM, 0, 1, 0));
 	// LOGIC
 	addOutput(Port::create<OutPortBin>(Vec(7,324), Port::OUTPUT, module,Compair::AND_OUT));
-	addChild(ModuleLightWidget::create<LogicLight<CyanLight>>(Vec(16,318),module,Compair::AND_LED));
+	addChild(ModuleLightWidget::create<FourPixLight<CyanLight>>(Vec(16,318),module,Compair::AND_LED));
 	addOutput(Port::create<OutPortBin>(Vec(35,324), Port::OUTPUT, module,Compair::OR_OUT));
-	addChild(ModuleLightWidget::create<LogicLight<OrangeLight>>(Vec(44,318),module,Compair::OR_LED));
+	addChild(ModuleLightWidget::create<FourPixLight<OrangeLight>>(Vec(44,318),module,Compair::OR_LED));
 	addOutput(Port::create<OutPortBin>(Vec(63,324), Port::OUTPUT, module,Compair::XOR_OUT));
-	addChild(ModuleLightWidget::create<LogicLight<YellowLight>>(Vec(72,318),module,Compair::XOR_LED));
+	addChild(ModuleLightWidget::create<FourPixLight<YellowLight>>(Vec(72,318),module,Compair::XOR_LED));
 	addOutput(Port::create<OutPortBin>(Vec(90,324), Port::OUTPUT, module,Compair::FLIP_OUT));
-	addChild(ModuleLightWidget::create<LogicLight<GreenLight>>(Vec(99,318),module,Compair::FLIP_LED));
+	addChild(ModuleLightWidget::create<FourPixLight<GreenLight>>(Vec(99,318),module,Compair::FLIP_LED));
 }*/
 
 struct CompairOutputModeItem : MenuItem {
@@ -390,4 +385,4 @@ Menu *CompairWidget::createContextMenu() {
 }
 
 Model *modelCompair = Model::create<Compair, CompairWidget>(
-	"PvC", "Compair", "Compair", LOGIC_TAG, DIGITAL_TAG, DUAL_TAG);
+	"PvC", "Compair", "Compair", LOGIC_TAG, DUAL_TAG, CLOCK_MODULATOR_TAG);

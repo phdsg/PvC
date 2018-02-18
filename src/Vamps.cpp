@@ -83,4 +83,4 @@ VampsWidget::VampsWidget(Vamps *module) : ModuleWidget(module) {
 	addOutput(Port::create<OutPortVal>(Vec(4, 336), Port::OUTPUT, module, Vamps::OUT_R));
 }
 Model *modelVamps = Model::create<Vamps, VampsWidget>(
-	"PvC", "Vamps", "Vamps", AMPLIFIER_TAG, ATTENUATOR_TAG);
+	"PvC", "Vamps", "Vamps", AMPLIFIER_TAG, ATTENUATOR_TAG, DUAL_TAG);

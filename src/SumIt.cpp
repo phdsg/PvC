@@ -47,7 +47,6 @@ struct SumIt : Module {
 };
 
 
-
 void SumIt::step() {
 	mix = 0.0f;
 	count = 0;
@@ -87,4 +86,5 @@ SumItWidget::SumItWidget(SumIt *module) : ModuleWidget(module) {
 	addOutput(Port::create<OutPortVal>(Vec(4,24 + 24*13), Port::OUTPUT, module, SumIt::OUTPUT));
 }
 
-Model *modelSumIt = Model::create<SumIt, SumItWidget>("PvC", "SumIt", "SumIt", ATTENUATOR_TAG, AMPLIFIER_TAG, MIXER_TAG);
+Model *modelSumIt = Model::create<SumIt, SumItWidget>(
+	"PvC", "SumIt", "SumIt", ATTENUATOR_TAG, AMPLIFIER_TAG, MIXER_TAG);

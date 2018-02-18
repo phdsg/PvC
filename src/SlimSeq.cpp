@@ -87,7 +87,6 @@ struct SlimSeq : Module {
 	float stepInput = 0.0f;
 
 	SchmittTrigger clockTrigger, reverseTrigger, randomTrigger, holdTrigger, resetTrigger;
-	SchmittTrigger clockButton, reverseButton, randomButton, holdButton, resetButton;
 	SchmittTrigger posButtons[STEPCOUNT];
 
 	void reset() override {
@@ -135,28 +134,25 @@ void SlimSeq::step() {
 
 	// playmode triggers & controls
 	if (isRandom) {	// in rnd mode use rev trigger to switch hopper/walker
-		if (reverseTrigger.process(inputs[REVERSE_IN].value)) isHopper  = !isHopper;
-		if (reverseButton.process(params[REVERSE_UI].value)) isHopper = !isHopper;
+		if (reverseTrigger.process(inputs[REVERSE_IN].value + params[REVERSE_UI].value))
+			isHopper  = !isHopper;
 	}
 	else {
-		if (reverseTrigger.process(inputs[REVERSE_IN].value)) isReverse  = !isReverse;
-		if (reverseButton.process(params[REVERSE_UI].value)) isReverse  = !isReverse;
+		if (reverseTrigger.process(inputs[REVERSE_IN].value + params[REVERSE_UI].value))
+			isReverse  = !isReverse;
 	}
 
-	if (randomTrigger.process(inputs[RNDMODE_IN].value)) isRandom  = !isRandom;
-	if (randomButton.process(params[RNDMODE_UI].value)) isRandom  = !isRandom;
-
-	if (holdTrigger.process(inputs[HOLD_IN].value)) isHold = !isHold;
-	if (holdButton.process(params[HOLD_UI].value)) isHold = !isHold;
-
-	if (resetTrigger.process(inputs[RESET_IN].value)) {
+	if (randomTrigger.process(inputs[RNDMODE_IN].value + params[RNDMODE_UI].value))
+		isRandom  = !isRandom;
+	
+	if (holdTrigger.process(inputs[HOLD_IN].value + params[HOLD_UI].value))
+		isHold = !isHold;
+	
+	if (resetTrigger.process(inputs[RESET_IN].value + params[RESET_UI].value)) {
 		 counterPos = resetPos;
 		 currentPos = resetPos;
 	}
-	if (resetButton.process(params[RESET_UI].value)) {
-		counterPos = resetPos;
-		currentPos = resetPos;
-	}
+	
 
 	// position selectors
 	for(int i=0; i<STEPCOUNT; i++) {

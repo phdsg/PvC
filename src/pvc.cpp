@@ -8,8 +8,8 @@ void init(rack::Plugin *p) {
 	p->slug = "PvC";
 	p->version = TOSTRING(VERSION);
 
-	p->addModel(modelAorBtoOut);
-	p->addModel(modelInToAorB);
+	p->addModel(modelHeads);
+	p->addModel(modelTails);
 	p->addModel(modelBangDaButton);
 	p->addModel(modelCompair);
 	p->addModel(modelCoSuOf);

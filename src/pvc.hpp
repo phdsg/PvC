@@ -5,8 +5,8 @@ using namespace rack;
 extern Plugin *plugin;
 
 // module widgets
-extern Model *modelAorBtoOut;
-extern Model *modelInToAorB;
+extern Model *modelHeads;
+extern Model *modelTails;
 extern Model *modelBangDaButton;
 extern Model *modelCompair;
 extern Model *modelCoSuOf;
@@ -77,6 +77,29 @@ struct PvCSnapKnob : PvCKnob {
 	}
 };
 
+struct LabelButtonL : SVGSwitch, MomentarySwitch {
+	LabelButtonL() {
+		addFrame(SVG::load(assetPlugin(plugin, "res/components/LabelButtonL_0.svg")));
+		addFrame(SVG::load(assetPlugin(plugin, "res/components/LabelButtonL_1.svg")));
+		box.size = Vec(36,12);
+	}
+};
+struct LabelButtonS : SVGSwitch, MomentarySwitch {
+	LabelButtonS() {
+		addFrame(SVG::load(assetPlugin(plugin, "res/components/LabelButtonS_0.svg")));
+		addFrame(SVG::load(assetPlugin(plugin, "res/components/LabelButtonS_1.svg")));
+
+		box.size = Vec(24,12);
+	}
+};
+struct ModeToggle : SVGSwitch, ToggleSwitch {
+	ModeToggle() {
+		addFrame(SVG::load(assetPlugin(plugin, "res/components/empty.svg")));
+		box.size = Vec(12,6);
+	}
+};
+
+
 struct WhiteLight : ModuleLightWidget {
  	WhiteLight() { addBaseColor(COLOR_WHITE); }
 };
@@ -91,11 +114,18 @@ struct CyanLight : ModuleLightWidget {
 };
 
 template <typename BASE>
-struct PvCBigLED : BASE {
+ struct PvCBigLED : BASE {
 	PvCBigLED() {
 		this->box.size = Vec(22, 22);
 	}
-};
+ };
+
+template <typename BASE>
+ struct FourPixLight : BASE {
+ 	FourPixLight() {
+ 		this->box.size = Vec(4, 4);
+ 	}
+ };
 
 
 struct ScrewHead1 : SVGScrew {

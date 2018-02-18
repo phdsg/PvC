@@ -111,4 +111,4 @@ CoSuOfWidget::CoSuOfWidget(CoSuOf *module) : ModuleWidget(module) {
 }
 
 Model *modelCoSuOf = Model::create<CoSuOf, CoSuOfWidget>(
-	"PvC", "CoSuOf", "CoSuOf", LOGIC_TAG, ATTENUATOR_TAG, AMPLIFIER_TAG);
+	"PvC", "CoSuOf", "CoSuOf", LOGIC_TAG, ATTENUATOR_TAG);

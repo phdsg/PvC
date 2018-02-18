@@ -115,4 +115,4 @@ TaHaSaHaNWidget::TaHaSaHaNWidget(TaHaSaHaN *module) : ModuleWidget(module) {
 }
 
 Model *modelTaHaSaHaN = Model::create<TaHaSaHaN, TaHaSaHaNWidget>(
-	"PvC", "TaHaSaHaN", "TaHaSaHaN", SAMPLE_AND_HOLD_TAG, NOISE_TAG);
+	"PvC", "TaHaSaHaN", "TaHaSaHaN", SAMPLE_AND_HOLD_TAG, NOISE_TAG, RANDOM_TAG);

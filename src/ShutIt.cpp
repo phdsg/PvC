@@ -119,20 +119,6 @@ void ShutIt::step() {
 	}
 }
 
-struct LabelButtonS : SVGSwitch, MomentarySwitch {
-	LabelButtonS() {
-		addFrame(SVG::load(assetPlugin(plugin, "res/components/LabelButtonS_0.svg")));
-		addFrame(SVG::load(assetPlugin(plugin, "res/components/LabelButtonS_1.svg")));
-
-		box.size = Vec(24,12);
-	}
-};
-template <typename BASE>
- struct FourPixLight : BASE {
- 	FourPixLight() {
- 		this->box.size = Vec(4, 4);
- 	}
- };
 // ugh
  struct EmptyButton : SVGSwitch, MomentarySwitch {
 	EmptyButton() {
@@ -170,13 +156,13 @@ ShutItWidget::ShutItWidget(ShutIt *module) : ModuleWidget(module) {
 		addOutput(Port::create<OutPortVal>(Vec(52,26 + top*i), Port::OUTPUT, module, ShutIt::A_OUT + i));
 	}
 	addInput(Port::create<InPortBin>(Vec(4,322), Port::INPUT, module, ShutIt::SHUT_ALL_TRIG));
-  addParam(ParamWidget::create<LabelButtonS>(Vec(3,347), module, ShutIt::SHUT_ALL, 0, 1, 0));
+	addParam(ParamWidget::create<LabelButtonS>(Vec(3,347), module, ShutIt::SHUT_ALL, 0, 1, 0));
 	addInput(Port::create<InPortBin>(Vec(34,322), Port::INPUT, module, ShutIt::FLIP_ALL_TRIG));
-  addParam(ParamWidget::create<LabelButtonS>(Vec(33,347), module, ShutIt::FLIP_ALL, 0, 1, 0));
+ 	addParam(ParamWidget::create<LabelButtonS>(Vec(33,347), module, ShutIt::FLIP_ALL, 0, 1, 0));
 	addInput(Port::create<InPortBin>(Vec(64,322), Port::INPUT, module, ShutIt::OPEN_ALL_TRIG));
-  addParam(ParamWidget::create<LabelButtonS>(Vec(63,347), module, ShutIt::OPEN_ALL, 0, 1, 0));
-  
+	addParam(ParamWidget::create<LabelButtonS>(Vec(63,347), module, ShutIt::OPEN_ALL, 0, 1, 0));
 }
 
-Model *modelShutIt = Model::create<ShutIt, ShutItWidget>("PvC", "ShutIt", "ShutIt", LOGIC_TAG, SWITCH_TAG);
+Model *modelShutIt = Model::create<ShutIt, ShutItWidget>(
+	"PvC", "ShutIt", "ShutIt", SWITCH_TAG, MULTIPLE_TAG);
 
