@@ -5,7 +5,7 @@
 Based on an idea by Joop van der Linden (@joopvl) to combine a bernoulli gate with an audio path.  
 __Heads__ routes either input A or B to its output.  
 __Tails__ routes its input to either output A or B.  
-Changing routes can either be done manually by clicking the labels or remotely by using the CV trigger inputs.
+Routes can be changed manually by clicking the labels or remotely by using the CV trigger inputs.
 
 ### Random Route Changes
 __TOSS__ changes the route based on the outcome of a coin toss.  
