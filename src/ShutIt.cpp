@@ -52,7 +52,7 @@ struct ShutIt : Module {
 	}
 		void randomize() override {
 		for (int i = 0; i < CHANCOUNT; i++) {
-			muteState[i] = (randomf() < 0.5);
+			muteState[i] = (randomUniform() < 0.5);
 		}
 	}
 	// MUTE states

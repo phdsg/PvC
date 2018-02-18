@@ -91,15 +91,14 @@ struct AorBtoOut : Module {
 void AorBtoOut::step() {
 	flipMode = params[TOSS_MODE].value;
 
-	if (inputs[TOSS_IN].active) {
-		if (tossTrigger.process(inputs[TOSS_IN].value)) {
-			gatePulse.trigger(0.01f);
-			if (flipMode)
-				gate = (randomUniform() < params[PROB_UI].value + inputs[PROB_CV].value) ? !gate : gate;
-			else
-				gate = (randomUniform() < (params[PROB_UI].value + inputs[PROB_CV].value*0.1f));
-		}
+	if (tossTrigger.process(inputs[TOSS_IN].value + params[TOSS_UI].value)) {
+		gatePulse.trigger(0.01f);
+		if (flipMode)
+			gate = (randomUniform() < params[PROB_UI].value + inputs[PROB_CV].value) ? !gate : gate;
+		else
+			gate = (randomUniform() < (params[PROB_UI].value + inputs[PROB_CV].value*0.1f));
 	}
+	
 
 	if (flipTrigger.process(inputs[FLIP_IN].value + params[FLIP_UI].value)) {
 		gatePulse.trigger(0.01f);
@@ -182,9 +181,9 @@ AorBtoOutWidget::AorBtoOutWidget(AorBtoOut *module) : ModuleWidget(module) {
   addParam(ParamWidget::create<LabelButtonL>(Vec(12,205), module, AorBtoOut::FLIP_UI, 0, 1, 0));
 	
 	addInput(Port::create<InPortBin>(Vec(4,222), Port::INPUT, module, AorBtoOut::SET_A_IN));
-  addParam(ParamWidget::create<LabelButtonL>(Vec(3,247), module, AorBtoOut::SET_A_UI, 0, 1, 0));
+  addParam(ParamWidget::create<LabelButtonS>(Vec(3,247), module, AorBtoOut::SET_A_UI, 0, 1, 0));
 	addInput(Port::create<InPortBin>(Vec(34,222), Port::INPUT, module, AorBtoOut::SET_B_IN));
-  addParam(ParamWidget::create<LabelButtonL>(Vec(33,247), module, AorBtoOut::SET_B_UI, 0, 1, 0));
+  addParam(ParamWidget::create<LabelButtonS>(Vec(33,247), module, AorBtoOut::SET_B_UI, 0, 1, 0));
 
 	addOutput(Port::create<OutPortVal>(Vec(19,276), Port::OUTPUT, module, AorBtoOut::SIG_OUT));
 
