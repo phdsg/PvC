@@ -91,17 +91,16 @@ struct InToAorB : Module {
 void InToAorB::step() {
 	flipMode = params[TOSS_MODE].value;
 
-	if (inputs[TOSS_IN].active) {
-		if (tossTrigger.process(inputs[TOSS_IN].value)) {
-			gatePulse.trigger(0.01f);
-			if (flipMode)
-				gate = (randomUniform() < params[PROB_UI].value + inputs[PROB_CV].value) ? !gate : gate; //
-			else
-				gate = (randomUniform() < (params[PROB_UI].value + inputs[PROB_CV].value*0.1f));
-		}
+	if (tossTrigger.process(inputs[TOSS_IN].value + params[TOSS_UI].value)) {
+		gatePulse.trigger(0.01f);
+		if (flipMode)
+			gate = (randomUniform() < params[PROB_UI].value + inputs[PROB_CV].value) ? !gate : gate; //
+		else
+			gate = (randomUniform() < (params[PROB_UI].value + inputs[PROB_CV].value*0.1f));
 	}
+	
 
-  if (flipTrigger.process(inputs[FLIP_IN].value + params[FLIP_UI].value)) {
+	if (flipTrigger.process(inputs[FLIP_IN].value + params[FLIP_UI].value)) {
 		gatePulse.trigger(0.01f);
 		gate = !gate;
 	}
@@ -174,21 +173,21 @@ InToAorBWidget::InToAorBWidget(InToAorB *module) : ModuleWidget(module) {
 	addInput(Port::create<InPortCtrl>(Vec(19,88), Port::INPUT, module, InToAorB::PROB_CV));
 	addInput(Port::create<InPortBin>(Vec(19,124), Port::INPUT, module, InToAorB::TOSS_IN));
   addParam(ParamWidget::create<LabelButtonL>(Vec(12,149), module, InToAorB::TOSS_UI, 0, 1, 0));
-	addChild(ModuleLightWidget::create<FourPixLight<OrangeLight>>(Vec(25,163),module, InToAorB::DIR_LED));
-	addChild(ModuleLightWidget::create<FourPixLight<BlueLight>>(Vec(31,163),module, InToAorB::FLP_LED));
-	addParam(ParamWidget::create<ModeToggle>(Vec(24,162), module, InToAorB::TOSS_MODE, 0, 1, 0));
+	addChild(ModuleLightWidget::create<FourPixLight<OrangeLight>>(Vec(25,165),module, InToAorB::DIR_LED));
+	addChild(ModuleLightWidget::create<FourPixLight<BlueLight>>(Vec(31,165),module, InToAorB::FLP_LED));
+	addParam(ParamWidget::create<ModeToggle>(Vec(24,164), module, InToAorB::TOSS_MODE, 0, 1, 0));
 	addInput(Port::create<InPortBin>(Vec(19,180), Port::INPUT, module, InToAorB::FLIP_IN));
   addParam(ParamWidget::create<LabelButtonL>(Vec(12,205), module, InToAorB::FLIP_UI, 0, 1, 0));
 	
 	addInput(Port::create<InPortBin>(Vec(4,222), Port::INPUT, module, InToAorB::SET_A_IN));
-  addParam(ParamWidget::create<LabelButtonL>(Vec(3,247), module, InToAorB::SET_A_UI, 0, 1, 0));
+  addParam(ParamWidget::create<LabelButtonS>(Vec(3,247), module, InToAorB::SET_A_UI, 0, 1, 0));
 	addChild(ModuleLightWidget::create<FourPixLight<CyanLight>>(Vec(13,267),module, InToAorB::A_LED));
 	addOutput(Port::create<OutPortVal>(Vec(4,276), Port::OUTPUT, module, InToAorB::SIG_A_OUT));
 	addOutput(Port::create<OutPortBin>(Vec(4,312), Port::OUTPUT, module, InToAorB::GATE_A_OUT));
 	addOutput(Port::create<OutPortBin>(Vec(4,336), Port::OUTPUT, module, InToAorB::TRIG_A_OUT));
 
 	addInput(Port::create<InPortBin>(Vec(34,222), Port::INPUT, module, InToAorB::SET_B_IN));
-   addParam(ParamWidget::create<LabelButtonL>(Vec(33,247), module, InToAorB::SET_B_UI, 0, 1, 0));
+   addParam(ParamWidget::create<LabelButtonS>(Vec(33,247), module, InToAorB::SET_B_UI, 0, 1, 0));
 	addChild(ModuleLightWidget::create<FourPixLight<PurpleLight>>(Vec(43,267),module, InToAorB::B_LED));
 	addOutput(Port::create<OutPortVal>(Vec(34,276), Port::OUTPUT, module, InToAorB::SIG_B_OUT));
 	addOutput(Port::create<OutPortBin>(Vec(34,312), Port::OUTPUT, module, InToAorB::GATE_B_OUT));
