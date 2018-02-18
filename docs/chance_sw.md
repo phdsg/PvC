@@ -4,26 +4,26 @@ switching can be done directly or on a coin toss chance.
 
 ## Details
 Based on an idea by Joop van der Linden (@joopvl) to combine a bernoulli gate with an audio path.  
-Heads routes either input A or B to its output.  
-Tails routes its input to either output A or B.  
+__Heads__ routes either input A or B to its output.  
+__Tails__ routes its input to either output A or B.  
 Changing routes can either be done manually by clicking the labels or remotely by using the CV trigger inputs.
 
 ### Random Route Changes
-TOSS changes the route based on the outcome of a coin toss.  
-In DIR mode the route is directly chosen by the outcome while  
-in FLP mode the outcome decides whether the current path is changed or not.  
-The PROB knob and CV influence the chance of the toss result being heads or tails.  
+__TOSS__ changes the route based on the outcome of a coin toss.  
+In __DIR__ mode the route is directly chosen by the outcome while  
+in __FLP__ mode the outcome decides whether the current path is changed or not.  
+The __PROB__ knob and CV influence the chance of the toss result being heads or tails.  
 
 ### Direct Route Changes  
-FLIP - switches routes from one to the other  
-A - sets route to A  
-B - sets route to B  
+__FLIP__ - switches routes from one to the other  
+__A__ - sets route to A  
+__B__ - sets route to B  
 
 ### Gate and Trigger Outs  
-G outs are high when their route is active.  
-The active T out passes the triggers of any route change event.  
+__G__ outs are high when their route is active.  
+The active __T__ out passes the triggers of any route change event.  
 
 ## Changes  
-0.6.0 - ui tweaks, name change  
-0.5.8 - initial version  
+__0.6.0__ - ui tweaks, name change  
+__0.5.8__ - initial version  
 
