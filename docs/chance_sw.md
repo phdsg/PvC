@@ -12,6 +12,6 @@ These modules are based on an idea by Joop van der Linden (@joopvl): bernoulli g
 
 
 ## Changes
-0.5-9 - ui tweaks
+0.5-9 - ui tweaks, name change  
 0.5.8 - initial version  
 
