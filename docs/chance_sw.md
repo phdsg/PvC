@@ -10,8 +10,8 @@ Changing routes can either be done manually by clicking the labels or remotely b
 
 ### Random Route Changes
 TOSS changes the route based on the outcome of a coin toss.  
-In DIR mode the route is directly chosen by the outcome while in  
-FLP mode the outcome decides whether the current path is changed or not.  
+In DIR mode the route is directly chosen by the outcome while  
+in FLP mode the outcome decides whether the current path is changed or not.  
 The PROB knob and CV influence the chance of the toss result being heads or tails.  
 
 ### Direct Route Changes  
