@@ -11,13 +11,13 @@ divided outs are routed to the LOGIC Inputs at the top as well as to the side co
 LOGIC Ins A, B, C  
 
 FLIP Input : triggers FLIP(triggers FLOP (triggers FLAP))  
-left column (XOR) Input  
-right column (AND) Input  
+left column (AND) Input  
+right column (XOR) Input  
 
 LOGIC Outs  
 center: AND, NAND, OR, NOR, XOR, XNOR of the A,B,C inputs  
-left: XOR of left column input vs LOGIC Out  
-right: AND of right column input vs LOGIC Out  
+left: AND of left column input vs LOGIC Out  
+right: XOR of right column input vs LOGIC Out  
 
 ### Controls
 
