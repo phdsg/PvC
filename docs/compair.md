@@ -30,7 +30,7 @@ CV inputs for each parameter are added to the voltage set by the knobs.
 Compare lights function as toggles inverting their channel's output to the logic section.  
 
 ## Changes
-0.6.0 - panel tweaks
+0.6.0 - panel tweaks  
 0.5.8 - layout change  
 0.5.7 - some fixes  
 0.5.6 - new compare lights, bi-polar output option  
