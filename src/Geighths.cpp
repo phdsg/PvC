@@ -106,16 +106,17 @@ GeighthsWidget::GeighthsWidget(Geighths *module) : ModuleWidget(module) {
 	addChild(Widget::create<ScrewHead4>(Vec(box.size.x - 15, 365)));
 
 	addInput(Port::create<InPortAud>(Vec(4,22), Port::INPUT, module,Geighths::CV_IN));
-	addParam(ParamWidget::create<PvCKnob>(Vec(34, 22),module,Geighths::INPUT_GAIN , -2.0f, 2.0f, 1.0f));
-	addParam(ParamWidget::create<PvCKnob>(Vec(34, 58),module,Geighths::INPUT_OFFSET, -10.0f, 10.0f, 0.0f));
+	addInput(Port::create<InPortBin>(Vec(34,22), Port::INPUT, module,Geighths::CLOCK_IN));
+	addParam(ParamWidget::create<PvCKnob>(Vec(4, 64),module,Geighths::INPUT_GAIN , -2.0f, 2.0f, 1.0f));
+	addParam(ParamWidget::create<PvCKnob>(Vec(34, 64),module,Geighths::INPUT_OFFSET, -10.0f, 10.0f, 0.0f));
 
-	addInput(Port::create<InPortBin>(Vec(4,84), Port::INPUT, module,Geighths::CLOCK_IN));
+	
 
 	for (int i = 0; i < 8; i++)
 	{
-		addChild(ModuleLightWidget::create<PvCBigLED<YellowLight>>(Vec(4,336 - 28*i),module,Geighths::GATE1_LIGHT + i));
-		addParam(ParamWidget::create<PvCLEDKnob>(Vec(4, 336 - 28*i),module,Geighths::GATE1_LENGTH + i, 0.002f, 2.0f, 0.02f));
-		addOutput(Port::create<OutPortBin>(Vec(34, 336 - 28*i), Port::OUTPUT, module,Geighths::GATE1_OUT + i));
+		addChild(ModuleLightWidget::create<PvCBigLED<BlueLight>>(Vec(4,318 - 30*i),module,Geighths::GATE1_LIGHT + i));
+		addParam(ParamWidget::create<PvCLEDKnob>(Vec(4, 318 - 30*i),module,Geighths::GATE1_LENGTH + i, 0.002f, 2.0f, 0.02f));
+		addOutput(Port::create<OutPortBin>(Vec(34, 318 - 30*i), Port::OUTPUT, module,Geighths::GATE1_OUT + i));
 	}
 }
 
