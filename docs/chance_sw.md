@@ -2,7 +2,7 @@
 ... is a set two 4HP A/B switches with a random component.
 
 ## Details
-Based on an idea by Joop van der Linden (@joopvl) to combine a bernoulli gate with an audio path.  
+Based on an idea by Joop van der Linden ([@joopvdl](https://github.com/joopvdl)) to combine a bernoulli gate with an audio path.  
 __Heads__ routes either input A or B to its output.  
 __Tails__ routes its input to either output A or B.  
 Routes can be changed manually by clicking the labels or remotely by using the CV trigger inputs.
