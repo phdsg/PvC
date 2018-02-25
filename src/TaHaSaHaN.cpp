@@ -104,14 +104,15 @@ TaHaSaHaNWidget::TaHaSaHaNWidget(TaHaSaHaN *module) : ModuleWidget(module) {
 	addInput(Port::create<InPortAud>(Vec(4,22), Port::INPUT, module, TaHaSaHaN::SAMPLE));
 	addInput(Port::create<InPortBin>(Vec(4,64), Port::INPUT, module, TaHaSaHaN::TRIGGER));
 	
-	addParam(ParamWidget::create<PvCKnob>(Vec(4,124),module, TaHaSaHaN::BLEND, 0.0f, 1.0f, 0.5f));
-	addInput(Port::create<InPortCtrl>(Vec(4,150), Port::INPUT, module, TaHaSaHaN::BLEND_CV));
-	addOutput(Port::create<OutPortVal>(Vec(4,196), Port::OUTPUT, module, TaHaSaHaN::MIX));
 
-	addOutput(Port::create<OutPortVal>(Vec(4,252), Port::OUTPUT, module, TaHaSaHaN::TNH));
-	addOutput(Port::create<OutPortVal>(Vec(4,294), Port::OUTPUT, module, TaHaSaHaN::SNH));
-	addOutput(Port::create<OutPortVal>(Vec(4,336), Port::OUTPUT, module, TaHaSaHaN::NOISE));
+	addOutput(Port::create<OutPortVal>(Vec(4,132), Port::OUTPUT, module, TaHaSaHaN::TNH));
+	addOutput(Port::create<OutPortVal>(Vec(4,176), Port::OUTPUT, module, TaHaSaHaN::SNH));
+	addOutput(Port::create<OutPortVal>(Vec(4,220), Port::OUTPUT, module, TaHaSaHaN::NOISE));
 
+	addParam(ParamWidget::create<PvCKnob>(Vec(4,258),module, TaHaSaHaN::BLEND, 0.0f, 1.0f, 0.5f));
+	addInput(Port::create<InPortCtrl>(Vec(4,282), Port::INPUT, module, TaHaSaHaN::BLEND_CV));
+	addOutput(Port::create<OutPortVal>(Vec(4,336), Port::OUTPUT, module, TaHaSaHaN::MIX));
+	
 }
 
 Model *modelTaHaSaHaN = Model::create<TaHaSaHaN, TaHaSaHaNWidget>(

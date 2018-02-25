@@ -122,6 +122,13 @@ void Tails::step() {
 	lights[FLP_LED].value = flipMode;
 }
 
+struct ModeToggle : SVGSwitch, ToggleSwitch {
+	ModeToggle() {
+		addFrame(SVG::load(assetPlugin(plugin, "res/components/empty.svg")));
+		box.size = Vec(12,6);
+	}
+};
+
 struct TailsWidget : ModuleWidget {
 	TailsWidget(Tails *module);
 };
@@ -141,22 +148,22 @@ TailsWidget::TailsWidget(Tails *module) : ModuleWidget(module) {
 	addInput(Port::create<InPortCtrl>(Vec(19,88), Port::INPUT, module, Tails::PROB_CV));
 	addInput(Port::create<InPortBin>(Vec(19,124), Port::INPUT, module, Tails::TOSS_IN));
 	addParam(ParamWidget::create<LabelButtonL>(Vec(12,149), module, Tails::TOSS_UI, 0, 1, 0));
-	addChild(ModuleLightWidget::create<FourPixLight<OrangeLight>>(Vec(25,165),module, Tails::DIR_LED));
-	addChild(ModuleLightWidget::create<FourPixLight<BlueLight>>(Vec(31,165),module, Tails::FLP_LED));
+	addChild(ModuleLightWidget::create<FourPixLight<OrangeLED>>(Vec(25,165),module, Tails::DIR_LED));
+	addChild(ModuleLightWidget::create<FourPixLight<BlueLED>>(Vec(31,165),module, Tails::FLP_LED));
 	addParam(ParamWidget::create<ModeToggle>(Vec(24,164), module, Tails::TOSS_MODE, 0, 1, 0));
 	addInput(Port::create<InPortBin>(Vec(19,180), Port::INPUT, module, Tails::FLIP_IN));
 	addParam(ParamWidget::create<LabelButtonL>(Vec(12,205), module, Tails::FLIP_UI, 0, 1, 0));
 	
 	addInput(Port::create<InPortBin>(Vec(4,222), Port::INPUT, module, Tails::SET_A_IN));
 	addParam(ParamWidget::create<LabelButtonS>(Vec(3,247), module, Tails::SET_A_UI, 0, 1, 0));
-	addChild(ModuleLightWidget::create<FourPixLight<CyanLight>>(Vec(13,267),module, Tails::A_LED));
+	addChild(ModuleLightWidget::create<FourPixLight<CyanLED>>(Vec(13,267),module, Tails::A_LED));
 	addOutput(Port::create<OutPortVal>(Vec(4,276), Port::OUTPUT, module, Tails::SIG_A_OUT));
 	addOutput(Port::create<OutPortBin>(Vec(4,312), Port::OUTPUT, module, Tails::GATE_A_OUT));
 	addOutput(Port::create<OutPortBin>(Vec(4,336), Port::OUTPUT, module, Tails::TRIG_A_OUT));
 
 	addInput(Port::create<InPortBin>(Vec(34,222), Port::INPUT, module, Tails::SET_B_IN));
 	addParam(ParamWidget::create<LabelButtonS>(Vec(33,247), module, Tails::SET_B_UI, 0, 1, 0));
-	addChild(ModuleLightWidget::create<FourPixLight<PurpleLight>>(Vec(43,267),module, Tails::B_LED));
+	addChild(ModuleLightWidget::create<FourPixLight<PurpleLED>>(Vec(43,267),module, Tails::B_LED));
 	addOutput(Port::create<OutPortVal>(Vec(34,276), Port::OUTPUT, module, Tails::SIG_B_OUT));
 	addOutput(Port::create<OutPortBin>(Vec(34,312), Port::OUTPUT, module, Tails::GATE_B_OUT));
 	addOutput(Port::create<OutPortBin>(Vec(34,336), Port::OUTPUT, module, Tails::TRIG_B_OUT));

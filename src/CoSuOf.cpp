@@ -47,6 +47,13 @@ struct CoSuOf : Module {
 		SUM_OUT,
 		GATE_OUT,
 		NATE_OUT,
+		MUS_OUT,
+		G_SUM,
+		N_SUM,
+		G_POS,
+		N_POS,
+		G_NEG,
+		N_NEG,
 
 		NUM_OUTPUTS
 	};
@@ -68,17 +75,26 @@ struct CoSuOf : Module {
 };
 
 void CoSuOf::step() {
-
-	float sumOut = (inputs[POS_IN].value * params[POS_LVL].value) - (inputs[NEG_IN].value * params[NEG_LVL].value) + params[OFFSET].value;
+	float posIn = inputs[POS_IN].value * params[POS_LVL].value;
+	float negIn = inputs[NEG_IN].value * params[NEG_LVL].value;
+	float sumOut = clamp(posIn - negIn + params[OFFSET].value, -10.0f, 10.0f);
 	float gap = params[GAP].value;
 
 	if (sumOut > gap) gate = true;
 	if (sumOut <= -gap) gate = false;
 
 	outputs[SUM_OUT].value = sumOut; // TODO:
+	outputs[MUS_OUT].value = -sumOut;
 	outputs[GATE_OUT].value = gate * 10.0f;
 	outputs[NATE_OUT].value = !gate * 10.0f;
-	
+
+	outputs[G_SUM].value = gate * sumOut;
+	outputs[N_SUM].value = !gate * sumOut;
+	outputs[G_POS].value = gate * posIn;
+	outputs[N_POS].value = !gate * posIn;
+	outputs[G_NEG].value = gate * negIn;
+	outputs[N_NEG].value = !gate * negIn;
+
 	lights[GATE_LED].value = gate;
 	lights[NATE_LED].value = !gate;
 }
@@ -96,18 +112,29 @@ CoSuOfWidget::CoSuOfWidget(CoSuOf *module) : ModuleWidget(module) {
 	addChild(Widget::create<ScrewHead4>(Vec(box.size.x - 15, 365)));
 
 	addInput(Port::create<InPortAud>(Vec(4,22), Port::INPUT, module,CoSuOf::POS_IN));
-	addParam(ParamWidget::create<PvCKnob>(Vec(4,48),module,CoSuOf::POS_LVL, 0.0f, 1.0f, 1.0f));
+	addInput(Port::create<InPortAud>(Vec(34,22), Port::INPUT, module,CoSuOf::NEG_IN));
 
-	addInput(Port::create<InPortAud>(Vec(4,90), Port::INPUT, module,CoSuOf::NEG_IN));
-	addParam(ParamWidget::create<PvCKnob>(Vec(4,116),module,CoSuOf::NEG_LVL, 0.0f, 1.0f, 1.0f));
+	addParam(ParamWidget::create<PvCKnob>(Vec(4,64),module,CoSuOf::POS_LVL, 0.0f, 1.0f, 1.0f));
+	addParam(ParamWidget::create<PvCKnob>(Vec(34,64),module,CoSuOf::NEG_LVL, 0.0f, 1.0f, 1.0f));
 
-	addParam(ParamWidget::create<PvCKnob>(Vec(4,168),module,CoSuOf::OFFSET, -10.0f, 10.0f, 0.0f));
-	addOutput(Port::create<OutPortVal>(Vec(4,208), Port::OUTPUT, module,CoSuOf::SUM_OUT));
+	addParam(ParamWidget::create<PvCKnob>(Vec(19,104),module,CoSuOf::OFFSET, -10.0f, 10.0f, 0.0f));
+	addOutput(Port::create<OutPortVal>(Vec(4,158), Port::OUTPUT, module,CoSuOf::SUM_OUT));
+	addOutput(Port::create<OutPortVal>(Vec(34,158), Port::OUTPUT, module,CoSuOf::MUS_OUT));
 
-	addChild(ModuleLightWidget::create<PvCBigLED<GreenRedLight>>(Vec(4, 258),module, CoSuOf::GATE_LED));
-	addParam(ParamWidget::create<PvCLEDKnob>(Vec(4,258),module,CoSuOf::GAP, 0.0f, 10.0f, 0.0f));
-	addOutput(Port::create<OutPortBin>(Vec(4,300), Port::OUTPUT, module,CoSuOf::GATE_OUT));
-	addOutput(Port::create<OutPortBin>(Vec(4,336), Port::OUTPUT, module,CoSuOf::NATE_OUT));
+	addParam(ParamWidget::create<PvCKnob>(Vec(19,192),module,CoSuOf::GAP, 0.0f, 10.0f, 0.0f));
+
+	addChild(ModuleLightWidget::create<FourPixLight<OrangeLED>>(Vec(13, 244),module, CoSuOf::GATE_LED));
+	addChild(ModuleLightWidget::create<FourPixLight<BlueLED>>(Vec(43, 244),module, CoSuOf::NATE_LED));
+	addOutput(Port::create<OutPortBin>(Vec(4,250), Port::OUTPUT, module,CoSuOf::GATE_OUT));
+	addOutput(Port::create<OutPortBin>(Vec(34,250), Port::OUTPUT, module,CoSuOf::NATE_OUT));
+
+	addOutput(Port::create<OutPortVal>(Vec(4,288), Port::OUTPUT, module,CoSuOf::G_SUM));
+	addOutput(Port::create<OutPortVal>(Vec(34,288), Port::OUTPUT, module,CoSuOf::N_SUM));
+	addOutput(Port::create<OutPortVal>(Vec(4,312), Port::OUTPUT, module,CoSuOf::G_POS));
+	addOutput(Port::create<OutPortVal>(Vec(34,312), Port::OUTPUT, module,CoSuOf::N_POS));
+	addOutput(Port::create<OutPortVal>(Vec(4,336), Port::OUTPUT, module,CoSuOf::G_NEG));
+	addOutput(Port::create<OutPortVal>(Vec(34,336), Port::OUTPUT, module,CoSuOf::N_NEG));
+
 }
 
 Model *modelCoSuOf = Model::create<CoSuOf, CoSuOfWidget>(

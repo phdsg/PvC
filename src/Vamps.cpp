@@ -60,9 +60,7 @@ void Vamps::step() {
 	outputs[OUT_R].value = right;
 }
 
-struct VampsWidget : ModuleWidget {
-	VampsWidget(Vamps *module);
-};
+struct VampsWidget : ModuleWidget {	VampsWidget(Vamps *module); };
 
 VampsWidget::VampsWidget(Vamps *module) : ModuleWidget(module) {
 	setPanel(SVG::load(assetPlugin(plugin, "res/panels/Vamps.svg")));
@@ -75,11 +73,11 @@ VampsWidget::VampsWidget(Vamps *module) : ModuleWidget(module) {
 	addInput(Port::create<InPortAud>(Vec(4, 22), Port::INPUT, module, Vamps::IN_L));
 	addInput(Port::create<InPortAud>(Vec(4, 64), Port::INPUT, module, Vamps::IN_R));
 
-	addParam(ParamWidget::create<PvCKnob>(Vec(4, 134), module, Vamps::LEVEL, 0.0f, 1.0f, 0.5f));
-	addInput(Port::create<InPortCtrl>(Vec(4, 172), Port::INPUT, module, Vamps::EXP_CV));
-	addInput(Port::create<InPortCtrl>(Vec(4, 214), Port::INPUT, module, Vamps::LIN_CV));
+	addParam(ParamWidget::create<PvCKnob>(Vec(4, 120), module, Vamps::LEVEL, 0.0f, 1.0f, 0.5f));
+	addInput(Port::create<InPortCtrl>(Vec(4, 164), Port::INPUT, module, Vamps::EXP_CV));
+	addInput(Port::create<InPortCtrl>(Vec(4, 208), Port::INPUT, module, Vamps::LIN_CV));
 
-	addOutput(Port::create<OutPortVal>(Vec(4, 294), Port::OUTPUT, module, Vamps::OUT_L));
+	addOutput(Port::create<OutPortVal>(Vec(4, 296), Port::OUTPUT, module, Vamps::OUT_L));
 	addOutput(Port::create<OutPortVal>(Vec(4, 336), Port::OUTPUT, module, Vamps::OUT_R));
 }
 Model *modelVamps = Model::create<Vamps, VampsWidget>(

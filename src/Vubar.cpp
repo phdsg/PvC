@@ -64,40 +64,40 @@ template <typename BASE>
  	}
  };
 
-struct VuLED1 : ModuleLightWidget {
+struct VuLED1 : PvCLight {
 	VuLED1() {	addBaseColor(nvgRGB(0xff, 0x00, 0x28));	}
 };
-struct VuLED2 : ModuleLightWidget {
+struct VuLED2 : PvCLight {
 	VuLED2() {	addBaseColor(nvgRGB(0xff, 0x55, 0x29));	}
 };
-struct VuLED3 : ModuleLightWidget {
+struct VuLED3 : PvCLight {
 	VuLED3() {	addBaseColor(nvgRGB(0xdd, 0x66, 0x2a));	}
 };
-struct VuLED4 : ModuleLightWidget {
+struct VuLED4 : PvCLight {
 	VuLED4() {	addBaseColor(nvgRGB(0xcc, 0x77, 0x2b));	}
 };
-struct VuLED5 : ModuleLightWidget {
+struct VuLED5 : PvCLight {
 	VuLED5() {	addBaseColor(nvgRGB(0xbb, 0x88, 0x2c));	}
 };
-struct VuLED6 : ModuleLightWidget {
+struct VuLED6 : PvCLight {
 	VuLED6() {	addBaseColor(nvgRGB(0xaa, 0x99, 0x2d));	}
 };
-struct VuLED7 : ModuleLightWidget {
+struct VuLED7 : PvCLight {
 	VuLED7() {	addBaseColor(nvgRGB(0x99, 0xaa, 0x2d));	}
 };
-struct VuLED8 : ModuleLightWidget {
+struct VuLED8 : PvCLight {
 	VuLED8() {	addBaseColor(nvgRGB(0x88, 0xbb, 0x2c));	}
 };
-struct VuLED9 : ModuleLightWidget {
+struct VuLED9 : PvCLight {
 	VuLED9() {	addBaseColor(nvgRGB(0x77, 0xcc, 0x2b));	}
 };
-struct VuLED10 : ModuleLightWidget {
+struct VuLED10 : PvCLight {
 	VuLED10() {	addBaseColor(nvgRGB(0x66, 0xdd, 0x2a));	}
 };
-struct VuLED11 : ModuleLightWidget {
+struct VuLED11 : PvCLight {
 	VuLED11() {	addBaseColor(nvgRGB(0x55, 0xee, 0x29));	}
 };
-struct VuLED12 : ModuleLightWidget {
+struct VuLED12 : PvCLight {
 	VuLED12() {	addBaseColor(nvgRGB(0x44, 0xff, 0x28));	}
 };
 

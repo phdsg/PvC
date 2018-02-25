@@ -110,11 +110,9 @@ GeighthsWidget::GeighthsWidget(Geighths *module) : ModuleWidget(module) {
 	addParam(ParamWidget::create<PvCKnob>(Vec(4, 64),module,Geighths::INPUT_GAIN , -2.0f, 2.0f, 1.0f));
 	addParam(ParamWidget::create<PvCKnob>(Vec(34, 64),module,Geighths::INPUT_OFFSET, -10.0f, 10.0f, 0.0f));
 
-	
-
 	for (int i = 0; i < 8; i++)
 	{
-		addChild(ModuleLightWidget::create<PvCBigLED<BlueLight>>(Vec(4,318 - 30*i),module,Geighths::GATE1_LIGHT + i));
+		addChild(ModuleLightWidget::create<PvCBigLED<BlueLED>>(Vec(4,318 - 30*i),module,Geighths::GATE1_LIGHT + i));
 		addParam(ParamWidget::create<PvCLEDKnob>(Vec(4, 318 - 30*i),module,Geighths::GATE1_LENGTH + i, 0.002f, 2.0f, 0.02f));
 		addOutput(Port::create<OutPortBin>(Vec(34, 318 - 30*i), Port::OUTPUT, module,Geighths::GATE1_OUT + i));
 	}

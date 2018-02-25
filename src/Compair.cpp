@@ -171,15 +171,15 @@ void Compair::step(){
 	// Gate/Not outputs and lights
 	outputs[GATE_A_OUT].value = outA ? highVal : lowVal;
 	outputs[NOT_A_OUT].value = !outA ? highVal : lowVal;
-	lights[GATE_A_LED].setBrightness( outA ? 0.75f : (0.25f - clamp( fabsf(inputA-posA) * 0.025f, 0.0f, 0.25f) ) );
-	lights[OVER_A_LED].setBrightness( (inputA > upperThreshA) ? (inputA - upperThreshA)*0.1f + 0.25f : 0.0f );
-	lights[BELOW_A_LED].setBrightness( (inputA < lowerThreshA) ? (lowerThreshA - inputA)*0.1f + 0.25f : 0.0f );
+	lights[GATE_A_LED].setBrightness( outA ? 0.9f : (0.25f - clamp( fabsf(inputA-posA) * 0.025f, 0.0f, 0.4f) ) );
+	lights[OVER_A_LED].setBrightness( (inputA > upperThreshA) ? (inputA - upperThreshA)*0.1f + 0.4f : 0.0f );
+	lights[BELOW_A_LED].setBrightness( (inputA < lowerThreshA) ? (lowerThreshA - inputA)*0.1f + 0.4f : 0.0f );
 
 	outputs[GATE_B_OUT].value = outB ? highVal : lowVal;
 	outputs[NOT_B_OUT].value = !outB ? highVal : lowVal;
-	lights[GATE_B_LED].setBrightness( outB ? 0.75f : (0.25f - clamp( fabsf(inputB-posB) * 0.025f, 0.0f, 0.25f) ) );
-	lights[OVER_B_LED].setBrightness( (inputB > upperThreshB) ? (inputB - upperThreshB)*0.1f + 0.25f : 0.0f );
-	lights[BELOW_B_LED].setBrightness( (inputB < lowerThreshB) ? (lowerThreshB - inputB)*0.1f + 0.25f : 0.0f );
+	lights[GATE_B_LED].setBrightness( outB ? 0.9f : (0.25f - clamp( fabsf(inputB-posB) * 0.025f, 0.0f, 0.4f) ) );
+	lights[OVER_B_LED].setBrightness( (inputB > upperThreshB) ? (inputB - upperThreshB)*0.1f + 0.4f : 0.0f );
+	lights[BELOW_B_LED].setBrightness( (inputB < lowerThreshB) ? (lowerThreshB - inputB)*0.1f + 0.4f : 0.0f );
 
 	// logic input inverts
 	if (params[INVERT_A_PARAM].value)
@@ -189,15 +189,15 @@ void Compair::step(){
 
 	// logic outputs and lights
 	outputs[AND_OUT].value = (outA && outB) ? highVal : lowVal;
-	lights[AND_LED].setBrightness( (outA && outB) ? 0.75f : 0.1f );
+	lights[AND_LED].setBrightness( (outA && outB) );
 	outputs[OR_OUT].value = (outA || outB) ? highVal : lowVal;
-	lights[OR_LED].setBrightness( (outA || outB) ? 0.75f : 0.1f );
+	lights[OR_LED].setBrightness( (outA || outB) );
 	outputs[XOR_OUT].value = (outA != outB) ? highVal : lowVal;
-	lights[XOR_LED].setBrightness( (outA != outB) ? 0.75f : 0.1f );
+	lights[XOR_LED].setBrightness( (outA != outB) );
 	if (flipTrigger.process(outputs[XOR_OUT].value)) // trigger the FlipFlop
 		flip = !flip;
 	outputs[FLIP_OUT].value = flip ? highVal : lowVal;
-	lights[FLIP_LED].setBrightness( flip ? 0.75f : 0.1f );
+	lights[FLIP_LED].setBrightness( flip );
 }
 //
 
@@ -254,14 +254,14 @@ CompairWidget::CompairWidget(Compair *module) : ModuleWidget(module) {
 	addInput(Port::create<InPortCtrl>(Vec(4,152), Port::INPUT, module,Compair::WIDTH_A_IN));
 
 	addChild(Widget::create<CompairLightBg>(Vec(4, 190)));
-	addChild(ModuleLightWidget::create<CompairLight<BlueLight>>(Vec(4,190),module,Compair::BELOW_A_LED));
-	addChild(ModuleLightWidget::create<CompairLight<WhiteLight>>(Vec(4,190),module,Compair::GATE_A_LED));
-	addChild(ModuleLightWidget::create<CompairLight<RedLight>>(Vec(4,190),module,Compair::OVER_A_LED));
+	addChild(ModuleLightWidget::create<CompairLight<BlueLED>>(Vec(4,190),module,Compair::BELOW_A_LED));
+	addChild(ModuleLightWidget::create<CompairLight<WhiteLED>>(Vec(4,190),module,Compair::GATE_A_LED));
+	addChild(ModuleLightWidget::create<CompairLight<RedLED>>(Vec(4,190),module,Compair::OVER_A_LED));
 	addParam(ParamWidget::create<CompairToggle>(Vec(4,190),module,Compair::INVERT_A_PARAM, 0, 1, 0));
 	addChild(Widget::create<CompairLightBg>(Vec(34, 190)));
-	addChild(ModuleLightWidget::create<CompairLight<BlueLight>>(Vec(34,190),module,Compair::BELOW_B_LED));
-	addChild(ModuleLightWidget::create<CompairLight<WhiteLight>>(Vec(34,190),module,Compair::GATE_B_LED));
-	addChild(ModuleLightWidget::create<CompairLight<RedLight>>(Vec(34,190),module,Compair::OVER_B_LED));
+	addChild(ModuleLightWidget::create<CompairLight<BlueLED>>(Vec(34,190),module,Compair::BELOW_B_LED));
+	addChild(ModuleLightWidget::create<CompairLight<WhiteLED>>(Vec(34,190),module,Compair::GATE_B_LED));
+	addChild(ModuleLightWidget::create<CompairLight<RedLED>>(Vec(34,190),module,Compair::OVER_B_LED));
 	addParam(ParamWidget::create<CompairToggle>(Vec(34,190),module,Compair::INVERT_B_PARAM, 0, 1, 0));
 
 	addOutput(Port::create<OutPortBin>(Vec(4,230), Port::OUTPUT, module,Compair::GATE_A_OUT));
@@ -269,14 +269,14 @@ CompairWidget::CompairWidget(Compair *module) : ModuleWidget(module) {
 	addOutput(Port::create<OutPortBin>(Vec(34,230), Port::OUTPUT, module,Compair::GATE_B_OUT));
 	addOutput(Port::create<OutPortBin>(Vec(34,254), Port::OUTPUT, module,Compair::NOT_B_OUT));
 
-	addChild(ModuleLightWidget::create<FourPixLight<CyanLight>>(Vec(13,288),module,Compair::AND_LED));
+	addChild(ModuleLightWidget::create<FourPixLight<CyanLED>>(Vec(13,288),module,Compair::AND_LED));
 	addOutput(Port::create<OutPortBin>(Vec(4,294), Port::OUTPUT, module,Compair::AND_OUT));
-	addChild(ModuleLightWidget::create<FourPixLight<OrangeLight>>(Vec(43,288),module,Compair::OR_LED));
+	addChild(ModuleLightWidget::create<FourPixLight<OrangeLED>>(Vec(43,288),module,Compair::OR_LED));
 	addOutput(Port::create<OutPortBin>(Vec(34,294), Port::OUTPUT, module,Compair::OR_OUT));
 
-	addChild(ModuleLightWidget::create<FourPixLight<YellowLight>>(Vec(13,330),module,Compair::XOR_LED));
+	addChild(ModuleLightWidget::create<FourPixLight<YellowLED>>(Vec(13,330),module,Compair::XOR_LED));
 	addOutput(Port::create<OutPortBin>(Vec(4,336), Port::OUTPUT, module,Compair::XOR_OUT));
-	addChild(ModuleLightWidget::create<FourPixLight<GreenLight>>(Vec(43,330),module,Compair::FLIP_LED));
+	addChild(ModuleLightWidget::create<FourPixLight<GreenLED>>(Vec(43,330),module,Compair::FLIP_LED));
 	addOutput(Port::create<OutPortBin>(Vec(34,336), Port::OUTPUT, module,Compair::FLIP_OUT));
 }
 
@@ -304,9 +304,9 @@ CompairWidget::CompairWidget(Compair *module) : ModuleWidget(module) {
 	addInput(Port::create<InPortCtrl>(Vec(35,190), Port::INPUT, module,Compair::WIDTH_A_IN));
 	addOutput(Port::create<OutPortBin>(Vec(7,278), Port::OUTPUT, module,Compair::GATE_A_OUT));
 	addChild(Widget::create<LEDback>(Vec(7, 234)));
-	addChild(ModuleLightWidget::create<CompairLight<BlueLight>>(Vec(8,235),module,Compair::BELOW_A_LED));
-	addChild(ModuleLightWidget::create<CompairLight<WhiteLight>>(Vec(8,235),module,Compair::GATE_A_LED));
-	addChild(ModuleLightWidget::create<CompairLight<RedLight>>(Vec(8,235),module,Compair::OVER_A_LED));
+	addChild(ModuleLightWidget::create<CompairLight<BlueLED>>(Vec(8,235),module,Compair::BELOW_A_LED));
+	addChild(ModuleLightWidget::create<CompairLight<WhiteLED>>(Vec(8,235),module,Compair::GATE_A_LED));
+	addChild(ModuleLightWidget::create<CompairLight<RedLED>>(Vec(8,235),module,Compair::OVER_A_LED));
 	addOutput(Port::create<OutPortBin>(Vec(35,278), Port::OUTPUT, module,Compair::NOT_A_OUT));
 
 	// B
@@ -317,22 +317,22 @@ CompairWidget::CompairWidget(Compair *module) : ModuleWidget(module) {
 	addInput(Port::create<InPortCtrl>(Vec(63,190), Port::INPUT, module,Compair::WIDTH_B_IN));
 	addOutput(Port::create<OutPortBin>(Vec(90,278), Port::OUTPUT, module,Compair::GATE_B_OUT));
 	addChild(Widget::create<LEDback>(Vec(90, 234)));
-	addChild(ModuleLightWidget::create<CompairLight<BlueLight>>(Vec(91,235),module,Compair::BELOW_B_LED));
-	addChild(ModuleLightWidget::create<CompairLight<WhiteLight>>(Vec(91,235),module,Compair::GATE_B_LED));
-	addChild(ModuleLightWidget::create<CompairLight<RedLight>>(Vec(91,235),module,Compair::OVER_B_LED));
+	addChild(ModuleLightWidget::create<CompairLight<BlueLED>>(Vec(91,235),module,Compair::BELOW_B_LED));
+	addChild(ModuleLightWidget::create<CompairLight<WhiteLED>>(Vec(91,235),module,Compair::GATE_B_LED));
+	addChild(ModuleLightWidget::create<CompairLight<RedLED>>(Vec(91,235),module,Compair::OVER_B_LED));
 	addOutput(Port::create<OutPortBin>(Vec(63,278), Port::OUTPUT, module,Compair::NOT_B_OUT));
 	// Invert toggles
 	addParam(ParamWidget::create<CompairToggle>(Vec(11,238),module,Compair::INVERT_A_PARAM, 0, 1, 0));
 	addParam(ParamWidget::create<CompairToggle>(Vec(94,238),module,Compair::INVERT_B_PARAM, 0, 1, 0));
 	// LOGIC
 	addOutput(Port::create<OutPortBin>(Vec(7,324), Port::OUTPUT, module,Compair::AND_OUT));
-	addChild(ModuleLightWidget::create<FourPixLight<CyanLight>>(Vec(16,318),module,Compair::AND_LED));
+	addChild(ModuleLightWidget::create<FourPixLight<CyanLED>>(Vec(16,318),module,Compair::AND_LED));
 	addOutput(Port::create<OutPortBin>(Vec(35,324), Port::OUTPUT, module,Compair::OR_OUT));
-	addChild(ModuleLightWidget::create<FourPixLight<OrangeLight>>(Vec(44,318),module,Compair::OR_LED));
+	addChild(ModuleLightWidget::create<FourPixLight<OrangeLED>>(Vec(44,318),module,Compair::OR_LED));
 	addOutput(Port::create<OutPortBin>(Vec(63,324), Port::OUTPUT, module,Compair::XOR_OUT));
-	addChild(ModuleLightWidget::create<FourPixLight<YellowLight>>(Vec(72,318),module,Compair::XOR_LED));
+	addChild(ModuleLightWidget::create<FourPixLight<YellowLED>>(Vec(72,318),module,Compair::XOR_LED));
 	addOutput(Port::create<OutPortBin>(Vec(90,324), Port::OUTPUT, module,Compair::FLIP_OUT));
-	addChild(ModuleLightWidget::create<FourPixLight<GreenLight>>(Vec(99,318),module,Compair::FLIP_LED));
+	addChild(ModuleLightWidget::create<FourPixLight<GreenLED>>(Vec(99,318),module,Compair::FLIP_LED));
 }*/
 
 struct CompairOutputModeItem : MenuItem {

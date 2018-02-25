@@ -124,6 +124,13 @@ void Heads::step() {
 	lights[FLP_LED].value = flipMode;
 }
 
+struct ModeToggle : SVGSwitch, ToggleSwitch {
+	ModeToggle() {
+		addFrame(SVG::load(assetPlugin(plugin, "res/components/empty.svg")));
+		box.size = Vec(12,6);
+	}
+};
+
 struct HeadsWidget : ModuleWidget {
 	HeadsWidget(Heads *module);
 };
@@ -144,8 +151,8 @@ HeadsWidget::HeadsWidget(Heads *module) : ModuleWidget(module) {
 	addInput(Port::create<InPortCtrl>(Vec(19,88), Port::INPUT, module, Heads::PROB_CV));
 	addInput(Port::create<InPortBin>(Vec(19,124), Port::INPUT, module, Heads::TOSS_IN));
 	addParam(ParamWidget::create<LabelButtonL>(Vec(12,149), module, Heads::TOSS_UI, 0, 1, 0));
-	addChild(ModuleLightWidget::create<FourPixLight<OrangeLight>>(Vec(25,165),module, Heads::DIR_LED));
-	addChild(ModuleLightWidget::create<FourPixLight<BlueLight>>(Vec(31,165),module, Heads::FLP_LED));
+	addChild(ModuleLightWidget::create<FourPixLight<OrangeLED>>(Vec(25,165),module, Heads::DIR_LED));
+	addChild(ModuleLightWidget::create<FourPixLight<BlueLED>>(Vec(31,165),module, Heads::FLP_LED));
 	addParam(ParamWidget::create<ModeToggle>(Vec(24,164), module, Heads::TOSS_MODE, 0, 1, 0));
 	addInput(Port::create<InPortBin>(Vec(19,180), Port::INPUT, module, Heads::FLIP_IN));
 	addParam(ParamWidget::create<LabelButtonL>(Vec(12,205), module, Heads::FLIP_UI, 0, 1, 0));
@@ -157,11 +164,11 @@ HeadsWidget::HeadsWidget(Heads *module) : ModuleWidget(module) {
 
 	addOutput(Port::create<OutPortVal>(Vec(19,276), Port::OUTPUT, module, Heads::SIG_OUT));
 
-	addChild(ModuleLightWidget::create<FourPixLight<CyanLight>>(Vec(13,267),module, Heads::A_LED));
+	addChild(ModuleLightWidget::create<FourPixLight<CyanLED>>(Vec(13,267),module, Heads::A_LED));
 	addOutput(Port::create<OutPortBin>(Vec(4,312), Port::OUTPUT, module, Heads::GATE_A_OUT));
 	addOutput(Port::create<OutPortBin>(Vec(4,336), Port::OUTPUT, module, Heads::TRIG_A_OUT));
 
-	addChild(ModuleLightWidget::create<FourPixLight<PurpleLight>>(Vec(43,267),module, Heads::B_LED));
+	addChild(ModuleLightWidget::create<FourPixLight<PurpleLED>>(Vec(43,267),module, Heads::B_LED));
 	addOutput(Port::create<OutPortBin>(Vec(34,312), Port::OUTPUT, module, Heads::GATE_B_OUT));
 	addOutput(Port::create<OutPortBin>(Vec(34,336), Port::OUTPUT, module, Heads::TRIG_B_OUT));
 }

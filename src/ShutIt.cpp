@@ -126,12 +126,7 @@ void ShutIt::step() {
 		box.size = Vec(86,36);
 	}
 };
-struct WhiteRedLight : ModuleLightWidget {
-	WhiteRedLight() {
-		addBaseColor(COLOR_WHITE);
-		addBaseColor(COLOR_RED);
-	}
-};
+
 
 struct ShutItWidget : ModuleWidget {
 	ShutItWidget(ShutIt *module);
@@ -149,18 +144,18 @@ ShutItWidget::ShutItWidget(ShutIt *module) : ModuleWidget(module) {
 	for (int i = 0; i < CHANCOUNT; i++) {
 		float top = 36.0f;
 
-		addChild(ModuleLightWidget::create<FourPixLight<WhiteRedLight>>(Vec(79,27 + top*i), module, ShutIt::A_STATE + 2*i));
+		addChild(ModuleLightWidget::create<FourPixLight<WhiteRedLED>>(Vec(79,27 + top*i), module, ShutIt::A_STATE + 2*i));
 		addParam(ParamWidget::create<EmptyButton>(Vec(2,19 + top*i), module, ShutIt::A_MUTE + i, 0, 1, 0));
 		addInput(Port::create<InPortAud>(Vec(4,26 + top*i), Port::INPUT, module, ShutIt::A_IN + i));
 		addInput(Port::create<InPortBin>(Vec(28,26 + top*i), Port::INPUT, module, ShutIt::A_TRIG + i));
 		addOutput(Port::create<OutPortVal>(Vec(52,26 + top*i), Port::OUTPUT, module, ShutIt::A_OUT + i));
 	}
-	addInput(Port::create<InPortBin>(Vec(4,322), Port::INPUT, module, ShutIt::SHUT_ALL_TRIG));
-	addParam(ParamWidget::create<LabelButtonS>(Vec(3,347), module, ShutIt::SHUT_ALL, 0, 1, 0));
-	addInput(Port::create<InPortBin>(Vec(34,322), Port::INPUT, module, ShutIt::FLIP_ALL_TRIG));
- 	addParam(ParamWidget::create<LabelButtonS>(Vec(33,347), module, ShutIt::FLIP_ALL, 0, 1, 0));
-	addInput(Port::create<InPortBin>(Vec(64,322), Port::INPUT, module, ShutIt::OPEN_ALL_TRIG));
-	addParam(ParamWidget::create<LabelButtonS>(Vec(63,347), module, ShutIt::OPEN_ALL, 0, 1, 0));
+	addInput(Port::create<InPortBin>(Vec(4,324), Port::INPUT, module, ShutIt::SHUT_ALL_TRIG));
+	addParam(ParamWidget::create<LabelButtonS>(Vec(3,349), module, ShutIt::SHUT_ALL, 0, 1, 0));
+	addInput(Port::create<InPortBin>(Vec(34,324), Port::INPUT, module, ShutIt::FLIP_ALL_TRIG));
+ 	addParam(ParamWidget::create<LabelButtonS>(Vec(33,349), module, ShutIt::FLIP_ALL, 0, 1, 0));
+	addInput(Port::create<InPortBin>(Vec(64,324), Port::INPUT, module, ShutIt::OPEN_ALL_TRIG));
+	addParam(ParamWidget::create<LabelButtonS>(Vec(63,349), module, ShutIt::OPEN_ALL, 0, 1, 0));
 }
 
 Model *modelShutIt = Model::create<ShutIt, ShutItWidget>(
