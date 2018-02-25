@@ -32,7 +32,7 @@ All the other module developers for their inspiring modules, especially [Strum: 
   __Geighths__ - 8ch Gate Creator ([details](geighths.md))  
   __ShutIt__ - 8ch Mute Switch / Multiple ([details](shutit.md))  
   __SlimSeq__ - 16 Step Sequencer / 16to1 Sequential Switch ([details](slimseq.md))  
-  __SumIt__ - 12ch Mixer ([details](sumit.md))  
+  __SumIt__ - switchable CV Source Adder/Substractor Attenuverter ([details](sumit.md))  
   __TaHaSaHaN__ - TrackNHold / SampleNHold / Noise ([details](tahasahan.md))  
   __vAMPs__ - Stereo VCA ([details](vamps.md))  
   __VUBar__ - Meter ([details](vubar.md))  
