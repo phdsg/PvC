@@ -19,7 +19,7 @@ extern Model *modelTaHaSaHaN;
 extern Model *modelVamps;
 extern Model *modelVubar;
 extern Model *modelPvCBlank;
-extern Model *modelPrecAdder;
+
 extern Model *modelPlainVoidCanvas;
 
 //////////////////////////////////////////////////////////////////////////////

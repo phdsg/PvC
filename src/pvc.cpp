@@ -22,7 +22,7 @@ void init(rack::Plugin *p) {
 	p->addModel(modelVamps);
 	p->addModel(modelVubar);
 	p->addModel(modelPvCBlank);
-	p->addModel(modelPrecAdder);
+	
 	p->addModel(modelPlainVoidCanvas);
 }
 
