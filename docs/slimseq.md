@@ -1,5 +1,5 @@
 # SlimSeq <img align="right" src="images/slimseq_100.png">
-... is an 8HP 16 step sequencer / 16-to-1 sequential switch  
+... is a 10HP 16 step sequencer / 16-to-1 sequential switch  
 
 
 ## Details
@@ -31,4 +31,5 @@ LED - shows output level
 
 
 ## Changes
+__0.6.0__ - new 10HP layout  
 __0.5.8__ - initial version  
