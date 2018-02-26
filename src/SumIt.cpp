@@ -2,6 +2,8 @@
 
 SumIt
 
+...still needs some work
+
 */////////////////////////////////////////////////////////////////////////////
 
 #include "pvc.hpp"
@@ -33,11 +35,10 @@ struct SumIt : Module {
 		NUM_LIGHTS = INV_LED + 4
 	};
 
-	bool chanActive[4] {};
-	bool chanInvert[4] {};
-
-	SchmittTrigger activeTrigger[4];
-	SchmittTrigger invertTrigger[4];
+	int mode[4] {};
+	
+	SchmittTrigger addTrigger[4];
+	SchmittTrigger subTrigger[4];
 	SchmittTrigger resetTrigger;
 
 	SumIt() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {	}
@@ -48,8 +49,7 @@ struct SumIt : Module {
 
 	void reset() override {
 		for (int i = 0; i < 4; i++)	{
-			chanActive[i] = false;
-			chanInvert[i] = false;
+			mode[i] = 0;
 		}
 	}
 
@@ -69,18 +69,26 @@ void SumIt::step() {
 	float sum = 0.0f;
 	for (int i = 0; i < 4; i++)
 	{
-		if (activeTrigger[i].process(inputs[ACT_TRIG + i].value + params[ACT_UI + i].value)) {
-			chanActive[i] = !chanActive[i];
+// TODO: change switch logic...
+//	make the invertTrigger also trigger active.
+//  when active: trigger at the active side -> off, trigger at the other side -> switch
+
+		if (addTrigger[i].process(inputs[ACT_TRIG + i].value + params[ACT_UI + i].value)) {
+			if (mode[i] == 1) mode[i] = 0;
+			else mode[i] = 1;
 		}
-		if (invertTrigger[i].process(inputs[INV_TRIG + i].value + params[INV_UI + i].value)) {
-			chanInvert[i] = !chanInvert[i];
+		if (subTrigger[i].process(inputs[INV_TRIG + i].value + params[INV_UI + i].value)) {
+			if (mode[i] == 2) mode[i] = 0;
+			else mode[i] = 2;
+			
 		}
+
 		float control = rescale(params[ATTEN + i].value, 0, 12, 0.0f, 1.0f);
 		float chanIn = inputs[i].normalize(1.0f) * control;
-		sum += ((chanInvert[i]) ? -chanIn : chanIn) * chanActive[i];
+		sum += (mode[i] == 2) ? -chanIn : (mode[i] == 1) ? chanIn : 0.0f;
 
-		lights[ACT_LED + i].value = chanActive[i];
-		lights[INV_LED + i].value = chanInvert[i];
+		lights[ACT_LED + i].value = (mode[i] == 1) ? 1:0;
+		lights[INV_LED + i].value = (mode[i] == 2) ? 1:0;
 	}
 	if (resetTrigger.process(inputs[RESET_TRIG].value)) {
 		reset();
@@ -114,6 +122,7 @@ SumItWidget::SumItWidget(SumIt *module) : ModuleWidget(module) {
 	{
 		float top = 76.0f;
 		addInput(Port::create<InPortAud>(Vec(4, 22 + top*i), Port::INPUT, module, SumIt::INPUT + i));
+//TODO:	stepped and unstepped knobs
 		addParam(ParamWidget::create<PvCSnapKnob>(Vec(4, 46 + top*i), module, SumIt::ATTEN + i, 0, 12, 12));
 		
 		addParam(ParamWidget::create<EmptyButton>(Vec(31, 18 + top*i), module, SumIt::ACT_UI + i, 0, 1, 0));
