@@ -18,5 +18,5 @@ Sum Offset: [-10..10]V
 Gap: Hysteresis Control for the Gate 
 
 ## Changes
-0.6.0 - 4HP layout, experiment: gated outs
+0.6.0 - 4HP layout, experiment: gated outs  
 0.5.8 - initial version  
