@@ -63,7 +63,7 @@ struct TaHaSaHaN : Module {
 };
 
 void TaHaSaHaN::step() {
-	noise = randomf()*10.0f - 5.0f;
+	noise = randomUniform()*10.0f - 5.0f;
 
 	if (inputs[TRIGGER].active){
 		input = inputs[SAMPLE].normalize(noise);
@@ -79,42 +79,41 @@ void TaHaSaHaN::step() {
 	// TODO: better cv/knob interaction.
 	float blend = params[BLEND].value;
 	if (inputs[BLEND_CV].active)
-		blend *= clampf(inputs[BLEND_CV].value * 0.1f, 0.0f, 1.0f);
+		blend *= clamp(inputs[BLEND_CV].value * 0.1f, 0.0f, 1.0f);
 
-	outputs[MIX].value = crossf(snhOut,tnhOut,blend);
+	outputs[MIX].value = crossfade(snhOut,tnhOut,blend);
 	outputs[SNH].value = snhOut;
 	outputs[TNH].value = tnhOut;
 	outputs[NOISE].value = noise;
 
 }
 
+struct TaHaSaHaNWidget : ModuleWidget {
+	TaHaSaHaNWidget(TaHaSaHaN *module);
+};
 
-TaHaSaHaNWidget::TaHaSaHaNWidget() {
-	TaHaSaHaN *module = new TaHaSaHaN();
-	setModule(module);
-	box.size = Vec(15*2, 380);
+TaHaSaHaNWidget::TaHaSaHaNWidget(TaHaSaHaN *module) : ModuleWidget(module) {
+	setPanel(SVG::load(assetPlugin(plugin, "res/panels/TaHaSaHaN.svg")));
 
-	{
-		SVGPanel *panel = new SVGPanel();
-		panel->box.size = box.size;
-		panel->setBackground(SVG::load(assetPlugin(plugin, "res/panels/TaHaSaHaN.svg")));
-		addChild(panel);
-	}
 	// screws
-	addChild(createScrew<ScrewHead4>(Vec(0, 0)));
-	// addChild(createScrew<ScrewHead1>(Vec(box.size.x - 15, 0)));
-	// addChild(createScrew<ScrewHead3>(Vec(0, 365)));
-	addChild(createScrew<ScrewHead2>(Vec(box.size.x - 15, 365)));
+	addChild(Widget::create<ScrewHead4>(Vec(0, 0)));
+	// addChild(Widget::create<ScrewHead1>(Vec(box.size.x - 15, 0)));
+	// addChild(Widget::create<ScrewHead3>(Vec(0, 365)));
+	addChild(Widget::create<ScrewHead2>(Vec(box.size.x - 15, 365)));
 
-	addInput(createInput<InPortAud>(Vec(4,22),module, TaHaSaHaN::SAMPLE));
-	addInput(createInput<InPortBin>(Vec(4,64),module, TaHaSaHaN::TRIGGER));
+	addInput(Port::create<InPortAud>(Vec(4,22), Port::INPUT, module, TaHaSaHaN::SAMPLE));
+	addInput(Port::create<InPortBin>(Vec(4,64), Port::INPUT, module, TaHaSaHaN::TRIGGER));
 	
-	addParam(createParam<PvCKnob>(Vec(4,124),module, TaHaSaHaN::BLEND, 0.0f, 1.0f, 0.5f));
-	addInput(createInput<InPortCtrl>(Vec(4,150),module, TaHaSaHaN::BLEND_CV));
-	addOutput(createOutput<OutPortVal>(Vec(4,196),module, TaHaSaHaN::MIX));
 
-	addOutput(createOutput<OutPortVal>(Vec(4,252),module, TaHaSaHaN::TNH));
-	addOutput(createOutput<OutPortVal>(Vec(4,294),module, TaHaSaHaN::SNH));
-	addOutput(createOutput<OutPortVal>(Vec(4,336),module, TaHaSaHaN::NOISE));
+	addOutput(Port::create<OutPortVal>(Vec(4,132), Port::OUTPUT, module, TaHaSaHaN::TNH));
+	addOutput(Port::create<OutPortVal>(Vec(4,176), Port::OUTPUT, module, TaHaSaHaN::SNH));
+	addOutput(Port::create<OutPortVal>(Vec(4,220), Port::OUTPUT, module, TaHaSaHaN::NOISE));
 
+	addParam(ParamWidget::create<PvCKnob>(Vec(4,258),module, TaHaSaHaN::BLEND, 0.0f, 1.0f, 0.5f));
+	addInput(Port::create<InPortCtrl>(Vec(4,282), Port::INPUT, module, TaHaSaHaN::BLEND_CV));
+	addOutput(Port::create<OutPortVal>(Vec(4,336), Port::OUTPUT, module, TaHaSaHaN::MIX));
+	
 }
+
+Model *modelTaHaSaHaN = Model::create<TaHaSaHaN, TaHaSaHaNWidget>(
+	"PvC", "TaHaSaHaN", "TaHaSaHaN", SAMPLE_AND_HOLD_TAG, NOISE_TAG, RANDOM_TAG);

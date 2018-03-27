@@ -205,85 +205,77 @@ void FlipOLogic::step() {
 	lights[RIGHT_VS_XNOR_LED].value = (rightIn != lgcXnor);
 }
 
-template <typename BASE>
- struct FourPixLight : BASE {
- 	FourPixLight() {
-		this->box.size = Vec(4, 4);
- 	}
- };
 
-FlipOLogicWidget::FlipOLogicWidget() {
-	FlipOLogic *module = new FlipOLogic();
-	setModule(module);
-	box.size = Vec(15*6, 380);
+struct FlipOLogicWidget : ModuleWidget {
+	FlipOLogicWidget(FlipOLogic *module);
+};
 
-	{
-		SVGPanel *panel = new SVGPanel();
-		panel->box.size = box.size;
-		panel->setBackground(SVG::load(assetPlugin(plugin, "res/panels/FlipOLogic.svg")));
-		addChild(panel);
-	}
+FlipOLogicWidget::FlipOLogicWidget(FlipOLogic *module) : ModuleWidget(module) {
+	setPanel(SVG::load(assetPlugin(plugin, "res/panels/FlipOLogic.svg")));
+
 	// screws
-	//addChild(createScrew<ScrewHead1>(Vec(0, 0)));
-	addChild(createScrew<ScrewHead2>(Vec(box.size.x - 15, 0)));
-	addChild(createScrew<ScrewHead3>(Vec(0, 365)));
-	//addChild(createScrew<ScrewHead4>(Vec(box.size.x - 15, 365)));
+	//addChild(Widget::create<ScrewHead1>(Vec(0, 0)));
+	addChild(Widget::create<ScrewHead2>(Vec(box.size.x - 15, 0)));
+	addChild(Widget::create<ScrewHead3>(Vec(0, 365)));
+	//addChild(Widget::create<ScrewHead4>(Vec(box.size.x - 15, 365)));
 
-	addInput(createInput<InPortBin>(Vec(4,22),module,FlipOLogic::LGC_A_IN));
-	addInput(createInput<InPortBin>(Vec(34,22),module,FlipOLogic::LGC_B_IN));
-	addInput(createInput<InPortBin>(Vec(64,22),module,FlipOLogic::LGC_C_IN));
+	addInput(Port::create<InPortBin>(Vec(4,22), Port::INPUT, module,FlipOLogic::LGC_A_IN));
+	addInput(Port::create<InPortBin>(Vec(34,22), Port::INPUT, module,FlipOLogic::LGC_B_IN));
+	addInput(Port::create<InPortBin>(Vec(64,22), Port::INPUT, module,FlipOLogic::LGC_C_IN));
 
-	addChild(createLight<FourPixLight<BlueLight>>(Vec(13,55),module,FlipOLogic::LEFT_VS_AND_LED));
-	addOutput(createOutput<OutPortBin>(Vec(4,60),module,FlipOLogic::LEFT_VS_AND_OUT));
-	addChild(createLight<FourPixLight<OrangeLight>>(Vec(43,65),module,FlipOLogic::LGC_AND_LED));
-	addOutput(createOutput<OutPortBin>(Vec(34,70),module,FlipOLogic::LGC_AND_OUT));
-	addChild(createLight<FourPixLight<PurpleLight>>(Vec(73,55),module,FlipOLogic::RIGHT_VS_AND_LED));
-	addOutput(createOutput<OutPortBin>(Vec(64,60),module,FlipOLogic::RIGHT_VS_AND_OUT));
+	addChild(ModuleLightWidget::create<FourPixLight<BlueLED>>(Vec(13,55),module,FlipOLogic::LEFT_VS_AND_LED));
+	addOutput(Port::create<OutPortBin>(Vec(4,60), Port::OUTPUT, module,FlipOLogic::LEFT_VS_AND_OUT));
+	addChild(ModuleLightWidget::create<FourPixLight<OrangeLED>>(Vec(43,65),module,FlipOLogic::LGC_AND_LED));
+	addOutput(Port::create<OutPortBin>(Vec(34,70), Port::OUTPUT, module,FlipOLogic::LGC_AND_OUT));
+	addChild(ModuleLightWidget::create<FourPixLight<PurpleLED>>(Vec(73,55),module,FlipOLogic::RIGHT_VS_AND_LED));
+	addOutput(Port::create<OutPortBin>(Vec(64,60), Port::OUTPUT, module,FlipOLogic::RIGHT_VS_AND_OUT));
 
-	addChild(createLight<FourPixLight<BlueLight>>(Vec(13,95),module,FlipOLogic::LEFT_VS_NAND_LED));
-	addOutput(createOutput<OutPortBin>(Vec(4,100),module,FlipOLogic::LEFT_VS_NAND_OUT));
-	addChild(createLight<FourPixLight<OrangeLight>>(Vec(43,105),module,FlipOLogic::LGC_NAND_LED));
-	addOutput(createOutput<OutPortBin>(Vec(34,110),module,FlipOLogic::LGC_NAND_OUT));
-	addChild(createLight<FourPixLight<PurpleLight>>(Vec(73,95),module,FlipOLogic::RIGHT_VS_NAND_LED));
-	addOutput(createOutput<OutPortBin>(Vec(64,100),module,FlipOLogic::RIGHT_VS_NAND_OUT));
+	addChild(ModuleLightWidget::create<FourPixLight<BlueLED>>(Vec(13,95),module,FlipOLogic::LEFT_VS_NAND_LED));
+	addOutput(Port::create<OutPortBin>(Vec(4,100), Port::OUTPUT, module,FlipOLogic::LEFT_VS_NAND_OUT));
+	addChild(ModuleLightWidget::create<FourPixLight<OrangeLED>>(Vec(43,105),module,FlipOLogic::LGC_NAND_LED));
+	addOutput(Port::create<OutPortBin>(Vec(34,110), Port::OUTPUT, module,FlipOLogic::LGC_NAND_OUT));
+	addChild(ModuleLightWidget::create<FourPixLight<PurpleLED>>(Vec(73,95),module,FlipOLogic::RIGHT_VS_NAND_LED));
+	addOutput(Port::create<OutPortBin>(Vec(64,100), Port::OUTPUT, module,FlipOLogic::RIGHT_VS_NAND_OUT));
 
-	addChild(createLight<FourPixLight<BlueLight>>(Vec(13,135),module,FlipOLogic::LEFT_VS_OR_LED));
-	addOutput(createOutput<OutPortBin>(Vec(4,140),module,FlipOLogic::LEFT_VS_OR_OUT));
-	addChild(createLight<FourPixLight<OrangeLight>>(Vec(43,145),module,FlipOLogic::LGC_OR_LED));
-	addOutput(createOutput<OutPortBin>(Vec(34,150),module,FlipOLogic::LGC_OR_OUT));
-	addChild(createLight<FourPixLight<PurpleLight>>(Vec(73,135),module,FlipOLogic::RIGHT_VS_OR_LED));
-	addOutput(createOutput<OutPortBin>(Vec(64,140),module,FlipOLogic::RIGHT_VS_OR_OUT));
+	addChild(ModuleLightWidget::create<FourPixLight<BlueLED>>(Vec(13,135),module,FlipOLogic::LEFT_VS_OR_LED));
+	addOutput(Port::create<OutPortBin>(Vec(4,140), Port::OUTPUT, module,FlipOLogic::LEFT_VS_OR_OUT));
+	addChild(ModuleLightWidget::create<FourPixLight<OrangeLED>>(Vec(43,145),module,FlipOLogic::LGC_OR_LED));
+	addOutput(Port::create<OutPortBin>(Vec(34,150), Port::OUTPUT, module,FlipOLogic::LGC_OR_OUT));
+	addChild(ModuleLightWidget::create<FourPixLight<PurpleLED>>(Vec(73,135),module,FlipOLogic::RIGHT_VS_OR_LED));
+	addOutput(Port::create<OutPortBin>(Vec(64,140), Port::OUTPUT, module,FlipOLogic::RIGHT_VS_OR_OUT));
 
-	addChild(createLight<FourPixLight<BlueLight>>(Vec(13,175),module,FlipOLogic::LEFT_VS_NOR_LED));
-	addOutput(createOutput<OutPortBin>(Vec(4,180),module,FlipOLogic::LEFT_VS_NOR_OUT));
-	addChild(createLight<FourPixLight<OrangeLight>>(Vec(43,185),module,FlipOLogic::LGC_NOR_LED));
-	addOutput(createOutput<OutPortBin>(Vec(34,190),module,FlipOLogic::LGC_NOR_OUT));
-	addChild(createLight<FourPixLight<PurpleLight>>(Vec(73,175),module,FlipOLogic::RIGHT_VS_NOR_LED));
-	addOutput(createOutput<OutPortBin>(Vec(64,180),module,FlipOLogic::RIGHT_VS_NOR_OUT));
+	addChild(ModuleLightWidget::create<FourPixLight<BlueLED>>(Vec(13,175),module,FlipOLogic::LEFT_VS_NOR_LED));
+	addOutput(Port::create<OutPortBin>(Vec(4,180), Port::OUTPUT, module,FlipOLogic::LEFT_VS_NOR_OUT));
+	addChild(ModuleLightWidget::create<FourPixLight<OrangeLED>>(Vec(43,185),module,FlipOLogic::LGC_NOR_LED));
+	addOutput(Port::create<OutPortBin>(Vec(34,190), Port::OUTPUT, module,FlipOLogic::LGC_NOR_OUT));
+	addChild(ModuleLightWidget::create<FourPixLight<PurpleLED>>(Vec(73,175),module,FlipOLogic::RIGHT_VS_NOR_LED));
+	addOutput(Port::create<OutPortBin>(Vec(64,180), Port::OUTPUT, module,FlipOLogic::RIGHT_VS_NOR_OUT));
 
-	addChild(createLight<FourPixLight<BlueLight>>(Vec(13,215),module,FlipOLogic::LEFT_VS_XOR_LED));
-	addOutput(createOutput<OutPortBin>(Vec(4,220),module,FlipOLogic::LEFT_VS_XOR_OUT));
-	addChild(createLight<FourPixLight<OrangeLight>>(Vec(43,225),module,FlipOLogic::LGC_XOR_LED));
-	addOutput(createOutput<OutPortBin>(Vec(34,230),module,FlipOLogic::LGC_XOR_OUT));
-	addChild(createLight<FourPixLight<PurpleLight>>(Vec(73,215),module,FlipOLogic::RIGHT_VS_XOR_LED));
-	addOutput(createOutput<OutPortBin>(Vec(64,220),module,FlipOLogic::RIGHT_VS_XOR_OUT));
+	addChild(ModuleLightWidget::create<FourPixLight<BlueLED>>(Vec(13,215),module,FlipOLogic::LEFT_VS_XOR_LED));
+	addOutput(Port::create<OutPortBin>(Vec(4,220), Port::OUTPUT, module,FlipOLogic::LEFT_VS_XOR_OUT));
+	addChild(ModuleLightWidget::create<FourPixLight<OrangeLED>>(Vec(43,225),module,FlipOLogic::LGC_XOR_LED));
+	addOutput(Port::create<OutPortBin>(Vec(34,230), Port::OUTPUT, module,FlipOLogic::LGC_XOR_OUT));
+	addChild(ModuleLightWidget::create<FourPixLight<PurpleLED>>(Vec(73,215),module,FlipOLogic::RIGHT_VS_XOR_LED));
+	addOutput(Port::create<OutPortBin>(Vec(64,220), Port::OUTPUT, module,FlipOLogic::RIGHT_VS_XOR_OUT));
 
-	addChild(createLight<FourPixLight<BlueLight>>(Vec(13,255),module,FlipOLogic::LEFT_VS_XNOR_LED));
-	addOutput(createOutput<OutPortBin>(Vec(4,260),module,FlipOLogic::LEFT_VS_XNOR_OUT));
-	addChild(createLight<FourPixLight<OrangeLight>>(Vec(43,265),module,FlipOLogic::LGC_XNOR_LED));
-	addOutput(createOutput<OutPortBin>(Vec(34,270),module,FlipOLogic::LGC_XNOR_OUT));
-	addChild(createLight<FourPixLight<PurpleLight>>(Vec(73,255),module,FlipOLogic::RIGHT_VS_XNOR_LED));
-	addOutput(createOutput<OutPortBin>(Vec(64,260),module,FlipOLogic::RIGHT_VS_XNOR_OUT));
+	addChild(ModuleLightWidget::create<FourPixLight<BlueLED>>(Vec(13,255),module,FlipOLogic::LEFT_VS_XNOR_LED));
+	addOutput(Port::create<OutPortBin>(Vec(4,260), Port::OUTPUT, module,FlipOLogic::LEFT_VS_XNOR_OUT));
+	addChild(ModuleLightWidget::create<FourPixLight<OrangeLED>>(Vec(43,265),module,FlipOLogic::LGC_XNOR_LED));
+	addOutput(Port::create<OutPortBin>(Vec(34,270), Port::OUTPUT, module,FlipOLogic::LGC_XNOR_OUT));
+	addChild(ModuleLightWidget::create<FourPixLight<PurpleLED>>(Vec(73,255),module,FlipOLogic::RIGHT_VS_XNOR_LED));
+	addOutput(Port::create<OutPortBin>(Vec(64,260), Port::OUTPUT, module,FlipOLogic::RIGHT_VS_XNOR_OUT));
 
-	addInput(createInput<InPortBin>(Vec(4,294),module,FlipOLogic::LEFT_IN));
-	addInput(createInput<InPortBin>(Vec(34,298),module,FlipOLogic::FLIP_IN));
-	addInput(createInput<InPortBin>(Vec(64,294),module,FlipOLogic::RIGHT_IN));
+	addInput(Port::create<InPortBin>(Vec(4,294), Port::INPUT, module,FlipOLogic::LEFT_IN));
+	addInput(Port::create<InPortBin>(Vec(34,298), Port::INPUT, module,FlipOLogic::FLIP_IN));
+	addInput(Port::create<InPortBin>(Vec(64,294), Port::INPUT, module,FlipOLogic::RIGHT_IN));
 
-	addChild(createLight<FourPixLight<BlueLight>>(Vec(13,331),module,FlipOLogic::FLOP_LED));
-	addOutput(createOutput<OutPortBin>(Vec(4,336),module,FlipOLogic::FLOP_OUT));
-	addChild(createLight<FourPixLight<OrangeLight>>(Vec(43,331),module,FlipOLogic::FLIP_LED));
-	addOutput(createOutput<OutPortBin>(Vec(34,336),module,FlipOLogic::FLIP_OUT));
-	addChild(createLight<FourPixLight<PurpleLight>>(Vec(73,331),module,FlipOLogic::FLAP_LED));
-	addOutput(createOutput<OutPortBin>(Vec(64,336),module,FlipOLogic::FLAP_OUT));
-
+	addChild(ModuleLightWidget::create<FourPixLight<BlueLED>>(Vec(13,331),module,FlipOLogic::FLOP_LED));
+	addOutput(Port::create<OutPortBin>(Vec(4,336), Port::OUTPUT, module,FlipOLogic::FLOP_OUT));
+	addChild(ModuleLightWidget::create<FourPixLight<OrangeLED>>(Vec(43,331),module,FlipOLogic::FLIP_LED));
+	addOutput(Port::create<OutPortBin>(Vec(34,336), Port::OUTPUT, module,FlipOLogic::FLIP_OUT));
+	addChild(ModuleLightWidget::create<FourPixLight<PurpleLED>>(Vec(73,331),module,FlipOLogic::FLAP_LED));
+	addOutput(Port::create<OutPortBin>(Vec(64,336), Port::OUTPUT, module,FlipOLogic::FLAP_OUT));
 }
+
+Model *modelFlipOLogic = Model::create<FlipOLogic, FlipOLogicWidget>(
+	"PvC", "FlipOLogic", "FlipOLogic", LOGIC_TAG, SWITCH_TAG, CLOCK_MODULATOR_TAG);

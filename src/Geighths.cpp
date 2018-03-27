@@ -71,8 +71,8 @@ struct Geighths : Module {
 void Geighths::step() {
 	float input = inputs[CV_IN].normalize(0.0f) * params[INPUT_GAIN].value + params[INPUT_OFFSET].value;
 	 // TODO: nicer input window scaling
-	input = clampf(input, 0.0f, 10.0f);
-	input = rescalef(input, 0.0f, 10.0f, 0, 8);
+	input = clamp(input, 0.0f, 10.0f);
+	input = rescale(input, 0.0f, 10.0f, 0, 8);
 		
 	sample = clockTrigger.process(inputs[CLOCK_IN].value) ? input : sample;
 	
@@ -92,33 +92,31 @@ void Geighths::step() {
 	}
 }
 
-GeighthsWidget::GeighthsWidget() {
-	Geighths *module = new Geighths();
-	setModule(module);
-	box.size = Vec(15*4, 380);
+struct GeighthsWidget : ModuleWidget {
+	GeighthsWidget(Geighths *module);
+};
 
-	{
-		SVGPanel *panel = new SVGPanel();
-		panel->box.size = box.size;
-		panel->setBackground(SVG::load(assetPlugin(plugin, "res/panels/Geighths.svg")));
-		addChild(panel);
-	}
+GeighthsWidget::GeighthsWidget(Geighths *module) : ModuleWidget(module) {
+	setPanel(SVG::load(assetPlugin(plugin, "res/panels/Geighths.svg")));
+	
 	// screws
-	addChild(createScrew<ScrewHead1>(Vec(0, 0)));
-	addChild(createScrew<ScrewHead2>(Vec(box.size.x - 15, 0)));
-	addChild(createScrew<ScrewHead3>(Vec(0, 365)));
-	addChild(createScrew<ScrewHead4>(Vec(box.size.x - 15, 365)));
+	addChild(Widget::create<ScrewHead1>(Vec(0, 0)));
+	addChild(Widget::create<ScrewHead2>(Vec(box.size.x - 15, 0)));
+	addChild(Widget::create<ScrewHead3>(Vec(0, 365)));
+	addChild(Widget::create<ScrewHead4>(Vec(box.size.x - 15, 365)));
 
-	addInput(createInput<InPortAud>(Vec(4,22),module,Geighths::CV_IN));
-	addParam(createParam<PvCKnob>(Vec(34, 22),module,Geighths::INPUT_GAIN , -2.0f, 2.0f, 1.0f));
-	addParam(createParam<PvCKnob>(Vec(34, 58),module,Geighths::INPUT_OFFSET, -10.0f, 10.0f, 0.0f));
-
-	addInput(createInput<InPortBin>(Vec(4,84),module,Geighths::CLOCK_IN));
+	addInput(Port::create<InPortAud>(Vec(4,22), Port::INPUT, module,Geighths::CV_IN));
+	addInput(Port::create<InPortBin>(Vec(34,22), Port::INPUT, module,Geighths::CLOCK_IN));
+	addParam(ParamWidget::create<PvCKnob>(Vec(4, 64),module,Geighths::INPUT_GAIN , -2.0f, 2.0f, 1.0f));
+	addParam(ParamWidget::create<PvCKnob>(Vec(34, 64),module,Geighths::INPUT_OFFSET, -10.0f, 10.0f, 0.0f));
 
 	for (int i = 0; i < 8; i++)
 	{
-		addChild(createLight<PvCBigLED<YellowLight>>(Vec(4,336 - 28*i),module,Geighths::GATE1_LIGHT + i));
-		addParam(createParam<PvCLEDKnob>(Vec(4, 336 - 28*i),module,Geighths::GATE1_LENGTH + i, 0.002f, 2.0f, 0.02f));
-		addOutput(createOutput<OutPortBin>(Vec(34, 336 - 28*i),module,Geighths::GATE1_OUT + i));
+		addChild(ModuleLightWidget::create<PvCBigLED<BlueLED>>(Vec(4,318 - 30*i),module,Geighths::GATE1_LIGHT + i));
+		addParam(ParamWidget::create<PvCLEDKnob>(Vec(4, 318 - 30*i),module,Geighths::GATE1_LENGTH + i, 0.002f, 2.0f, 0.02f));
+		addOutput(Port::create<OutPortBin>(Vec(34, 318 - 30*i), Port::OUTPUT, module,Geighths::GATE1_OUT + i));
 	}
 }
+
+Model *modelGeighths = Model::create<Geighths, GeighthsWidget>(
+	"PvC", "Geighths", "Geighths", LOGIC_TAG, SAMPLE_AND_HOLD_TAG);
