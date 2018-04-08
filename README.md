@@ -11,8 +11,8 @@ i'm not a programmer, so most of them are simple utilities that i had fun learni
 --- update for SDK and RACK_DIR usage ---
 
 ### the easy way
-(not always the latest version)
-via the Plugin Manager: [here](https://vcvrack.com/plugins.html#pvc)
+
+  via [Plugin Manager](https://vcvrack.com/plugins.html#pvc) (not always the latest version)
 
 ### the nerdy way
 
