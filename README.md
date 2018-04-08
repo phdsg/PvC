@@ -8,15 +8,30 @@ i'm not a programmer, so most of them are simple utilities that i had fun learni
 
 ## Installation
 
+--- update for SDK and RACK_DIR usage ---
+
 ### via VCVRack Plugin Manager
+a.k.a. the easy way (not always the latest version)
 [here](https://vcvrack.com/plugins.html#pvc)
 
 ### from sources
+a.k.a. the nerdy way
+#### set up a build environment
 
-  To build the modules from source you first have to build rack from sources as described  
-  here: https://github.com/VCVRack/Rack#setting-up-your-development-environment  
+  In order to build the plugin you need a RACK_DIR that holds the sources/libs/deps of Rack itself.
+  You can either use the Rack source repo or the recently added Rack-SDK.
+
+##### using a rack source repo
+
+  How to build rack from sources: https://github.com/VCVRack/Rack#setting-up-your-development-environment  
   
-  Then clone this repository into rack's plugins folder.  
+##### using the Rack-SDK
+
+  --- RACK-SDK howto goes here ---
+  
+#### building the plugin
+  
+  Clone this repository into rack's plugins folder.  
     `$ cd plugins && git clone https://github.com/phdsg/PvC`  
     
   Change directory to PvC and use make to build the plugin.  
