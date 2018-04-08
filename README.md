@@ -10,30 +10,33 @@ i'm not a programmer, so most of them are simple utilities that i had fun learni
 
 --- update for SDK and RACK_DIR usage ---
 
-### the easy way
+### The Easy Way
 
   via [Plugin Manager](https://vcvrack.com/plugins.html#pvc) (not always the latest version)
 
-### the nerdy way
+### The Nerdy Way
 
-#### set up a build environment
+#### Set Up A Build Environment
 
   In order to build the plugin you need a RACK_DIR that holds the sources/libs/deps of Rack itself.
   You can either use the Rack source repo or the recently added Rack-SDK.
 
-##### using a rack source repo
+##### Install The Rack-SDK
+
+  --- RACK-SDK howto goes here ---
+
+##### Install The Rack Source Repo
 
   How to build rack from sources: https://github.com/VCVRack/Rack#setting-up-your-development-environment  
   
-##### using the Rack-SDK
-
-  --- RACK-SDK howto goes here ---
   
-#### building the plugin
+#### Building The Plugin
   
   Clone this repository into rack's plugins folder.  
     `$ cd plugins && git clone https://github.com/phdsg/PvC`  
     
   Change directory to PvC and use make to build the plugin.  
-    `$ cd PvC && make` 
+    `$ cd PvC && make dist` 
 
+
+#### Installing The Plugin
