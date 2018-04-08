@@ -10,12 +10,12 @@ i'm not a programmer, so most of them are simple utilities that i had fun learni
 
 --- update for SDK and RACK_DIR usage ---
 
-### via VCVRack Plugin Manager
-a.k.a. the easy way (not always the latest version)
-[here](https://vcvrack.com/plugins.html#pvc)
+### the easy way
+(not always the latest version)
+via the Plugin Manager: [here](https://vcvrack.com/plugins.html#pvc)
 
-### from sources
-a.k.a. the nerdy way
+### the nerdy way
+
 #### set up a build environment
 
   In order to build the plugin you need a RACK_DIR that holds the sources/libs/deps of Rack itself.
