@@ -97,3 +97,4 @@ the plugin manager version will then be built from the release branch.
 - Issue Tracker
 - IRC
 - Discord
+- (mastodon)
