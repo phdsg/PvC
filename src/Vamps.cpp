@@ -34,51 +34,55 @@ struct Vamps : Module {
 		NUM_OUTPUTS
 	};
 
-	Vamps() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS) {}
-	void step() override;
+	Vamps() {
+		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS);
+		configParam(LEVEL, 0.0f, 1.0f, 0.5f);
+	}
+	void process(const ProcessArgs &args) override;
 };
 
 
-void Vamps::step() {
+void Vamps::process(const ProcessArgs &args) {
 
-	float left = inputs[IN_L].value * params[LEVEL].value;
-	float right = inputs[IN_R].normalize(inputs[IN_L].value) * params[LEVEL].value;
+	float left = inputs[IN_L].getVoltage() * params[LEVEL].getValue();
+	float right = inputs[IN_R].getNormalVoltage(inputs[IN_L].getVoltage()) * params[LEVEL].getValue();
 	
 	const float expBase = 50.0f;
 
-	if (inputs[LIN_CV].active) {
-		float linCV = clamp(inputs[LIN_CV].value * 0.1f, 0.0f, 1.0f);
+	if (inputs[LIN_CV].isConnected()) {
+		float linCV = clamp(inputs[LIN_CV].getVoltage() * 0.1f, 0.0f, 1.0f);
 		left *= linCV;
 		right *= linCV;
 	}
-	if (inputs[EXP_CV].active) {
-		float expCV = rescale(powf(expBase, clamp(inputs[EXP_CV].value / 10.0f, 0.0f, 1.0f)), 1.0, expBase, 0.0f, 1.0f);
+	if (inputs[EXP_CV].isConnected()) {
+		float expCV = rescale(powf(expBase, clamp(inputs[EXP_CV].getVoltage() / 10.0f, 0.0f, 1.0f)), 1.0, expBase, 0.0f, 1.0f);
 		left *= expCV;
 		right *= expCV;
 	}
-	outputs[OUT_L].value = left;
-	outputs[OUT_R].value = right;
+	outputs[OUT_L].setVoltage(left);
+	outputs[OUT_R].setVoltage(right);
 }
 
 struct VampsWidget : ModuleWidget {	VampsWidget(Vamps *module); };
 
-VampsWidget::VampsWidget(Vamps *module) : ModuleWidget(module) {
-	setPanel(SVG::load(assetPlugin(plugin, "res/panels/Vamps.svg")));
+VampsWidget::VampsWidget(Vamps *module) {
+	setModule(module);
+	setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/panels/Vamps.svg")));
 	// screws
-	addChild(Widget::create<ScrewHead1>(Vec(0, 0)));
-	//addChild(Widget::create<ScrewHead2>(Vec(box.size.x - 15, 0)));
-	//addChild(Widget::create<ScrewHead3>(Vec(0, 365)));
-	addChild(Widget::create<ScrewHead4>(Vec(box.size.x - 15, 365)));
+	addChild(createWidget<ScrewHead1>(Vec(0, 0)));
+	//addChild(createWidget<ScrewHead2>(Vec(box.size.x - 15, 0)));
+	//addChild(createWidget<ScrewHead3>(Vec(0, 365)));
+	addChild(createWidget<ScrewHead4>(Vec(box.size.x - 15, 365)));
 	
-	addInput(Port::create<InPortAud>(Vec(4, 22), Port::INPUT, module, Vamps::IN_L));
-	addInput(Port::create<InPortAud>(Vec(4, 64), Port::INPUT, module, Vamps::IN_R));
+	addInput(createInput<InPortAud>(Vec(4, 22), module, Vamps::IN_L));
+	addInput(createInput<InPortAud>(Vec(4, 64), module, Vamps::IN_R));
 
-	addParam(ParamWidget::create<PvCKnob>(Vec(4, 120), module, Vamps::LEVEL, 0.0f, 1.0f, 0.5f));
-	addInput(Port::create<InPortCtrl>(Vec(4, 164), Port::INPUT, module, Vamps::EXP_CV));
-	addInput(Port::create<InPortCtrl>(Vec(4, 208), Port::INPUT, module, Vamps::LIN_CV));
+	addParam(createParam<PvCKnob>(Vec(4, 120), module, Vamps::LEVEL));
+	
+	addInput(createInput<InPortCtrl>(Vec(4, 164), module, Vamps::EXP_CV));
+	addInput(createInput<InPortCtrl>(Vec(4, 208), module, Vamps::LIN_CV));
 
-	addOutput(Port::create<OutPortVal>(Vec(4, 296), Port::OUTPUT, module, Vamps::OUT_L));
-	addOutput(Port::create<OutPortVal>(Vec(4, 336), Port::OUTPUT, module, Vamps::OUT_R));
+	addOutput(createOutput<OutPortVal>(Vec(4, 296), module, Vamps::OUT_L));
+	addOutput(createOutput<OutPortVal>(Vec(4, 336), module, Vamps::OUT_R));
 }
-Model *modelVamps = Model::create<Vamps, VampsWidget>(
-	"PvC", "Vamps", "Vamps", AMPLIFIER_TAG, ATTENUATOR_TAG, DUAL_TAG);
+Model *modelVamps = createModel<Vamps, VampsWidget>("Vamps");

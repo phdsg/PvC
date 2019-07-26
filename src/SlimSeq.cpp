@@ -20,9 +20,6 @@ TODO:
 
 #include "pvc.hpp"
 
-#include "dsp/digital.hpp" // SchmittTrigger PulseGenerator
-#include "dsp/filter.hpp" // SlewLimiter
-
 #define STEPCOUNT 16
 
 struct SlimSeq : Module {
@@ -69,11 +66,22 @@ struct SlimSeq : Module {
 		NUM_LIGHTS
 	};
 
-	SlimSeq() : Module( NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS ) {
-		reset();
+	SlimSeq() {
+	    config( NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS );
+		for (int i = 0; i < 8; i++)	{
+			configParam(STEP1_SEL + STEPCOUNT-1 - i , 0, 1, 0);
+			configParam(STEP1_KNOB + STEPCOUNT-1 - i , -1.0f, 1.0f, 0.0f);
+			configParam(STEP1_SEL + i , 0, 1, 0);
+			configParam(STEP1_KNOB + i, -1.0f, 1.0f, 0.0f);
+		}
+		configParam(SCL_KNOB, -1.0f, 1.0f, 1.0f);
+		configParam(OFF_KNOB, -5.0f, 5.0f, 0.0f);
+		
+		onReset();
+
 	};
 
-	void step() override;
+	void process(const ProcessArgs &args) override;
 
 	int currentPos = 0;
 	int counterPos = 0;
@@ -87,10 +95,10 @@ struct SlimSeq : Module {
 
 	float stepInput = 0.0f;
 
-	SchmittTrigger clockTrigger, reverseTrigger, randomTrigger, holdTrigger, resetTrigger;
-	SchmittTrigger posButtons[STEPCOUNT];
+	dsp::SchmittTrigger clockTrigger, reverseTrigger, randomTrigger, holdTrigger, resetTrigger;
+	dsp::SchmittTrigger posButtons[STEPCOUNT];
 
-	void reset() override {
+	void onReset() override {
 		currentPos = 0;
 		counterPos = 0;
 		resetPos = 0;
@@ -110,21 +118,21 @@ struct SlimSeq : Module {
 };
 
 
-void SlimSeq::step() {
-	stepInput = inputs[STEP1_IN+currentPos].normalize(5.0f) * params[STEP1_KNOB+currentPos].value;
+void SlimSeq::process(const ProcessArgs &args) {
+	stepInput = inputs[STEP1_IN+currentPos].getNormalVoltage(5.0f) * params[STEP1_KNOB+currentPos].getValue();
 	
-	isRunning = (isHold) ? false : inputs[CLOCK_IN].active;
+	isRunning = (isHold) ? false : inputs[CLOCK_IN].isConnected();
 	// clocked
 	if(isRunning) {
-		if (clockTrigger.process(inputs[CLOCK_IN].value) ) {
+		if (clockTrigger.process(inputs[CLOCK_IN].getVoltage()) ) {
 			counterPos += (isReverse) ? -1 : 1;
 
 			if (isRandom) {
 				if (isHopper) {
-					currentPos += round(randomUniform()*15.0f);
+					currentPos += round(random::uniform()*15.0f);
 				}
 				else {
-					currentPos += (round(randomUniform())) ? 1 : -1;
+					currentPos += (round(random::uniform())) ? 1 : -1;
 				}
 			}
 			else {
@@ -135,21 +143,21 @@ void SlimSeq::step() {
 
 	// playmode triggers & controls
 	if (isRandom) {	// in rnd mode use rev trigger to switch hopper/walker
-		if (reverseTrigger.process(inputs[REVERSE_IN].value + params[REVERSE_UI].value))
+		if (reverseTrigger.process(inputs[REVERSE_IN].getVoltage() + params[REVERSE_UI].getValue()))
 			isHopper  = !isHopper;
 	}
 	else {
-		if (reverseTrigger.process(inputs[REVERSE_IN].value + params[REVERSE_UI].value))
+		if (reverseTrigger.process(inputs[REVERSE_IN].getVoltage() + params[REVERSE_UI].getValue()))
 			isReverse  = !isReverse;
 	}
 
-	if (randomTrigger.process(inputs[RNDMODE_IN].value + params[RNDMODE_UI].value))
+	if (randomTrigger.process(inputs[RNDMODE_IN].getVoltage() + params[RNDMODE_UI].getValue()))
 		isRandom  = !isRandom;
 	
-	if (holdTrigger.process(inputs[HOLD_IN].value + params[HOLD_UI].value))
+	if (holdTrigger.process(inputs[HOLD_IN].getVoltage() + params[HOLD_UI].getValue()))
 		isHold = !isHold;
 	
-	if (resetTrigger.process(inputs[RESET_IN].value + params[RESET_UI].value)) {
+	if (resetTrigger.process(inputs[RESET_IN].getVoltage() + params[RESET_UI].getValue())) {
 		 counterPos = resetPos;
 		 currentPos = resetPos;
 	}
@@ -157,7 +165,7 @@ void SlimSeq::step() {
 
 	// position selectors
 	for(int i=0; i<STEPCOUNT; i++) {
-		if(posButtons[i].process(params[STEP1_SEL+i].value)) {
+		if(posButtons[i].process(params[STEP1_SEL+i].getValue())) {
 			resetPos = i;
 			currentPos = (!isRunning) ? i : currentPos;
 		}
@@ -177,7 +185,7 @@ void SlimSeq::step() {
 
 
 		// calc out
-	outputs[OUT].value = clamp(stepInput * params[SCL_KNOB].value + params[OFF_KNOB].value, -10.0f, 10.0f);
+	outputs[OUT].setVoltage(clamp(stepInput * params[SCL_KNOB].getValue() + params[OFF_KNOB].getValue(), -10.0f, 10.0f));
 
 	// lights
 		// direction
@@ -194,9 +202,10 @@ void SlimSeq::step() {
 
 };
 
-struct StepButton : SVGSwitch, MomentarySwitch {
+struct StepButton : SVGSwitch {
 	StepButton() {
-		addFrame(SVG::load(assetPlugin(plugin, "res/components/empty.svg")));
+		momentary = true;
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/components/empty.svg")));
 		box.size = Vec(73,30);
 	}
 };
@@ -210,54 +219,60 @@ struct SlimSeqWidget : ModuleWidget {
 	SlimSeqWidget(SlimSeq *module);
 };
 
-SlimSeqWidget::SlimSeqWidget(SlimSeq *module) : ModuleWidget(module) {
-	setPanel(SVG::load(assetPlugin(plugin, "res/panels/SlimSeq.svg")));
+SlimSeqWidget::SlimSeqWidget(SlimSeq *module) {
+		setModule(module);
+	setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/panels/SlimSeq.svg")));
 
 	// screws
-	addChild(Widget::create<ScrewHead2>(Vec(15, 0)));
-	addChild(Widget::create<ScrewHead4>(Vec(box.size.x-30, 0)));
-	addChild(Widget::create<ScrewHead3>(Vec(15, 365)));
-	addChild(Widget::create<ScrewHead1>(Vec(box.size.x-30, 365)));
+	addChild(createWidget<ScrewHead2>(Vec(15, 0)));
+	addChild(createWidget<ScrewHead4>(Vec(box.size.x-30, 0)));
+	addChild(createWidget<ScrewHead3>(Vec(15, 365)));
+	addChild(createWidget<ScrewHead1>(Vec(box.size.x-30, 365)));
 
 	// control inputs
-	addInput(Port::create<InPortBin>(Vec(4,22), Port::INPUT, module,SlimSeq::CLOCK_IN));
-	//addParam(ParamWidget::create<ControlButton>(Vec(48,70),module,SlimSeq::CLOCK_UI , 0, 1, 0));
-	addInput(Port::create<InPortBin>(Vec(34,22), Port::INPUT, module,SlimSeq::REVERSE_IN));
-	// addParam(ParamWidget::create<ControlButton>(Vec(48,270),module,SlimSeq::REVERSE_UI , 0, 1, 0));
-	addInput(Port::create<InPortBin>(Vec(64,22), Port::INPUT, module,SlimSeq::HOLD_IN));
-	// addParam(ParamWidget::create<ControlButton>(Vec(48,270),module,SlimSeq::HOLD_UI , 0, 1, 0));
-	addInput(Port::create<InPortBin>(Vec(94,22), Port::INPUT, module,SlimSeq::RNDMODE_IN));
-	// addParam(ParamWidget::create<ControlButton>(Vec(48,270),module,SlimSeq::RNDMODE_UI , 0, 1, 0));
-	addInput(Port::create<InPortBin>(Vec(124,22), Port::INPUT, module,SlimSeq::RESET_IN));
-	// addParam(ParamWidget::create<ControlButton>(Vec(48,270),module,SlimSeq::RESET_UI , 0, 1, 0));
+	addInput(createInput<InPortBin>(Vec(4,22), module,SlimSeq::CLOCK_IN));
+	//addParam(createParam<ControlButton>(Vec(48,70),module,SlimSeq::CLOCK_UI , 0, 1, 0));
+	addInput(createInput<InPortBin>(Vec(34,22), module,SlimSeq::REVERSE_IN));
+	// addParam(createParam<ControlButton>(Vec(48,270),module,SlimSeq::REVERSE_UI , 0, 1, 0));
+	addInput(createInput<InPortBin>(Vec(64,22), module,SlimSeq::HOLD_IN));
+	// addParam(createParam<ControlButton>(Vec(48,270),module,SlimSeq::HOLD_UI , 0, 1, 0));
+	addInput(createInput<InPortBin>(Vec(94,22), module,SlimSeq::RNDMODE_IN));
+	// addParam(createParam<ControlButton>(Vec(48,270),module,SlimSeq::RNDMODE_UI , 0, 1, 0));
+	addInput(createInput<InPortBin>(Vec(124,22), module,SlimSeq::RESET_IN));
+	// addParam(createParam<ControlButton>(Vec(48,270),module,SlimSeq::RESET_UI , 0, 1, 0));
 
 	// direction lights
-	addChild(ModuleLightWidget::create<FourPixLight<OrangeLED>>(Vec(67,62),module,SlimSeq::REVERSE_LIGHT));
-	addChild(ModuleLightWidget::create<FourPixLight<OrangeLED>>(Vec(73,62),module,SlimSeq::RNDMODE_LIGHT));
-	addChild(ModuleLightWidget::create<FourPixLight<OrangeLED>>(Vec(79,62),module,SlimSeq::FORWARD_LIGHT));
+	addChild(createLight<FourPixLight<OrangeLED>>(Vec(67,62),module,SlimSeq::REVERSE_LIGHT));
+	addChild(createLight<FourPixLight<OrangeLED>>(Vec(73,62),module,SlimSeq::RNDMODE_LIGHT));
+	addChild(createLight<FourPixLight<OrangeLED>>(Vec(79,62),module,SlimSeq::FORWARD_LIGHT));
 
 	// steps
 	for (int i = 0; i < 8; i++)	{
 		int top = 31;
 		// left 16-9
-		addParam(ParamWidget::create<StepButton>(Vec(1,69 + top * i),module,SlimSeq::STEP1_SEL + STEPCOUNT-1 - i , 0, 1, 0));
-		addParam(ParamWidget::create<PvCKnob>(Vec(16,73 + top * i),module,SlimSeq::STEP1_KNOB + STEPCOUNT-1 - i , -1.0f, 1.0f, 0.0f));
-		addInput(Port::create<InPortCtrl>(Vec(40,73 + top * i), Port::INPUT, module,SlimSeq::STEP1_IN + + STEPCOUNT-1 - i));
-		addChild(ModuleLightWidget::create<FourPixLight<BlueLED>>(Vec(65,82 + top * i),module,SlimSeq::STEP1_LIGHT + STEPCOUNT-1 - i));
+		addParam(createParam<StepButton>(Vec(1,69 + top * i),module,SlimSeq::STEP1_SEL + STEPCOUNT-1 - i));
+		
+		addParam(createParam<PvCKnob>(Vec(16,73 + top * i),module,SlimSeq::STEP1_KNOB + STEPCOUNT-1 - i));
+		
+		addInput(createInput<InPortCtrl>(Vec(40,73 + top * i), module,SlimSeq::STEP1_IN + + STEPCOUNT-1 - i));
+		addChild(createLight<FourPixLight<BlueLED>>(Vec(65,82 + top * i),module,SlimSeq::STEP1_LIGHT + STEPCOUNT-1 - i));
 		// right 1-8
-		addParam(ParamWidget::create<StepButton>(Vec(76,69 + top * i),module,SlimSeq::STEP1_SEL + i , 0, 1, 0));
-		addChild(ModuleLightWidget::create<FourPixLight<BlueLED>>(Vec(81,82 + top * i),module,SlimSeq::STEP1_LIGHT + i));
-		addInput(Port::create<InPortCtrl>(Vec(88,73 + top * i), Port::INPUT, module,SlimSeq::STEP1_IN + i));
-		addParam(ParamWidget::create<PvCKnob>(Vec(112,73 + top * i),module,SlimSeq::STEP1_KNOB + i, -1.0f, 1.0f, 0.0f));
+		addParam(createParam<StepButton>(Vec(76,69 + top * i),module,SlimSeq::STEP1_SEL + i));
+		
+		addChild(createLight<FourPixLight<BlueLED>>(Vec(81,82 + top * i),module,SlimSeq::STEP1_LIGHT + i));
+		addInput(createInput<InPortCtrl>(Vec(88,73 + top * i), module,SlimSeq::STEP1_IN + i));
+		addParam(createParam<PvCKnob>(Vec(112,73 + top * i),module,SlimSeq::STEP1_KNOB + i));
+		
 	}
 	
 	// main out
 	
-	addParam(ParamWidget::create<PvCKnob>(Vec(36,323),module,SlimSeq::SCL_KNOB, -1.0f, 1.0f, 1.0f));
-	addChild(ModuleLightWidget::create<FourPixLight<GreenRedLED>>(Vec(73,330),module,SlimSeq::OUT_POS_LED));
-	addOutput(Port::create<OutPortVal>(Vec(64,336), Port::OUTPUT, module,SlimSeq::OUT));
-	addParam(ParamWidget::create<PvCKnob>(Vec(92,323),module,SlimSeq::OFF_KNOB, -5.0f, 5.0f, 0.0f));
+	addParam(createParam<PvCKnob>(Vec(36,323),module,SlimSeq::SCL_KNOB));
+	
+	addChild(createLight<FourPixLight<GreenRedLED>>(Vec(73,330),module,SlimSeq::OUT_POS_LED));
+	addOutput(createOutput<OutPortVal>(Vec(64,336), module,SlimSeq::OUT));
+	addParam(createParam<PvCKnob>(Vec(92,323),module,SlimSeq::OFF_KNOB));
+	
 }
 
-Model *modelSlimSeq = Model::create<SlimSeq, SlimSeqWidget>(
-	"PvC", "SlimSeq", "SlimSeq", SEQUENCER_TAG, SWITCH_TAG);
+Model *modelSlimSeq = createModel<SlimSeq, SlimSeqWidget>("SlimSeq");

@@ -1,12 +1,10 @@
 #include "pvc.hpp"
 
 
-Plugin *plugin;
+Plugin *pluginInstance;
 
 void init(rack::Plugin *p) {
-	plugin = p;
-	p->slug = "PvC";
-	p->version = TOSTRING(VERSION);
+	pluginInstance = p;
 
 	p->addModel(modelHeads);
 	p->addModel(modelTails);
@@ -21,8 +19,7 @@ void init(rack::Plugin *p) {
 	p->addModel(modelTaHaSaHaN);
 	p->addModel(modelVamps);
 	p->addModel(modelVubar);
-	p->addModel(modelPvCBlank);
+	// p->addModel(modelPvCBlank);
 	
-	p->addModel(modelPlainVoidCanvas);
 }
 

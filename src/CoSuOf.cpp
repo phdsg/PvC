@@ -66,34 +66,40 @@ struct CoSuOf : Module {
 
 	bool gate = false;
 	
-	CoSuOf() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {}
+	CoSuOf() {
+		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
+		configParam(POS_LVL, 0.0f, 1.0f, 1.0f);
+		configParam(NEG_LVL, 0.0f, 1.0f, 1.0f);
+		configParam(OFFSET, -10.0f, 10.0f, 0.0f);
+		configParam(GAP, 0.0f, 10.0f, 0.0f);
+	}
 
-	void step() override;
-	void reset() override {
+	void process(const ProcessArgs &args) override;
+	void onReset() override {
 		gate = false;
 	}
 };
 
-void CoSuOf::step() {
-	float posIn = inputs[POS_IN].value * params[POS_LVL].value;
-	float negIn = inputs[NEG_IN].value * params[NEG_LVL].value;
-	float sumOut = clamp(posIn - negIn + params[OFFSET].value, -10.0f, 10.0f);
-	float gap = params[GAP].value;
+void CoSuOf::process(const ProcessArgs &args) {
+	float posIn = inputs[POS_IN].getVoltage() * params[POS_LVL].getValue();
+	float negIn = inputs[NEG_IN].getVoltage() * params[NEG_LVL].getValue();
+	float sumOut = clamp(posIn - negIn + params[OFFSET].getValue(), -10.0f, 10.0f);
+	float gap = params[GAP].getValue();
 
 	if (sumOut > gap) gate = true;
 	if (sumOut <= -gap) gate = false;
 
-	outputs[SUM_OUT].value = sumOut; // TODO:
-	outputs[MUS_OUT].value = -sumOut;
-	outputs[GATE_OUT].value = gate * 10.0f;
-	outputs[NATE_OUT].value = !gate * 10.0f;
+	outputs[SUM_OUT].setVoltage(sumOut); // TODO:
+	outputs[MUS_OUT].setVoltage(-sumOut);
+	outputs[GATE_OUT].setVoltage(gate * 10.0f);
+	outputs[NATE_OUT].setVoltage(!gate * 10.0f);
 
-	outputs[G_SUM].value = gate * sumOut;
-	outputs[N_SUM].value = !gate * sumOut;
-	outputs[G_POS].value = gate * posIn;
-	outputs[N_POS].value = !gate * posIn;
-	outputs[G_NEG].value = gate * negIn;
-	outputs[N_NEG].value = !gate * negIn;
+	outputs[G_SUM].setVoltage(gate * sumOut);
+	outputs[N_SUM].setVoltage(!gate * sumOut);
+	outputs[G_POS].setVoltage(gate * posIn);
+	outputs[N_POS].setVoltage(!gate * posIn);
+	outputs[G_NEG].setVoltage(gate * negIn);
+	outputs[N_NEG].setVoltage(!gate * negIn);
 
 	lights[GATE_LED].value = gate;
 	lights[NATE_LED].value = !gate;
@@ -103,39 +109,43 @@ struct CoSuOfWidget : ModuleWidget {
 	CoSuOfWidget(CoSuOf *module);
 };
 
-CoSuOfWidget::CoSuOfWidget(CoSuOf *module) : ModuleWidget(module) {
-	setPanel(SVG::load(assetPlugin(plugin, "res/panels/CoSuOf.svg")));
+CoSuOfWidget::CoSuOfWidget(CoSuOf *module) {
+	setModule(module);
+	setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/panels/CoSuOf.svg")));
 	// screws
-	addChild(Widget::create<ScrewHead1>(Vec(0, 0)));
-	addChild(Widget::create<ScrewHead2>(Vec(box.size.x - 15, 0)));
-	addChild(Widget::create<ScrewHead3>(Vec(0, 365)));
-	addChild(Widget::create<ScrewHead4>(Vec(box.size.x - 15, 365)));
+	addChild(createWidget<ScrewHead1>(Vec(0, 0)));
+	addChild(createWidget<ScrewHead2>(Vec(box.size.x - 15, 0)));
+	addChild(createWidget<ScrewHead3>(Vec(0, 365)));
+	addChild(createWidget<ScrewHead4>(Vec(box.size.x - 15, 365)));
 
-	addInput(Port::create<InPortAud>(Vec(4,22), Port::INPUT, module,CoSuOf::POS_IN));
-	addInput(Port::create<InPortAud>(Vec(34,22), Port::INPUT, module,CoSuOf::NEG_IN));
+	addInput(createInput<InPortAud>(Vec(4,22), module,CoSuOf::POS_IN));
+	addInput(createInput<InPortAud>(Vec(34,22), module,CoSuOf::NEG_IN));
 
-	addParam(ParamWidget::create<PvCKnob>(Vec(4,64),module,CoSuOf::POS_LVL, 0.0f, 1.0f, 1.0f));
-	addParam(ParamWidget::create<PvCKnob>(Vec(34,64),module,CoSuOf::NEG_LVL, 0.0f, 1.0f, 1.0f));
+	addParam(createParam<PvCKnob>(Vec(4,64),module,CoSuOf::POS_LVL));
+	
+	addParam(createParam<PvCKnob>(Vec(34,64),module,CoSuOf::NEG_LVL));
+	
 
-	addParam(ParamWidget::create<PvCKnob>(Vec(19,104),module,CoSuOf::OFFSET, -10.0f, 10.0f, 0.0f));
-	addOutput(Port::create<OutPortVal>(Vec(4,158), Port::OUTPUT, module,CoSuOf::SUM_OUT));
-	addOutput(Port::create<OutPortVal>(Vec(34,158), Port::OUTPUT, module,CoSuOf::MUS_OUT));
+	addParam(createParam<PvCKnob>(Vec(19,104),module,CoSuOf::OFFSET));
+	
+	addOutput(createOutput<OutPortVal>(Vec(4,158), module,CoSuOf::SUM_OUT));
+	addOutput(createOutput<OutPortVal>(Vec(34,158), module,CoSuOf::MUS_OUT));
 
-	addParam(ParamWidget::create<PvCKnob>(Vec(19,192),module,CoSuOf::GAP, 0.0f, 10.0f, 0.0f));
+	addParam(createParam<PvCKnob>(Vec(19,192),module,CoSuOf::GAP));
+	
 
-	addChild(ModuleLightWidget::create<FourPixLight<OrangeLED>>(Vec(13, 244),module, CoSuOf::GATE_LED));
-	addChild(ModuleLightWidget::create<FourPixLight<BlueLED>>(Vec(43, 244),module, CoSuOf::NATE_LED));
-	addOutput(Port::create<OutPortBin>(Vec(4,250), Port::OUTPUT, module,CoSuOf::GATE_OUT));
-	addOutput(Port::create<OutPortBin>(Vec(34,250), Port::OUTPUT, module,CoSuOf::NATE_OUT));
+	addChild(createLight<FourPixLight<OrangeLED>>(Vec(13, 244),module, CoSuOf::GATE_LED));
+	addChild(createLight<FourPixLight<BlueLED>>(Vec(43, 244),module, CoSuOf::NATE_LED));
+	addOutput(createOutput<OutPortBin>(Vec(4,250), module,CoSuOf::GATE_OUT));
+	addOutput(createOutput<OutPortBin>(Vec(34,250), module,CoSuOf::NATE_OUT));
 
-	addOutput(Port::create<OutPortVal>(Vec(4,288), Port::OUTPUT, module,CoSuOf::G_SUM));
-	addOutput(Port::create<OutPortVal>(Vec(34,288), Port::OUTPUT, module,CoSuOf::N_SUM));
-	addOutput(Port::create<OutPortVal>(Vec(4,312), Port::OUTPUT, module,CoSuOf::G_POS));
-	addOutput(Port::create<OutPortVal>(Vec(34,312), Port::OUTPUT, module,CoSuOf::N_POS));
-	addOutput(Port::create<OutPortVal>(Vec(4,336), Port::OUTPUT, module,CoSuOf::G_NEG));
-	addOutput(Port::create<OutPortVal>(Vec(34,336), Port::OUTPUT, module,CoSuOf::N_NEG));
+	addOutput(createOutput<OutPortVal>(Vec(4,288), module,CoSuOf::G_SUM));
+	addOutput(createOutput<OutPortVal>(Vec(34,288), module,CoSuOf::N_SUM));
+	addOutput(createOutput<OutPortVal>(Vec(4,312), module,CoSuOf::G_POS));
+	addOutput(createOutput<OutPortVal>(Vec(34,312), module,CoSuOf::N_POS));
+	addOutput(createOutput<OutPortVal>(Vec(4,336), module,CoSuOf::G_NEG));
+	addOutput(createOutput<OutPortVal>(Vec(34,336), module,CoSuOf::N_NEG));
 
 }
 
-Model *modelCoSuOf = Model::create<CoSuOf, CoSuOfWidget>(
-	"PvC", "CoSuOf", "CoSuOf", LOGIC_TAG, ATTENUATOR_TAG);
+Model *modelCoSuOf = createModel<CoSuOf, CoSuOfWidget>("CoSuOf");

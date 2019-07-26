@@ -4,8 +4,6 @@ ShutIt
 */////////////////////////////////////////////////////////////////////////////
 #include "pvc.hpp"
 
-#include "dsp/digital.hpp"
-
 #define CHANCOUNT 8
 
 struct ShutIt : Module {
@@ -35,28 +33,36 @@ struct ShutIt : Module {
 	};
 
 	bool muteState[CHANCOUNT] {};
-	SchmittTrigger cvTrigger[CHANCOUNT];
-	SchmittTrigger buttonTrigger[CHANCOUNT];
-	SchmittTrigger unmuteAllTrig;
-	SchmittTrigger muteAllTrig;
-	SchmittTrigger flipAllTrig;
+	dsp::SchmittTrigger cvTrigger[CHANCOUNT];
+	dsp::SchmittTrigger buttonTrigger[CHANCOUNT];
+	dsp::SchmittTrigger unmuteAllTrig;
+	dsp::SchmittTrigger muteAllTrig;
+	dsp::SchmittTrigger flipAllTrig;
 	
-	ShutIt() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {	}
+	ShutIt() {
+		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
+		for (int i = 0; i < CHANCOUNT; i++) {
+			configParam(ShutIt::A_MUTE + i, 0, 1, 0);
+		}
+		configParam(SHUT_ALL, 0, 1, 0);
+		configParam(FLIP_ALL, 0, 1, 0);
+		configParam(OPEN_ALL, 0, 1, 0);
+	}
 
-	void step() override;
+	void process(const ProcessArgs &args) override;
 
-	void reset() override {
+	void onReset() override {
 		for (int i = 0; i < CHANCOUNT; i++) {
 			muteState[i] = false;
 		}
 	}
-		void randomize() override {
+	void onRandomize() override {
 		for (int i = 0; i < CHANCOUNT; i++) {
-			muteState[i] = (randomUniform() < 0.5);
+			muteState[i] = (random::uniform() < 0.5);
 		}
 	}
 	// MUTE states
-	json_t *toJson() override {
+	json_t *dataToJson() override {
 		json_t *rootJ = json_object();
 		// states
 		json_t *muteStatesJ = json_array();
@@ -67,7 +73,7 @@ struct ShutIt : Module {
 		json_object_set_new(rootJ, "muteStates", muteStatesJ);
 		return rootJ;
 	}
-	void fromJson(json_t *rootJ) override {
+	void dataFromJson(json_t *rootJ) override {
 		// states
 		json_t *muteStatesJ = json_object_get(rootJ, "muteStates");
 		if (muteStatesJ) {
@@ -80,39 +86,39 @@ struct ShutIt : Module {
 	}
 };
 
-void ShutIt::step() {
+void ShutIt::process(const ProcessArgs &args) {
 //  do stuff
 	float out = 0.0f;
 	float triggerIn = 0.0f;
 	for (int i = 0; i < CHANCOUNT; i++) {
 
-		if (inputs[A_TRIG + i].active)
-			triggerIn = inputs[A_TRIG + i].value;
+		if (inputs[A_TRIG + i].isConnected())
+			triggerIn = inputs[A_TRIG + i].getVoltage();
 		
 		if (cvTrigger[i].process(triggerIn))
 			muteState[i] = !muteState[i];
 		
-		if (buttonTrigger[i].process(params[A_MUTE + i].value))
+		if (buttonTrigger[i].process(params[A_MUTE + i].getValue()))
 			muteState[i] = !muteState[i];
 		
-		if (inputs[A_IN + i].active)
-			out = inputs[A_IN + i].value;
+		if (inputs[A_IN + i].isConnected())
+			out = inputs[A_IN + i].getVoltage();
 
-		outputs[A_OUT + i].value = muteState[i] ? 0.0f : out;
+		outputs[A_OUT + i].setVoltage(muteState[i] ? 0.0f : out);
 		lights[A_STATE + 2*i].value = muteState[i] ? 0 : 1;
 		lights[A_STATE+1 + 2*i].value = muteState[i] ? 1 : 0;
 	}
-	if (muteAllTrig.process(inputs[SHUT_ALL_TRIG].value + params[SHUT_ALL].value)) {
+	if (muteAllTrig.process(inputs[SHUT_ALL_TRIG].getVoltage() + params[SHUT_ALL].getValue())) {
 		for (int i = 0; i < CHANCOUNT; i++)	{
 			muteState[i] = true;
 		}
 	}
-	if (unmuteAllTrig.process(inputs[OPEN_ALL_TRIG].value + params[OPEN_ALL].value)) {
+	if (unmuteAllTrig.process(inputs[OPEN_ALL_TRIG].getVoltage() + params[OPEN_ALL].getValue())) {
 		for (int i = 0; i < CHANCOUNT; i++)	{
 			muteState[i] = false;
 		}
 	}
-	if (flipAllTrig.process(inputs[FLIP_ALL_TRIG].value + params[FLIP_ALL].value)) {
+	if (flipAllTrig.process(inputs[FLIP_ALL_TRIG].getVoltage() + params[FLIP_ALL].getValue())) {
 		for (int i = 0; i < CHANCOUNT; i++)	{
 			muteState[i] = !muteState[i];
 		}
@@ -120,9 +126,10 @@ void ShutIt::step() {
 }
 
 // ugh
- struct EmptyButton : SVGSwitch, MomentarySwitch {
+ struct EmptyButton : SVGSwitch {
 	EmptyButton() {
-		addFrame(SVG::load(assetPlugin(plugin, "res/components/empty.svg")));
+		momentary = true;
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/components/empty.svg")));
 		box.size = Vec(86,36);
 	}
 };
@@ -132,32 +139,36 @@ struct ShutItWidget : ModuleWidget {
 	ShutItWidget(ShutIt *module);
 };
 
-ShutItWidget::ShutItWidget(ShutIt *module) : ModuleWidget(module) {
-	setPanel(SVG::load(assetPlugin(plugin, "res/panels/ShutIt.svg")));
+ShutItWidget::ShutItWidget(ShutIt *module) {
+	setModule(module);
+	setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/panels/ShutIt.svg")));
 	
 	// screws
-	addChild(Widget::create<ScrewHead1>(Vec(0, 0)));
-	addChild(Widget::create<ScrewHead2>(Vec(box.size.x - 15, 0)));
-	addChild(Widget::create<ScrewHead3>(Vec(0, 365)));
-	addChild(Widget::create<ScrewHead4>(Vec(box.size.x - 15, 365)));
+	addChild(createWidget<ScrewHead1>(Vec(0, 0)));
+	addChild(createWidget<ScrewHead2>(Vec(box.size.x - 15, 0)));
+	addChild(createWidget<ScrewHead3>(Vec(0, 365)));
+	addChild(createWidget<ScrewHead4>(Vec(box.size.x - 15, 365)));
 	// channels
 	for (int i = 0; i < CHANCOUNT; i++) {
 		float top = 36.0f;
 
-		addChild(ModuleLightWidget::create<FourPixLight<WhiteRedLED>>(Vec(79,27 + top*i), module, ShutIt::A_STATE + 2*i));
-		addParam(ParamWidget::create<EmptyButton>(Vec(2,19 + top*i), module, ShutIt::A_MUTE + i, 0, 1, 0));
-		addInput(Port::create<InPortAud>(Vec(4,26 + top*i), Port::INPUT, module, ShutIt::A_IN + i));
-		addInput(Port::create<InPortBin>(Vec(28,26 + top*i), Port::INPUT, module, ShutIt::A_TRIG + i));
-		addOutput(Port::create<OutPortVal>(Vec(52,26 + top*i), Port::OUTPUT, module, ShutIt::A_OUT + i));
+		addChild(createLight<FourPixLight<WhiteRedLED>>(Vec(79,27 + top*i), module, ShutIt::A_STATE + 2*i));
+		addParam(createParam<EmptyButton>(Vec(2,19 + top*i), module, ShutIt::A_MUTE + i));
+		
+		addInput(createInput<InPortAud>(Vec(4,26 + top*i), module, ShutIt::A_IN + i));
+		addInput(createInput<InPortBin>(Vec(28,26 + top*i), module, ShutIt::A_TRIG + i));
+		addOutput(createOutput<OutPortVal>(Vec(52,26 + top*i), module, ShutIt::A_OUT + i));
 	}
-	addInput(Port::create<InPortBin>(Vec(4,324), Port::INPUT, module, ShutIt::SHUT_ALL_TRIG));
-	addParam(ParamWidget::create<LabelButtonS>(Vec(3,349), module, ShutIt::SHUT_ALL, 0, 1, 0));
-	addInput(Port::create<InPortBin>(Vec(34,324), Port::INPUT, module, ShutIt::FLIP_ALL_TRIG));
- 	addParam(ParamWidget::create<LabelButtonS>(Vec(33,349), module, ShutIt::FLIP_ALL, 0, 1, 0));
-	addInput(Port::create<InPortBin>(Vec(64,324), Port::INPUT, module, ShutIt::OPEN_ALL_TRIG));
-	addParam(ParamWidget::create<LabelButtonS>(Vec(63,349), module, ShutIt::OPEN_ALL, 0, 1, 0));
+	addInput(createInput<InPortBin>(Vec(4,324), module, ShutIt::SHUT_ALL_TRIG));
+	addParam(createParam<LabelButtonS>(Vec(3,349), module, ShutIt::SHUT_ALL));
+	
+	addInput(createInput<InPortBin>(Vec(34,324), module, ShutIt::FLIP_ALL_TRIG));
+ 	addParam(createParam<LabelButtonS>(Vec(33,349), module, ShutIt::FLIP_ALL));
+ 	
+	addInput(createInput<InPortBin>(Vec(64,324), module, ShutIt::OPEN_ALL_TRIG));
+	addParam(createParam<LabelButtonS>(Vec(63,349), module, ShutIt::OPEN_ALL));
+
 }
 
-Model *modelShutIt = Model::create<ShutIt, ShutItWidget>(
-	"PvC", "ShutIt", "ShutIt", SWITCH_TAG, MULTIPLE_TAG);
+Model *modelShutIt = createModel<ShutIt, ShutItWidget>("ShutIt");
 

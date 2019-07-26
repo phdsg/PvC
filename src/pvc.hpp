@@ -2,7 +2,7 @@
 
 using namespace rack;
 
-extern Plugin *plugin;
+extern Plugin *pluginInstance;
 
 // module widgets
 extern Model *modelHeads;
@@ -18,45 +18,47 @@ extern Model *modelSumIt;
 extern Model *modelTaHaSaHaN;
 extern Model *modelVamps;
 extern Model *modelVubar;
-extern Model *modelPvCBlank;
 
-extern Model *modelPlainVoidCanvas;
+// extern Model *modelPvCBlank;
+// extern Model *modelPlainVoidCanvas;
 
 //////////////////////////////////////////////////////////////////////////////
 
 struct OutPortBin : SVGPort {
 	OutPortBin() {
-		background->svg = SVG::load(assetPlugin(plugin, "res/components/OutPortBin.svg"));
-		background->wrap();
-		box.size = background->box.size;
+		// background->svg = APP->window->loadSvg(asset::plugin(pluginInstance, "res/components/OutPortBin.svg"));
+		// background->wrap();
+		setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/components/OutPortBin.svg")));
+		sw->wrap();
+		box.size = sw->box.size;
 	}
 };
 struct OutPortVal : SVGPort {
 	OutPortVal() {
-		background->svg = SVG::load(assetPlugin(plugin, "res/components/OutPortVal.svg"));
-		background->wrap();
-		box.size = background->box.size;
+		setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/components/OutPortVal.svg")));
+		sw->wrap();
+		box.size = sw->box.size;
 	}
 };
 struct InPortBin : SVGPort {
 	InPortBin() {
-		background->svg = SVG::load(assetPlugin(plugin, "res/components/InPortBin.svg"));
-		background->wrap();
-		box.size = background->box.size;
+		setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/components/InPortBin.svg")));
+		sw->wrap();
+		box.size = sw->box.size;
 	}
 };
 struct InPortAud : SVGPort {
 	InPortAud() {
-		background->svg = SVG::load(assetPlugin(plugin, "res/components/InPortAud.svg"));
-		background->wrap();
-		box.size = background->box.size;
+		setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/components/InPortAud.svg")));
+		sw->wrap();
+		box.size = sw->box.size;
 	}
 };
 struct InPortCtrl : SVGPort {
 	InPortCtrl() {
-		background->svg = SVG::load(assetPlugin(plugin, "res/components/InPortCtrl.svg"));
-		background->wrap();
-		box.size = background->box.size;
+		setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/components/InPortCtrl.svg")));
+		sw->wrap();
+		box.size = sw->box.size;
 	}
 };
 
@@ -64,13 +66,13 @@ struct InPortCtrl : SVGPort {
 
 struct PvCKnob : RoundKnob {
 	PvCKnob() {
-		setSVG(SVG::load(assetPlugin(plugin, "res/components/PvCKnob.svg")));
+		setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/components/PvCKnob.svg")));
 		box.size = Vec(22,22);
 	}
 };
 struct PvCLEDKnob : PvCKnob {
 	PvCLEDKnob() {
-		setSVG(SVG::load(assetPlugin(plugin, "res/components/PvCKnobT.svg")));
+		setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/components/PvCKnobT.svg")));
 	}
 };
 struct PvCSnapKnob : PvCKnob {
@@ -79,18 +81,20 @@ struct PvCSnapKnob : PvCKnob {
 	}
 };
 
-struct LabelButtonL : SVGSwitch, MomentarySwitch {
+struct LabelButtonL : SVGSwitch {
 	LabelButtonL() {
-		addFrame(SVG::load(assetPlugin(plugin, "res/components/LabelButtonL_0.svg")));
-		addFrame(SVG::load(assetPlugin(plugin, "res/components/LabelButtonL_1.svg")));
+		momentary = true;
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/components/LabelButtonL_0.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/components/LabelButtonL_1.svg")));
 		box.size = Vec(36,12);
 	}
 };
 
-struct LabelButtonS : SVGSwitch, MomentarySwitch {
+struct LabelButtonS : SVGSwitch {
 	LabelButtonS() {
-		addFrame(SVG::load(assetPlugin(plugin, "res/components/LabelButtonS_0.svg")));
-		addFrame(SVG::load(assetPlugin(plugin, "res/components/LabelButtonS_1.svg")));
+		momentary = true;
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/components/LabelButtonS_0.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/components/LabelButtonS_1.svg")));
 		box.size = Vec(24,12);
 	}
 };
@@ -102,45 +106,45 @@ struct PvCLight : GrayModuleLightWidget{
 };
 struct RedLED : PvCLight {
  	RedLED() {
- 		addBaseColor(COLOR_RED); }
+ 		addBaseColor(SCHEME_RED); }
 };
 struct GreenLED : PvCLight {
  	GreenLED() {
- 		addBaseColor(COLOR_GREEN); }
+ 		addBaseColor(SCHEME_GREEN); }
 };
 struct BlueLED : PvCLight {
  	BlueLED() {
- 		addBaseColor(COLOR_BLUE); }
+ 		addBaseColor(SCHEME_BLUE); }
 };
 struct WhiteLED : PvCLight {
  	WhiteLED() {
- 		addBaseColor(COLOR_WHITE); }
+ 		addBaseColor(SCHEME_WHITE); }
 };
 struct OrangeLED : PvCLight {
 	OrangeLED() {
-		addBaseColor(COLOR_ORANGE);	}
+		addBaseColor(SCHEME_ORANGE);	}
 };
 struct YellowLED : PvCLight {
 	YellowLED() {
-		addBaseColor(COLOR_YELLOW);	}
+		addBaseColor(SCHEME_YELLOW);	}
 };
 struct PurpleLED : PvCLight {
 	PurpleLED() {
-		addBaseColor(COLOR_PURPLE);	}
+		addBaseColor(SCHEME_PURPLE);	}
 };
 struct CyanLED : PvCLight {
 	CyanLED() {
-		addBaseColor(COLOR_CYAN);	}
+		addBaseColor(SCHEME_CYAN);	}
 };
 struct GreenRedLED : PvCLight {
  	GreenRedLED() {
- 		addBaseColor(COLOR_GREEN);
- 		addBaseColor(COLOR_RED); }
+ 		addBaseColor(SCHEME_GREEN);
+ 		addBaseColor(SCHEME_RED); }
 };
 struct WhiteRedLED : PvCLight {
 	WhiteRedLED() {
-		addBaseColor(COLOR_WHITE);
-		addBaseColor(COLOR_RED);
+		addBaseColor(SCHEME_WHITE);
+		addBaseColor(SCHEME_RED);
 	}
 };
 
@@ -169,28 +173,28 @@ template <typename BASE>
 
 struct ScrewHead1 : SVGScrew {
 	ScrewHead1() {
-		sw->svg = SVG::load(assetPlugin(plugin, "res/components/ScrewHead1.svg"));
+		sw->svg = APP->window->loadSvg(asset::plugin(pluginInstance, "res/components/ScrewHead1.svg"));
 		sw->wrap();
 		box.size = sw->box.size;
 	}
 };
 struct ScrewHead2 : SVGScrew {
 	ScrewHead2() {
-		sw->svg = SVG::load(assetPlugin(plugin, "res/components/ScrewHead2.svg"));
+		sw->svg = APP->window->loadSvg(asset::plugin(pluginInstance, "res/components/ScrewHead2.svg"));
 		sw->wrap();
 		box.size = sw->box.size;
 	}
 };
 struct ScrewHead3 : SVGScrew {
 	ScrewHead3() {
-		sw->svg = SVG::load(assetPlugin(plugin, "res/components/ScrewHead3.svg"));
+		sw->svg = APP->window->loadSvg(asset::plugin(pluginInstance, "res/components/ScrewHead3.svg"));
 		sw->wrap();
 		box.size = sw->box.size;
 	}
 };
 struct ScrewHead4 : SVGScrew {
 	ScrewHead4() {
-		sw->svg = SVG::load(assetPlugin(plugin, "res/components/ScrewHead4.svg"));
+		sw->svg = APP->window->loadSvg(asset::plugin(pluginInstance, "res/components/ScrewHead4.svg"));
 		sw->wrap();
 		box.size = sw->box.size;
 	}

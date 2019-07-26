@@ -17,8 +17,6 @@ PLANS/IDEAS:
 
 #include "pvc.hpp"
 
-#include "dsp/digital.hpp" // SchmittTrigger PulseGenerator
-
 struct Geighths : Module {
 	enum ParamIds {
 		INPUT_GAIN,
@@ -45,20 +43,27 @@ struct Geighths : Module {
 		NUM_LIGHTS = GATE1_LIGHT + 8
 	};
 
-	SchmittTrigger clockTrigger;
+	dsp::SchmittTrigger clockTrigger;
 
-	SchmittTrigger gateTrigger[8];
-	PulseGenerator gatePulse[8];
+	dsp::SchmittTrigger gateTrigger[8];
+	dsp::PulseGenerator gatePulse[8];
 
 	bool gateOn[8] {};
 
 	float inVal = 0.0f;
 	float sample = 0.0f;
 
-	Geighths() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {}
+	Geighths() {
+		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
+		configParam(INPUT_GAIN, -2.0f, 2.0f, 1.0f);
+		configParam(INPUT_OFFSET, -10.0f, 10.0f, 0.0f);
+		for (int i = 0; i < 8; i++)	{	
+			configParam(GATE1_LENGTH + i, 0.002f, 2.0f, 0.02f);
+		}
+	}
 
-	void step() override;
-	void reset() override {
+	void process(const ProcessArgs &args) override;
+	void reset() {
 		inVal = sample = 0.0f;
 
 		for (int i = 0; i < 8; i++)	{
@@ -68,27 +73,27 @@ struct Geighths : Module {
 };
 
 
-void Geighths::step() {
-	float input = inputs[CV_IN].normalize(0.0f) * params[INPUT_GAIN].value + params[INPUT_OFFSET].value;
+void Geighths::process(const ProcessArgs &args) {
+	float input = inputs[CV_IN].getNormalVoltage(0.0f) * params[INPUT_GAIN].getValue() + params[INPUT_OFFSET].getValue();
 	 // TODO: nicer input window scaling
 	input = clamp(input, 0.0f, 10.0f);
 	input = rescale(input, 0.0f, 10.0f, 0, 8);
 		
-	sample = clockTrigger.process(inputs[CLOCK_IN].value) ? input : sample;
+	sample = clockTrigger.process(inputs[CLOCK_IN].getVoltage()) ? input : sample;
 	
-	inVal = (inputs[CLOCK_IN].active) ? sample : input;
+	inVal = (inputs[CLOCK_IN].isConnected()) ? sample : input;
 
 	// fire pulse on selected out
 	for (int i = 0; i < 8; i++) {
 		gateOn[i] = ((inVal > i) && (inVal < i+1)) ? true : false;
 
 		if (gateTrigger[i].process(gateOn[i])) {
-			gatePulse[i].trigger(params[GATE1_LENGTH + i].value);
+			gatePulse[i].trigger(params[GATE1_LENGTH + i].getValue());
 		}
 
-		outputs[GATE1_OUT + i].value = gatePulse[i].process(1.0/engineGetSampleRate()) * 10.0f;
-		// lights[GATE1_LIGHT + i].value = ((gateOn[i]) || (gatePulse[i].process(1.0/engineGetSampleRate()))) ? 1.0f : 0.0f;
-		lights[GATE1_LIGHT + i].value = gateOn[i] * 0.75f + gatePulse[i].process(1.0/engineGetSampleRate()) * 0.25f;
+		outputs[GATE1_OUT + i].setVoltage(gatePulse[i].process(1.0/args.sampleRate) * 10.0f);
+		// lights[GATE1_LIGHT + i].value = ((gateOn[i]) || (gatePulse[i].process(1.0/args.sampleRate))) ? 1.0f : 0.0f;
+		lights[GATE1_LIGHT + i].value = gateOn[i] * 0.75f + gatePulse[i].process(1.0/args.sampleRate) * 0.25f;
 	}
 }
 
@@ -96,27 +101,27 @@ struct GeighthsWidget : ModuleWidget {
 	GeighthsWidget(Geighths *module);
 };
 
-GeighthsWidget::GeighthsWidget(Geighths *module) : ModuleWidget(module) {
-	setPanel(SVG::load(assetPlugin(plugin, "res/panels/Geighths.svg")));
+GeighthsWidget::GeighthsWidget(Geighths *module) {
+	setModule(module);
+	setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/panels/Geighths.svg")));
 	
 	// screws
-	addChild(Widget::create<ScrewHead1>(Vec(0, 0)));
-	addChild(Widget::create<ScrewHead2>(Vec(box.size.x - 15, 0)));
-	addChild(Widget::create<ScrewHead3>(Vec(0, 365)));
-	addChild(Widget::create<ScrewHead4>(Vec(box.size.x - 15, 365)));
+	addChild(createWidget<ScrewHead1>(Vec(0, 0)));
+	addChild(createWidget<ScrewHead2>(Vec(box.size.x - 15, 0)));
+	addChild(createWidget<ScrewHead3>(Vec(0, 365)));
+	addChild(createWidget<ScrewHead4>(Vec(box.size.x - 15, 365)));
 
-	addInput(Port::create<InPortAud>(Vec(4,22), Port::INPUT, module,Geighths::CV_IN));
-	addInput(Port::create<InPortBin>(Vec(34,22), Port::INPUT, module,Geighths::CLOCK_IN));
-	addParam(ParamWidget::create<PvCKnob>(Vec(4, 64),module,Geighths::INPUT_GAIN , -2.0f, 2.0f, 1.0f));
-	addParam(ParamWidget::create<PvCKnob>(Vec(34, 64),module,Geighths::INPUT_OFFSET, -10.0f, 10.0f, 0.0f));
-
+	addInput(createInput<InPortAud>(Vec(4,22), module,Geighths::CV_IN));
+	addInput(createInput<InPortBin>(Vec(34,22), module,Geighths::CLOCK_IN));
+	addParam(createParam<PvCKnob>(Vec(4, 64),module,Geighths::INPUT_GAIN));
+	addParam(createParam<PvCKnob>(Vec(34, 64),module,Geighths::INPUT_OFFSET));
+	
 	for (int i = 0; i < 8; i++)
 	{
-		addChild(ModuleLightWidget::create<PvCBigLED<BlueLED>>(Vec(4,318 - 30*i),module,Geighths::GATE1_LIGHT + i));
-		addParam(ParamWidget::create<PvCLEDKnob>(Vec(4, 318 - 30*i),module,Geighths::GATE1_LENGTH + i, 0.002f, 2.0f, 0.02f));
-		addOutput(Port::create<OutPortBin>(Vec(34, 318 - 30*i), Port::OUTPUT, module,Geighths::GATE1_OUT + i));
+		addChild(createLight<PvCBigLED<BlueLED>>(Vec(4,318 - 30*i),module,Geighths::GATE1_LIGHT + i));
+		addParam(createParam<PvCLEDKnob>(Vec(4, 318 - 30*i),module,Geighths::GATE1_LENGTH + i));
+		addOutput(createOutput<OutPortBin>(Vec(34, 318 - 30*i), module,Geighths::GATE1_OUT + i));
 	}
 }
 
-Model *modelGeighths = Model::create<Geighths, GeighthsWidget>(
-	"PvC", "Geighths", "Geighths", LOGIC_TAG, SAMPLE_AND_HOLD_TAG);
+Model *modelGeighths = createModel<Geighths, GeighthsWidget>("Geighths");
