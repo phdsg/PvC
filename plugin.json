@@ -1,0 +1,121 @@
+{
+  "slug": "PvC",
+  "name": "PvC",
+  "version": "1.0.0",
+  "license": "BSD-3-Clause",
+  "brand": "PvC",
+  "author": "phdsg",
+  "authorEmail": "PVC-Modules@protonmail.com",
+  "authorUrl": "",
+  "pluginUrl": "",
+  "manualUrl": "",
+  "sourceUrl": "",
+  "donateUrl": "",
+  "modules": [
+    {
+      "slug": "BangDaButton",
+      "name": "BangDaButton",
+      "description": "",
+      "tags": [
+        "Logic",
+        "Switch"
+      ]
+    },
+    {
+      "slug": "Compair",
+      "name": "Compair",
+      "description": "",
+      "tags": [
+        "Logic"
+      ]
+    },
+    {
+      "slug": "CoSuOf",
+      "name": "CoSuOf",
+      "description": "",
+      "tags": [
+        "Logic"
+      ]
+    },
+    {
+      "slug": "FlipOLogic",
+      "name": "FlipOLogic",
+      "description": "",
+      "tags": [
+        "Logic"
+      ]
+    },
+    {
+      "slug": "Geighths",
+      "name": "Geighths",
+      "description": "",
+      "tags": [
+        "Logic"
+      ]
+    },
+    {
+      "slug": "Heads",
+      "name": "Heads",
+      "description": "",
+      "tags": [
+        "Logic"
+      ]
+    },
+    {
+      "slug": "ShutIt",
+      "name": "ShutIt",
+      "description": "",
+      "tags": [
+        "Logic"
+      ]
+    },
+    {
+      "slug": "SlimSeq",
+      "name": "SlimSeq",
+      "description": "",
+      "tags": [
+        "Sequencer"
+      ]
+    },
+    {
+      "slug": "SumIt",
+      "name": "SumIt",
+      "description": "",
+      "tags": [
+        "Switch"
+      ]
+    },
+    {
+      "slug": "TaHaSaHaN",
+      "name": "TaHaSaHaN",
+      "description": "",
+      "tags": [
+        "Sample and Hold"
+      ]
+    },
+    {
+      "slug": "Tails",
+      "name": "Tails",
+      "description": "",
+      "tags": [
+        "Logic"
+      ]
+    },
+    {
+      "slug": "Vamps",
+      "name": "Vamps",
+      "description": "",
+      "tags": [
+        "VCA"
+      ]
+    },
+    {
+      "slug": "Vubar",
+      "name": "Vubar",
+      "description": "",
+      "tags": [
+        "Visual"
+      ]
+    }
+  ]
+}
